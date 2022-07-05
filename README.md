@@ -1,14 +1,32 @@
+INET Simulation
+===
+
+### Outline
+- [Workspace Structure](#workspace-structure)
+- [Project Setup](#project-setup)
+    - [Create r438 Project in OMNeT++](#create-r438-project-in-omnet)
+    - [Reference r438 Project to INET Project](#reference-r438-project-to-inet-project)
+    - [Reference Header Files Defined in INET Source Folder](#reference-header-files-defined-in-inet-source-folder)
+
+### Workspace Structure
+```bash
+.
+├── inet               
+└── r438
+    ├── src
+    └── simulations                  
+```
+
+### Project Setup
+
 ### Create r438 Project in OMNeT++
-1. File -> New -> Project -> OMNeT++ -> OMNeT++ Project.
-2. Next -> Next -> Empty project with 'src' and 'simulations' folders -> Finish.
+File &rarr; New Project &rarr; OMNeT++ &rarr; OMNeT++ Project &rarr; Next &rarr; Next &rarr; Empty project with 'src' and 'simulations' folders &rarr; Finish
 
 ### Reference r438 Project to INET Project
-1. Right click r438 -> Properties -> Project References.
-2. Check out "inet".
+Right click r438 &rarr; Properties &rarr; Project References &rarr; Check out inet
 
 ### Reference Header Files Defined in INET Source Folder
-1. Right click r438 -> Properties -> OMNeT++ -> Makemake -> src -> Options -> Custom.
-2. Add following into "Code fragment to be inserted into Makefile":
-    ```bash
-    CFLAGS += -I/home/mchsiao/omnetpp-6.0/INET_workspace/inet/src
-    ```
+Right click r438 &rarr; Properties &rarr; OMNeT++ &rarr; Makemake &rarr; src &rarr; Options &rarr; Custom &rarr; Add following into "Code fragment to be inserted into Makefile":
+```bash
+CFLAGS += -I/home/mchsiao/omnetpp-6.0/INET_workspace/inet/src
+```
