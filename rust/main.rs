@@ -136,6 +136,16 @@ fn main() {
             } 
         }
 
+        // Sort.
+        for i in 0..gcl_one_hyperperiod_queue_0.len() {
+            let mut min_index = i;
+            for j in (i + 1)..gcl_one_hyperperiod_queue_0.len() {
+                if gcl_one_hyperperiod_queue_0[min_index].start > gcl_one_hyperperiod_queue_0[j].start {
+                    min_index = j;
+                }
+            }
+            gcl_one_hyperperiod_queue_0.swap(min_index, i);
+        }
         // Minimize length of GCL schedule for queue 0.
         let mut is_entry_changed = true;
         while is_entry_changed {
@@ -156,17 +166,17 @@ fn main() {
                 }
             }
         }
+
         // Sort.
-        for i in 0..gcl_one_hyperperiod_queue_0.len() {
+        for i in 0..gcl_one_hyperperiod_queue_1.len() {
             let mut min_index = i;
-            for j in (i + 1)..gcl_one_hyperperiod_queue_0.len() {
-                if gcl_one_hyperperiod_queue_0[min_index].start > gcl_one_hyperperiod_queue_0[j].start {
+            for j in (i + 1)..gcl_one_hyperperiod_queue_1.len() {
+                if gcl_one_hyperperiod_queue_1[min_index].start > gcl_one_hyperperiod_queue_1[j].start {
                     min_index = j;
                 }
             }
-            gcl_one_hyperperiod_queue_0.swap(min_index, i);
+            gcl_one_hyperperiod_queue_1.swap(min_index, i);
         }
-
         // Minimize length of GCL schedule for queue 1.
         let mut is_entry_changed = true;
         while is_entry_changed {
@@ -186,16 +196,6 @@ fn main() {
                     break;
                 }
             }
-        }
-        // Sort.
-        for i in 0..gcl_one_hyperperiod_queue_1.len() {
-            let mut min_index = i;
-            for j in (i + 1)..gcl_one_hyperperiod_queue_1.len() {
-                if gcl_one_hyperperiod_queue_1[min_index].start > gcl_one_hyperperiod_queue_1[j].start {
-                    min_index = j;
-                }
-            }
-            gcl_one_hyperperiod_queue_1.swap(min_index, i);
         }
 
         // Write GCL schedule of this port into text files.
@@ -222,7 +222,7 @@ fn main() {
 
         // Check whether the result match that of expand().
         /*
-        if gcl_index == 36 {
+        if gcl_index == 20 {
             
             // Result of queue 0 and queue 1.
             println!("GCL of queue 0 for port {}.", gcl_index);

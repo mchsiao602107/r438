@@ -1,7 +1,3 @@
-start = 18, end = 20
-start = 23, end = 24
+start = 22, end = 23
 start = 27, end = 28
-start = 518, end = 520
-start = 1018, end = 1020
-start = 1023, end = 1024
-start = 1518, end = 1520
+start = 1022, end = 1023
