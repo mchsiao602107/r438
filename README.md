@@ -14,7 +14,9 @@ INET Simulation
 ├── inet               
 └── r438
     ├── src
-    └── simulations                  
+    └── simulations
+    └── util            # Contain Python file to generate .ini file
+    └── rust            # Contain modified main.rs                  
 ```
 
 ### Project Setup

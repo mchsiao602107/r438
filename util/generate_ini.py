@@ -12,8 +12,6 @@ filename = "./streams/mesh-iso40-aud20-01-a.yaml"
 with open(filename, "rt") as my_file:
     data = yaml.safe_load(my_file)
 
-# Count applications for each end host.
-
 # Generate .ini file.
 filename = "../simulations/auto-generated.ini"
 network_name = "partial_mesh"
@@ -23,7 +21,16 @@ with open(filename, "wt") as my_file:
     # -----------------
     my_file.write("[General]\n")
     my_file.write("network = {}\n".format(network_name))
+    my_file.write("sim-time-limit = 5s\n")
     my_file.write("*.*.eth[*].bitrate = 1Gbps\n")
+    my_file.write("\n")
+
+    # Gate schedule visualizer.
+    # -------------------------
+    my_file.write("**.displayGateSchedules = true\n")
+    my_file.write('**.gateFilter = "**.eth[0].**"\n')
+    my_file.write("**.gateScheduleVisualizer.height = 10\n")
+    my_file.write('**.gateScheduleVisualizer.placementHint = "left"\n')
     my_file.write("\n")
 
     # Number of applications.
@@ -42,6 +49,11 @@ with open(filename, "wt") as my_file:
             my_file.write("{}.{}.hasIncomingStreams = true\n".format(network_name, es))
     my_file.write("\n")    
     
+    # Enable egress traffic shaping on end stations.
+    # ----------------------------------------------
+    my_file.write("{}.es_*.hasEgressTrafficShaping = true\n".format(network_name))
+    my_file.write("\n")
+    
     # Enable switching.
     # -----------------
     my_file.write("{}.s_*.hasIncomingStreams = true\n".format(network_name))
@@ -49,6 +61,12 @@ with open(filename, "wt") as my_file:
     my_file.write("{}.s_*.hasEgressTrafficShaping = true\n".format(network_name))
     my_file.write("\n")
 
+    # Make gates initially open.
+    # --------------------------
+    #my_file.write("partial_mesh.es_*.eth[*].macLayer.queue.transmissionGate[*].initiallyOpen = true\n")
+    #my_file.write("partial_mesh.s_*.eth[*].macLayer.queue.transmissionGate[*].initiallyOpen = true\n")
+    #my_file.write("\n")
+    
     # Application settings.
     # ---------------------
     app_counts = {"es_1": 0, "es_2": 0, "es_3": 0, "es_4": 0, "es_5": 0, "es_6": 0}

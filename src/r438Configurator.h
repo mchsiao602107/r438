@@ -3,6 +3,9 @@
 
 #include "inet/linklayer/configurator/gatescheduling/base/GateScheduleConfiguratorBase.h"
 
+#include <fstream>
+#include <string>
+
 namespace inet
 {
     class INET_API r438Configurator : public GateScheduleConfiguratorBase
@@ -12,7 +15,8 @@ namespace inet
             // Override this function to implement self-defined scheduling algorithm.
             virtual Output *computeGateScheduling(const Input& input) const override;
 
-            // Function to implement self-defined routing algorithm.
+            // Set GCL schedule for a specific (switch, port, queue).
+            Output::Schedule *set_gcl_schedule(char* device_id, int port_id, int queue_id, Input::Port* port) const;
     };
 }
 
