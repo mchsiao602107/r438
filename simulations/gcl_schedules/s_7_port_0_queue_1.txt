@@ -1,3 +1,7 @@
-start = 22, end = 23
+start = 19, end = 20
+start = 25, end = 26
 start = 27, end = 28
-start = 1022, end = 1023
+start = 519, end = 520
+start = 1019, end = 1020
+start = 1025, end = 1026
+start = 1519, end = 1520

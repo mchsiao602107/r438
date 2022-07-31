@@ -1,9 +1,8 @@
-start = 23, end = 24
-start = 25, end = 26
-start = 35, end = 36
-start = 523, end = 524
-start = 525, end = 526
-start = 1023, end = 1024
-start = 1025, end = 1026
-start = 1523, end = 1524
-start = 1525, end = 1526
+start = 22, end = 23
+start = 24, end = 25
+start = 522, end = 523
+start = 524, end = 525
+start = 1022, end = 1023
+start = 1024, end = 1025
+start = 1522, end = 1523
+start = 1524, end = 1525

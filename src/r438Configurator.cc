@@ -42,7 +42,7 @@ namespace inet
         schedule->cycleStart = 0;
         schedule->cycleDuration = gateCycleDuration;
 
-        if (queue_id == 0 || queue_id == 1) {
+        if (queue_id == 0 || queue_id == 1 || queue_id == 7) {
             std::fstream my_file;
             std::string filename = "./gcl_schedules/" + std::string(device_id) + "_port_" + std::to_string(port_id) + "_queue_" + std::to_string(queue_id) + ".txt";
             my_file.open(filename, std::ios::in);
@@ -63,14 +63,6 @@ namespace inet
 
             }
             my_file.close();
-        } else if (queue_id == 7) {
-
-            // Add time slots into schedule (always open).
-            Output::Slot slot;
-            slot.start = SimTime(0, SIMTIME_US);
-            slot.duration = gateCycleDuration;
-            schedule->slots.push_back(slot);
-
         } else {
 
             // Don't add time slots into schedule (always closed).

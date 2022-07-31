@@ -198,7 +198,8 @@ fn main() {
             }
         }
 
-        // Write GCL schedule of this port into text files.
+        // Write GCL schedule of this port (queue 0, 1, 7) into text files.
+        // Queue 0.
         let filename_queue_0 = format!("./gcl_schedules/{}_queue_0.txt", port_id_from_rust_to_omnetpp[gcl_index]);
         let mut file_queue_0 = File::create(filename_queue_0).expect("Cannot create text file for queue 0");
         for i in 0..gcl_one_hyperperiod_queue_0.len() {
@@ -208,6 +209,7 @@ fn main() {
                 file_queue_0.write_all("\n".as_bytes()).expect("Cannot write entry into text file for queue 0");
             }
         }
+        // Queue 1.
         let filename_queue_1 = format!("./gcl_schedules/{}_queue_1.txt", port_id_from_rust_to_omnetpp[gcl_index]);
         let mut file_queue_1 = File::create(filename_queue_1).expect("Cannot create text file for queue 1");
         for i in 0..gcl_one_hyperperiod_queue_1.len() {
@@ -217,12 +219,36 @@ fn main() {
                 file_queue_1.write_all("\n".as_bytes()).expect("Cannot write entry into text file for queue 1");
             }
         }
+        // Queue 7.
+        let filename_queue_7 = format!("./gcl_schedules/{}_queue_7.txt", port_id_from_rust_to_omnetpp[gcl_index]);
+        let mut file_queue_7 = File::create(filename_queue_7).expect("Cannot create text file for queue 7");
+        for i in 0..gcl.expand().len() {
+            let mut line;
+            if i == 0 {
+                if gcl.expand()[i].start == 0 {
+                    continue;
+                } else {
+                    line = format!("start = {}, end = {}", 0, gcl.expand()[i].start);
+                }
+            } else if i == (gcl.expand().len() - 1) {
+                line = format!("start = {}, end = {}\nstart = {}, end = {}", gcl.expand()[i - 1].end, gcl.expand()[i].start, gcl.expand()[i].end, hyperperiod);
+            } else {
+                line = format!("start = {}, end = {}", gcl.expand()[i - 1].end, gcl.expand()[i].start);
+            }
+
+            file_queue_7.write_all(line.as_bytes()).expect("Cannot write entry into text file for queue 7");
+            if i != (gcl.expand().len() - 1) {
+                file_queue_7.write_all("\n".as_bytes()).expect("Cannot write entry into text file for queue 7");
+            }
+        }
+        
         println!("Port {}: success", gcl_index);
         
 
         // Check whether the result match that of expand().
         /*
-        if gcl_index == 20 {
+        println!("\n");
+        if gcl_index == 33 {
             
             // Result of queue 0 and queue 1.
             println!("GCL of queue 0 for port {}.", gcl_index);
@@ -243,6 +269,24 @@ fn main() {
             println!("Length: {}", gcl.expand().len());
             for gcl_entry in gcl.expand().iter() {
                 println!("start = {}, end = {}", gcl_entry.start, gcl_entry.end);
+            }
+            println!("\n");
+
+            // Result of queue 7.
+            println!("GCL of queue 7 for port {}.", gcl_index);
+            for i in 0..gcl.expand().len() {
+                if i == 0 {
+                    if gcl.expand()[i].start == 0 {
+                        continue;
+                    } else {
+                        println!("start = {}, end = {}", 0, gcl.expand()[i].start);
+                    }
+                } else if i == (gcl.expand().len() - 1) {
+                    println!("start = {}, end = {}", gcl.expand()[i - 1].end, gcl.expand()[i].start);
+                    println!("start = {}, end = {}", gcl.expand()[i].end, hyperperiod);
+                } else {
+                    println!("start = {}, end = {}", gcl.expand()[i - 1].end, gcl.expand()[i].start);
+                }
             }
             println!("\n");
 
