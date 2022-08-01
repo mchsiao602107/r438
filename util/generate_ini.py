@@ -129,6 +129,20 @@ with open(filename, "wt") as my_file:
     #     my_file.write('{}.s_{}.macTable.forwardingTableFile = "forwarding_table_s_{}.txt"\n'.format(network_name, i, i))
     # my_file.write("\n")
 
+    # PCP to gate index mapping.
+    # --------------------------
+    # 1. "PcpTrafficClassClassifier.mapping" for switches.
+    my_file.write("*.switch.eth[*].macLayer.queue.classifier.mapping = [[0, 0, 0, 0, 0, 0, 0, 0],\n")
+    my_file.write("\t\t\t\t\t\t\t\t\t\t\t\t\t [0, 0, 0, 0, 0, 1, 1, 1],\n")
+    my_file.write("\t\t\t\t\t\t\t\t\t\t\t\t\t [0, 0, 0, 1, 1, 2, 2, 2],\n")
+    my_file.write("\t\t\t\t\t\t\t\t\t\t\t\t\t [0, 0, 0, 1, 1, 2, 3, 3],\n")
+    my_file.write("\t\t\t\t\t\t\t\t\t\t\t\t\t [0, 1, 1, 2, 2, 3, 4, 4],\n")
+    my_file.write("\t\t\t\t\t\t\t\t\t\t\t\t\t [0, 1, 1, 2, 2, 3, 4, 5],\n")
+    my_file.write("\t\t\t\t\t\t\t\t\t\t\t\t\t [0, 1, 2, 3, 3, 4, 5, 6],\n")
+    my_file.write("\t\t\t\t\t\t\t\t\t\t\t\t\t [0, 1, 2, 3, 4, 5, 6, 7]]\n")
+    my_file.write("\n")
+    # 2. "bridging.streamIdentifier.identifier.mapping" and "bridging.streamCoder.encoder.mapping" for sender.
+
     # Scheduling.
     # -----------
     my_file.write('*.gateScheduleConfigurator.typename = "r438Configurator"\n')
