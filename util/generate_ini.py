@@ -153,7 +153,7 @@ with open(filename, "wt") as my_file:
     my_file.write("                                                     [0, 1, 2, 3, 3, 4, 5, 6],\n")
     my_file.write("                                                     [0, 1, 2, 3, 4, 5, 6, 7]]\n")
     my_file.write("\n")
-    """
+    
     # 2. "bridging.streamIdentifier.identifier.mapping" and "bridging.streamCoder.encoder.mapping" for sender.
     udp_port_number = 5000
     stream_to_udp_mapping = {"es_1": str(), "es_2": str(), "es_3": str(), "es_4": str(), "es_5": str(), "es_6": str()}
@@ -190,7 +190,7 @@ with open(filename, "wt") as my_file:
     for es, lines in stream_to_pcp_mapping.items():
         my_file.write("{}.{}.bridging.streamCoder.encoder.mapping = [{}]\n".format(network_name, es, lines))
     my_file.write("\n")
-    """
+    
 
     # Forwarding table.
     # ----------------
@@ -234,11 +234,12 @@ with open(filename, "wt") as my_file:
                     route_2_mapped_string += ", "
 
             # Add only first half of streams.
+            # expr(udp.destPort == {})
             if stream_id < 60:
-                my_file.write('\t{{pcp: {}, name: "{}", packetFilter: expr(udp.destPort == {}), source: "{}", destination: "{}", trees: [[[{}]], [[{}]]]}},\n'.format(
+                my_file.write('\t{{pcp: {}, name: "{}", packetFilter: "*", source: "{}", destination: "{}", trees: [[[{}]], [[{}]]]}},\n'.format(
                     stream_id_queue_id_mapping[str(stream_id)],
                     "tsn-" + str(stream_id),
-                    5000 + stream_id,
+                    #5000 + stream_id,
                     route_1_mapped[0],
                     route_1_mapped[-1],
                     route_1_mapped_string,
@@ -273,20 +274,20 @@ with open(filename, "wt") as my_file:
             # Add only first half of streams.
             if stream_id < 60:
                 if stream_id == 59:
-                    my_file.write('\t{{pcp: {}, name: "{}", packetFilter: expr(udp.destPort == {}), source: "{}", destination: "{}", trees: [[[{}]], [[{}]]]}}]\n'.format(
+                    my_file.write('\t{{pcp: {}, name: "{}", packetFilter: "*", source: "{}", destination: "{}", trees: [[[{}]], [[{}]]]}}]\n'.format(
                         stream_id_queue_id_mapping[str(stream_id)],
                         "avb-" + str(stream_id),
-                        5000 + stream_id,
+                        #5000 + stream_id,
                         route_1_mapped[0],
                         route_1_mapped[-1],
                         route_1_mapped_string,
                         route_2_mapped_string
                     ))
                 else:
-                    my_file.write('\t{{pcp: {}, name: "{}", packetFilter: expr(udp.destPort == {}), source: "{}", destination: "{}", trees: [[[{}]], [[{}]]]}},\n'.format(
+                    my_file.write('\t{{pcp: {}, name: "{}", packetFilter: "*", source: "{}", destination: "{}", trees: [[[{}]], [[{}]]]}},\n'.format(
                         stream_id_queue_id_mapping[str(stream_id)],
                         "avb-" + str(stream_id),
-                        5000 + stream_id,
+                        #5000 + stream_id,
                         route_1_mapped[0],
                         route_1_mapped[-1],
                         route_1_mapped_string,
