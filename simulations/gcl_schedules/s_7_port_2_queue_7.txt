@@ -1,10 +1,10 @@
 start = 0, end = 6
 start = 8, end = 12
 start = 13, end = 14
-start = 15, end = 17
-start = 18, end = 23
-start = 24, end = 26
-start = 27, end = 106
+start = 15, end = 18
+start = 19, end = 23
+start = 24, end = 25
+start = 26, end = 106
 start = 108, end = 206
 start = 208, end = 212
 start = 213, end = 214
@@ -13,8 +13,8 @@ start = 308, end = 406
 start = 408, end = 412
 start = 413, end = 414
 start = 415, end = 506
-start = 508, end = 517
-start = 518, end = 606
+start = 508, end = 518
+start = 519, end = 606
 start = 608, end = 612
 start = 613, end = 614
 start = 615, end = 706
@@ -25,8 +25,8 @@ start = 815, end = 906
 start = 908, end = 1006
 start = 1008, end = 1012
 start = 1013, end = 1014
-start = 1015, end = 1017
-start = 1018, end = 1023
+start = 1015, end = 1018
+start = 1019, end = 1023
 start = 1024, end = 1106
 start = 1108, end = 1206
 start = 1208, end = 1212
@@ -36,8 +36,8 @@ start = 1308, end = 1406
 start = 1408, end = 1412
 start = 1413, end = 1414
 start = 1415, end = 1506
-start = 1508, end = 1517
-start = 1518, end = 1606
+start = 1508, end = 1518
+start = 1519, end = 1606
 start = 1608, end = 1612
 start = 1613, end = 1614
 start = 1615, end = 1706

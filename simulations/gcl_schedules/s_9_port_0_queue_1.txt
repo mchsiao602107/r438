@@ -1,7 +1,5 @@
 start = 22, end = 23
-start = 28, end = 29
 start = 30, end = 31
 start = 522, end = 523
 start = 1022, end = 1023
-start = 1028, end = 1029
 start = 1522, end = 1523

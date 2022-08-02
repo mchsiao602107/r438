@@ -1,7 +1,5 @@
-start = 14, end = 15
-start = 19, end = 20
+start = 12, end = 13
 start = 21, end = 22
-start = 514, end = 515
-start = 1014, end = 1015
-start = 1019, end = 1020
-start = 1514, end = 1515
+start = 512, end = 513
+start = 1012, end = 1013
+start = 1512, end = 1513

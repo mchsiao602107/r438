@@ -1,7 +1,7 @@
 start = 0, end = 2
 start = 3, end = 4
-start = 5, end = 7
-start = 9, end = 10
+start = 5, end = 6
+start = 8, end = 9
 start = 100, end = 101
 start = 200, end = 202
 start = 300, end = 301
@@ -15,7 +15,7 @@ start = 800, end = 802
 start = 803, end = 804
 start = 900, end = 901
 start = 1000, end = 1002
-start = 1005, end = 1007
+start = 1005, end = 1006
 start = 1100, end = 1101
 start = 1200, end = 1202
 start = 1203, end = 1204

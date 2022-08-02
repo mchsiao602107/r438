@@ -95,6 +95,18 @@ fn main() {
     println!("\n");
     */
 
+    // Store stream ID to queue ID mapping.
+    let mut my_file = File::create("./stream_id_queue_id_mapping/stream_id_queue_id_mapping.txt").expect("Cannot create text file");
+    for i in 0..cnc.plan().outcomes.len() {
+        let mut line;
+        if cnc.plan().outcomes[i].is_scheduled() {
+            line = format!("stream ID: {}, is scheduled: {}, queue: {}\n", i, cnc.plan().outcomes[i].is_scheduled(), cnc.plan().outcomes[i].used_queue());
+        } else {
+            line = format!("stream ID: {}, is scheduled: {}\n", i, cnc.plan().outcomes[i].is_scheduled());
+        }
+        my_file.write_all(line.as_bytes()).expect("Cannot write entry");
+    }
+
     // Show all ports.
     /*
     println!("All ports.");
@@ -297,6 +309,7 @@ fn main() {
 
     // Routes.
     // -------
+
 }
 
 #[inline]

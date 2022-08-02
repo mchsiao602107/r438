@@ -1,10 +1,12 @@
 start = 15, end = 16
-start = 24, end = 25
-start = 31, end = 32
+start = 25, end = 26
+start = 29, end = 30
+start = 33, end = 34
 start = 415, end = 416
-start = 524, end = 525
+start = 525, end = 526
 start = 815, end = 816
-start = 1024, end = 1025
+start = 1025, end = 1026
+start = 1029, end = 1030
 start = 1215, end = 1216
-start = 1524, end = 1525
+start = 1525, end = 1526
 start = 1615, end = 1616

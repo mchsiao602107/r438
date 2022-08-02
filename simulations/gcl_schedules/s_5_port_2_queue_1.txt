@@ -1,14 +1,11 @@
 start = 7, end = 8
 start = 15, end = 17
 start = 18, end = 19
-start = 24, end = 25
 start = 407, end = 408
 start = 515, end = 517
-start = 518, end = 519
 start = 807, end = 808
 start = 1015, end = 1017
 start = 1018, end = 1019
 start = 1207, end = 1208
 start = 1515, end = 1517
-start = 1518, end = 1519
 start = 1607, end = 1608
