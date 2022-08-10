@@ -40,16 +40,24 @@ with open(filename, "wt") as my_file:
     # -----------------
     my_file.write("[General]\n")
     my_file.write("network = {}\n".format(network_name))
-    my_file.write("sim-time-limit = 5s\n")
+    my_file.write("sim-time-limit = 1ms\n")
+    my_file.write("record-eventlog = false\n")
+    my_file.write("\n")
     my_file.write("*.*.eth[*].bitrate = 1Gbps\n")
     my_file.write("\n")
 
     # Gate schedule visualizer.
     # -------------------------
+    """
     my_file.write("**.displayGateSchedules = true\n")
     my_file.write('**.gateFilter = "**.eth[0].**"\n')
     my_file.write("**.gateScheduleVisualizer.height = 10\n")
     my_file.write('**.gateScheduleVisualizer.placementHint = "left"\n')
+    my_file.write("\n")
+    """
+
+    # Interface name.
+    my_file.write("**.visualizer.interfaceTableVisualizer.displayInterfaceTables = true\n")
     my_file.write("\n")
 
     # Number of applications.
