@@ -1,5 +1,4 @@
-start = 0, end = 15
-start = 16, end = 18
+start = 0, end = 18
 start = 100, end = 103
 start = 200, end = 206
 start = 300, end = 303

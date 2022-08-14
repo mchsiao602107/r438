@@ -1,3 +1,13 @@
-start = 24, end = 25
-start = 28, end = 29
-start = 1024, end = 1025
+start = 7, end = 8
+start = 9, end = 10
+start = 21, end = 22
+start = 29, end = 30
+start = 407, end = 408
+start = 409, end = 410
+start = 807, end = 808
+start = 809, end = 810
+start = 1021, end = 1022
+start = 1207, end = 1208
+start = 1209, end = 1210
+start = 1607, end = 1608
+start = 1609, end = 1610

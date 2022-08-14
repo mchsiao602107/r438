@@ -1,5 +1,0 @@
-start = 12, end = 13
-start = 21, end = 22
-start = 512, end = 513
-start = 1012, end = 1013
-start = 1512, end = 1513

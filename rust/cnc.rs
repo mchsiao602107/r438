@@ -130,10 +130,16 @@ impl CNC {
 
         writeln!(msg, "TSN streams")?;
 
+        // --------------
+        static mut round_count: i32 = 1;
+
         // --------------------------
         use std::fs::File;
         use std::io::prelude::*;
-        let filename_tsn = "./routes_tsn_avb/routes_tsn.txt";
+        let mut filename_tsn;
+        unsafe {
+            filename_tsn = format!("/home/mchsiao/omnetpp-6.0/INET_workspace/r438/util/routes_tsn_avb/routes_tsn_round_{}.txt", round_count);
+        }
         let mut file_tsn = File::create(filename_tsn).expect("Cannot open file for tsn routes.");
 
         for nth in self.flowtable.tsns() {
@@ -158,7 +164,11 @@ impl CNC {
         writeln!(msg, "AVB streams")?;
 
         // --------------------------
-        let filename_avb = "./routes_tsn_avb/routes_avb.txt";
+        let mut filename_avb;
+        unsafe {
+            filename_avb = format!("/home/mchsiao/omnetpp-6.0/INET_workspace/r438/util/routes_tsn_avb/routes_avb_round_{}.txt", round_count);
+            round_count += 1;
+        }
         let mut file_avb = File::create(filename_avb).expect("Cannot open file for avb routes.");
 
         for nth in self.flowtable.avbs() {

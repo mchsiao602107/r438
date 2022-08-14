@@ -1,2 +1,1 @@
-start = 23, end = 24
-start = 1023, end = 1024
+start = 19, end = 20

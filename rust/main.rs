@@ -96,7 +96,7 @@ fn main() {
     */
 
     // Store stream ID to queue ID mapping.
-    let mut my_file = File::create("./stream_id_queue_id_mapping/stream_id_queue_id_mapping.txt").expect("Cannot create text file");
+    let mut my_file = File::create("/home/mchsiao/omnetpp-6.0/INET_workspace/r438/util/stream_id_queue_id_mapping/stream_id_queue_id_mapping.txt").expect("Cannot create text file");
     for i in 0..cnc.plan().outcomes.len() {
         let mut line;
         if cnc.plan().outcomes[i].is_scheduled() {
@@ -212,7 +212,7 @@ fn main() {
 
         // Write GCL schedule of this port (queue 0, 1, 7) into text files.
         // Queue 0.
-        let filename_queue_0 = format!("./gcl_schedules/{}_queue_0.txt", port_id_from_rust_to_omnetpp[gcl_index]);
+        let filename_queue_0 = format!("/home/mchsiao/omnetpp-6.0/INET_workspace/r438/simulations/gcl_schedules/{}_queue_0.txt", port_id_from_rust_to_omnetpp[gcl_index]);
         let mut file_queue_0 = File::create(filename_queue_0).expect("Cannot create text file for queue 0");
         for i in 0..gcl_one_hyperperiod_queue_0.len() {
             let line = format!("start = {}, end = {}", gcl_one_hyperperiod_queue_0[i].start, gcl_one_hyperperiod_queue_0[i].end);
@@ -222,7 +222,7 @@ fn main() {
             }
         }
         // Queue 1.
-        let filename_queue_1 = format!("./gcl_schedules/{}_queue_1.txt", port_id_from_rust_to_omnetpp[gcl_index]);
+        let filename_queue_1 = format!("/home/mchsiao/omnetpp-6.0/INET_workspace/r438/simulations/gcl_schedules/{}_queue_1.txt", port_id_from_rust_to_omnetpp[gcl_index]);
         let mut file_queue_1 = File::create(filename_queue_1).expect("Cannot create text file for queue 1");
         for i in 0..gcl_one_hyperperiod_queue_1.len() {
             let line = format!("start = {}, end = {}", gcl_one_hyperperiod_queue_1[i].start, gcl_one_hyperperiod_queue_1[i].end);
@@ -232,7 +232,7 @@ fn main() {
             }
         }
         // Queue 7.
-        let filename_queue_7 = format!("./gcl_schedules/{}_queue_7.txt", port_id_from_rust_to_omnetpp[gcl_index]);
+        let filename_queue_7 = format!("/home/mchsiao/omnetpp-6.0/INET_workspace/r438/simulations/gcl_schedules/{}_queue_7.txt", port_id_from_rust_to_omnetpp[gcl_index]);
         let mut file_queue_7 = File::create(filename_queue_7).expect("Cannot create text file for queue 7");
         for i in 0..gcl.expand().len() {
             let mut line;
@@ -254,7 +254,7 @@ fn main() {
             }
         }
         
-        println!("Port {}: success", gcl_index);
+        // println!("Port {}: success", gcl_index);
         
 
         // Check whether the result match that of expand().

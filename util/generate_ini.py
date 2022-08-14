@@ -26,7 +26,7 @@ with open(filename, "rt") as my_file:
             queue_id = 7
         stream_id_queue_id_mapping[stream_id] = queue_id
 
-# Read yaml file for streams.
+# Read yaml file for round-1 streams.
 filename = "./streams/mesh-iso40-aud20-01-a.yaml"
 with open(filename, "rt") as my_file:
     data = yaml.safe_load(my_file)
@@ -42,6 +42,7 @@ with open(filename, "wt") as my_file:
     my_file.write("network = {}\n".format(network_name))
     my_file.write("sim-time-limit = 1ms\n")
     my_file.write("record-eventlog = false\n")
+    my_file.write("**.result-recording-modes = all\n")
     my_file.write("\n")
     my_file.write("*.*.eth[*].bitrate = 1Gbps\n")
     my_file.write("\n")
@@ -217,8 +218,8 @@ with open(filename, "wt") as my_file:
     my_file.write('*.streamRedundancyConfigurator.typename = "r438StreamRedundancyConfigurator"\n')
     my_file.write('*.streamRedundancyConfigurator.configuration = [\n')
 
-    # Add routes for TSN streams.
-    with open("./routes_tsn_avb/routes_tsn.txt", "rt") as routes_tsn_file:
+    # Add routes for round-1 TSN streams.
+    with open("./routes_tsn_avb/routes_tsn_round_1.txt", "rt") as routes_tsn_file:
         while True:
             line = routes_tsn_file.readline()
             if not line:
@@ -256,7 +257,7 @@ with open(filename, "wt") as my_file:
                 ))
     
     # Add routes for AVB streams.
-    with open("./routes_tsn_avb/routes_avb.txt", "rt") as routes_avb_file:
+    with open("./routes_tsn_avb/routes_avb_round_1.txt", "rt") as routes_avb_file:
         while True:
             line = routes_avb_file.readline()
             if not line:

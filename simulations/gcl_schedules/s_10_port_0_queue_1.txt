@@ -1,6 +1,0 @@
-start = 14, end = 15
-start = 24, end = 26
-start = 514, end = 515
-start = 1014, end = 1015
-start = 1025, end = 1026
-start = 1514, end = 1515
