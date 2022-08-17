@@ -14,6 +14,11 @@ network partial_mesh extends TsnNetworkBase
         channel ethernet_link extends ned.DatarateChannel
         {
             datarate = 1Gbps;
+            
+            // Propagation delay, bit error rate, and packet error rate.
+            //delay = 100ns;
+            // ber = 0;
+            // per = 0;
         }
 
     submodules:

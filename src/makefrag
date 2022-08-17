@@ -1,1 +1,1 @@
-CFLAGS += -I/home/mchsiao/omnetpp-6.0/INET_workspace/inet/src
+CFLAGS += -I ~/omnetpp-6.0/INET_workspace/inet/src
