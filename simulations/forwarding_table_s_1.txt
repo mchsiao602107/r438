@@ -1,2 +1,0 @@
-# vlan ID, destination MAC address, and port number.
-0	es_2	eth1

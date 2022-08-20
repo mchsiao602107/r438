@@ -53,6 +53,23 @@ fn main() {
 
     println!("--- #1 elapsed time: {} μs ---", elapsed.as_micros());
 
+    // --------------------------------
+
+    // Collect initial production offset for each stream in round 1.
+    let filename = format!("/home/mchsiao/omnetpp-6.0/INET_workspace/r438/util/stream_initial_production_offset/round_1_tsn_streams.txt");
+    let mut my_file = File::create(filename).expect("Cannot open file");
+    let plan = &(cnc.plan());
+    for gcl_index in 0..plan.allocated_tsns.len() {
+        let gcl = &(plan.allocated_tsns[gcl_index]);
+        let outcomes = &(plan.outcomes);
+        if gcl_index == 0 || gcl_index == 2 || gcl_index == 4 || gcl_index == 24 || gcl_index == 26 || gcl_index == 28 {
+            for event in gcl.inner.iter() {
+                let line = format!("stream ID: {}, initial production offset: {}\n", event.value, event.start);
+                my_file.write_all(line.as_bytes()).expect("Cannot write.");
+            }
+        } 
+    }
+
     // Input the second half test case and configure them.
     cnc.input(tsns2, avbs2);
     let stop_cond = scenario.stop_condition();
@@ -105,6 +122,21 @@ fn main() {
             line = format!("stream ID: {}, is scheduled: {}\n", i, cnc.plan().outcomes[i].is_scheduled());
         }
         my_file.write_all(line.as_bytes()).expect("Cannot write entry");
+    }
+
+    // Collect initial production offset for each stream in round 2.
+    let filename = format!("/home/mchsiao/omnetpp-6.0/INET_workspace/r438/util/stream_initial_production_offset/round_2_tsn_streams.txt");
+    let mut my_file = File::create(filename).expect("Cannot open file");
+    let plan = &(cnc.plan());
+    for gcl_index in 0..plan.allocated_tsns.len() {
+        let gcl = &(plan.allocated_tsns[gcl_index]);
+        let outcomes = &(plan.outcomes);
+        if gcl_index == 0 || gcl_index == 2 || gcl_index == 4 || gcl_index == 24 || gcl_index == 26 || gcl_index == 28 {
+            for event in gcl.inner.iter() {
+                let line = format!("stream ID: {}, initial production offset: {}\n", event.value, event.start);
+                my_file.write_all(line.as_bytes()).expect("Cannot write.");
+            }
+        } 
     }
 
     // Show all ports.

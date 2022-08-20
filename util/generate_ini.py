@@ -8,9 +8,19 @@ name_mapping = {"3": "es_1", "4": "es_3", "5": "es_5",
                 "15": "s_4", "16": "s_8", "17": "s_12",
                 "0": "es_2", "1": "es_4", "2": "es_6",}
 
-# *********************************************
-# How to handle non-schedulable avb's queue ID?
-# *********************************************
+# Stream ID to initial production offset mapping for round-1 tsn streams.
+stream_id_initial_production_offset = dict()
+filename = "./stream_initial_production_offset/round_1_tsn_streams.txt"
+with open(filename, "rt") as my_file:
+    while True:
+        line = my_file.readline()
+        if not line:
+            break
+        stream_id = str(re.findall(r"stream ID: ([\d]+)", line)[0])
+        offset = str(re.findall(r"initial production offset: ([\d]+)", line)[0])
+        stream_id_initial_production_offset[int(stream_id)] = int(offset)
+
+# Stream ID to queue ID mapping.
 stream_id_queue_id_mapping = dict()
 filename = "./stream_id_queue_id_mapping/stream_id_queue_id_mapping.txt"
 with open(filename, "rt") as my_file:
@@ -111,8 +121,9 @@ with open(filename, "wt") as my_file:
         my_file.write('{}.{}.app[{}].io.destAddress = "{}"\n'.format(network_name, source, app_counts[source], destination))
         my_file.write('{}.{}.app[{}].io.destPort = {}\n'.format(network_name, source, app_counts[source], udp_port_number))
         my_file.write('{}.{}.app[{}].source.packetNameFormat = "%M-%m-%c"\n'.format(network_name, source, app_counts[source]))
-        my_file.write('{}.{}.app[{}].source.packetLength = {}B\n'.format(network_name, source, app_counts[source], frame_size))
+        my_file.write('{}.{}.app[{}].source.packetLength = {}B\n'.format(network_name, source, app_counts[source], frame_size - 64))
         my_file.write('{}.{}.app[{}].source.productionInterval = {}us\n'.format(network_name, source, app_counts[source], period))
+        my_file.write('{}.{}.app[{}].source.initialProductionOffset = {}us\n'.format(network_name, source, app_counts[source], stream_id_initial_production_offset[udp_port_number - 5000]))
 
         # Destination application.
         my_file.write('{}.{}.app[{}].typename = "UdpSinkApp"\n'.format(network_name, destination, app_counts[destination]))
@@ -137,8 +148,9 @@ with open(filename, "wt") as my_file:
         my_file.write('{}.{}.app[{}].io.destAddress = "{}"\n'.format(network_name, source, app_counts[source], destination))
         my_file.write('{}.{}.app[{}].io.destPort = {}\n'.format(network_name, source, app_counts[source], udp_port_number))
         my_file.write('{}.{}.app[{}].source.packetNameFormat = "%M-%m-%c"\n'.format(network_name, source, app_counts[source]))
-        my_file.write('{}.{}.app[{}].source.packetLength = {}B\n'.format(network_name, source, app_counts[source], frame_size))
+        my_file.write('{}.{}.app[{}].source.packetLength = {}B\n'.format(network_name, source, app_counts[source], frame_size - 64))
         my_file.write('{}.{}.app[{}].source.productionInterval = {}us\n'.format(network_name, source, app_counts[source], period))
+        my_file.write('{}.{}.app[{}].source.initialProductionOffset = 0us\n'.format(network_name, source, app_counts[source]))
 
         # Destination application.
         my_file.write('{}.{}.app[{}].typename = "UdpSinkApp"\n'.format(network_name, destination, app_counts[destination]))
