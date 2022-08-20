@@ -1,6 +1,12 @@
-start = 12, end = 13
-start = 19, end = 20
-start = 512, end = 513
-start = 1012, end = 1013
+start = 8, end = 9
+start = 10, end = 11
+start = 18, end = 20
+start = 24, end = 25
+start = 408, end = 409
+start = 510, end = 511
+start = 808, end = 809
+start = 1010, end = 1011
 start = 1019, end = 1020
-start = 1512, end = 1513
+start = 1208, end = 1209
+start = 1510, end = 1511
+start = 1608, end = 1609
