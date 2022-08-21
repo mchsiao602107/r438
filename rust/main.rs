@@ -55,32 +55,6 @@ fn main() {
 
     // --------------------------------
 
-    // Collect initial production offset for each stream in round 1.
-    let filename = format!("/home/mchsiao/omnetpp-6.0/INET_workspace/r438/util/stream_initial_production_offset/round_1_tsn_streams.txt");
-    let mut my_file = File::create(filename).expect("Cannot open file");
-    let plan = &(cnc.plan());
-    for gcl_index in 0..plan.allocated_tsns.len() {
-        let gcl = &(plan.allocated_tsns[gcl_index]);
-        let outcomes = &(plan.outcomes);
-        if gcl_index == 0 || gcl_index == 2 || gcl_index == 4 || gcl_index == 24 || gcl_index == 26 || gcl_index == 28 {
-            for event in gcl.inner.iter() {
-                let line = format!("stream ID: {}, initial production offset: {}\n", event.value, event.start);
-                my_file.write_all(line.as_bytes()).expect("Cannot write.");
-            }
-        } 
-    }
-
-    // Input the second half test case and configure them.
-    cnc.input(tsns2, avbs2);
-    let stop_cond = scenario.stop_condition();
-    let elapsed = cnc.configure(&stop_cond);
-
-    println!("--- #2 elapsed time: {} μs ---", elapsed.as_micros());
-
-    // --------------------------------
-
-    println!("\n*************\n");
-
     // Mapping from rust port ID to omnetpp port ID.
     let port_id_from_rust_to_omnetpp = ["es_1_port_0", "s_1_port_0", "es_3_port_0",
                                         "s_5_port_0", "es_5_port_0", "s_9_port_0",
@@ -98,34 +72,8 @@ fn main() {
                                         "s_7_port_2", "s_7_port_3", "s_11_port_2",
                                         "s_4_port_2", "s_8_port_2", "s_8_port_3", "s_12_port_2"];
 
-    // Outcome of all streams.
-    /*
-    println!("Outcome of all streams.");
-    println!("Outcome length: {}", cnc.plan().outcomes.len());
-    for i in 0..cnc.plan().outcomes.len() {
-        if cnc.plan().outcomes[i].is_scheduled() {
-            println!("stream ID: {}, is scheduled: {}, queue: {}", i, cnc.plan().outcomes[i].is_scheduled(), cnc.plan().outcomes[i].used_queue());
-        } else {
-            println!("stream ID: {}, is scheduled: {}", i, cnc.plan().outcomes[i].is_scheduled());
-        }
-    }
-    println!("\n");
-    */
-
-    // Store stream ID to queue ID mapping.
-    let mut my_file = File::create("/home/mchsiao/omnetpp-6.0/INET_workspace/r438/util/stream_id_queue_id_mapping/stream_id_queue_id_mapping.txt").expect("Cannot create text file");
-    for i in 0..cnc.plan().outcomes.len() {
-        let mut line;
-        if cnc.plan().outcomes[i].is_scheduled() {
-            line = format!("stream ID: {}, is scheduled: {}, queue: {}\n", i, cnc.plan().outcomes[i].is_scheduled(), cnc.plan().outcomes[i].used_queue());
-        } else {
-            line = format!("stream ID: {}, is scheduled: {}\n", i, cnc.plan().outcomes[i].is_scheduled());
-        }
-        my_file.write_all(line.as_bytes()).expect("Cannot write entry");
-    }
-
-    // Collect initial production offset for each stream in round 2.
-    let filename = format!("/home/mchsiao/omnetpp-6.0/INET_workspace/r438/util/stream_initial_production_offset/round_2_tsn_streams.txt");
+    // Collect initial production offset for each stream in round 1.
+    let filename = format!("/home/mchsiao/omnetpp-6.0/INET_workspace/r438/util/stream_initial_production_offset/stream_initial_production_offset.txt");
     let mut my_file = File::create(filename).expect("Cannot open file");
     let plan = &(cnc.plan());
     for gcl_index in 0..plan.allocated_tsns.len() {
@@ -139,23 +87,17 @@ fn main() {
         } 
     }
 
-    // Show all ports.
-    /*
-    println!("All ports.");
-    println!("(src, dst, link_id): port_id, reversed_port_id");
-    for edge in yaml::load_network(&scenario.network).unwrap().topology().edges().iter() {
-        let src = edge.0;
-        let dst = edge.1;
-        let link_id = edge.2.get_id();
-        let link_1 = (src, dst, link_id);
-        let link_2 = (dst, src, link_id);
-        println!("({}, {}, {}): {}, {}", src, dst, link_id, arc(&link_1), arc(&link_2));
+    // Store stream ID to queue ID mapping.
+    let mut my_file = File::create("/home/mchsiao/omnetpp-6.0/INET_workspace/r438/util/stream_id_queue_id_mapping/stream_id_queue_id_mapping.txt").expect("Cannot create text file");
+    for i in 0..cnc.plan().outcomes.len() {
+        let mut line;
+        if cnc.plan().outcomes[i].is_scheduled() {
+            line = format!("stream ID: {}, is scheduled: {}, queue: {}\n", i, cnc.plan().outcomes[i].is_scheduled(), cnc.plan().outcomes[i].used_queue());
+        } else {
+            line = format!("stream ID: {}, is scheduled: {}\n", i, cnc.plan().outcomes[i].is_scheduled());
+        }
+        my_file.write_all(line.as_bytes()).expect("Cannot write entry");
     }
-    println!("\n");
-    */
-
-    // Schedules.
-    // ----------
 
     // Iterate through each port to construct GCL with all events.
     let plan = &(cnc.plan());
@@ -164,7 +106,6 @@ fn main() {
         let gcl = &(plan.allocated_tsns[gcl_index]);
         let outcomes = &(plan.outcomes);
 
-        // Construct GCL schedule in one hyper-period.
         let hyperperiod = gcl.hyperperiod();
         let mut gcl_one_hyperperiod_queue_0: Vec<Range<u32>> = Vec::new();
         let mut gcl_one_hyperperiod_queue_1: Vec<Range<u32>> = Vec::new();
@@ -180,7 +121,6 @@ fn main() {
             } 
         }
 
-        // Sort.
         for i in 0..gcl_one_hyperperiod_queue_0.len() {
             let mut min_index = i;
             for j in (i + 1)..gcl_one_hyperperiod_queue_0.len() {
@@ -190,7 +130,7 @@ fn main() {
             }
             gcl_one_hyperperiod_queue_0.swap(min_index, i);
         }
-        // Minimize length of GCL schedule for queue 0.
+        
         let mut is_entry_changed = true;
         while is_entry_changed {
             is_entry_changed = false;
@@ -211,7 +151,6 @@ fn main() {
             }
         }
 
-        // Sort.
         for i in 0..gcl_one_hyperperiod_queue_1.len() {
             let mut min_index = i;
             for j in (i + 1)..gcl_one_hyperperiod_queue_1.len() {
@@ -221,7 +160,7 @@ fn main() {
             }
             gcl_one_hyperperiod_queue_1.swap(min_index, i);
         }
-        // Minimize length of GCL schedule for queue 1.
+        
         let mut is_entry_changed = true;
         while is_entry_changed {
             is_entry_changed = false;
@@ -242,8 +181,6 @@ fn main() {
             }
         }
 
-        // Write GCL schedule of this port (queue 0, 1, 7) into text files.
-        // Queue 0.
         let filename_queue_0 = format!("/home/mchsiao/omnetpp-6.0/INET_workspace/r438/simulations/gcl_schedules/{}_queue_0.txt", port_id_from_rust_to_omnetpp[gcl_index]);
         let mut file_queue_0 = File::create(filename_queue_0).expect("Cannot create text file for queue 0");
         for i in 0..gcl_one_hyperperiod_queue_0.len() {
@@ -253,7 +190,7 @@ fn main() {
                 file_queue_0.write_all("\n".as_bytes()).expect("Cannot write entry into text file for queue 0");
             }
         }
-        // Queue 1.
+        
         let filename_queue_1 = format!("/home/mchsiao/omnetpp-6.0/INET_workspace/r438/simulations/gcl_schedules/{}_queue_1.txt", port_id_from_rust_to_omnetpp[gcl_index]);
         let mut file_queue_1 = File::create(filename_queue_1).expect("Cannot create text file for queue 1");
         for i in 0..gcl_one_hyperperiod_queue_1.len() {
@@ -263,7 +200,7 @@ fn main() {
                 file_queue_1.write_all("\n".as_bytes()).expect("Cannot write entry into text file for queue 1");
             }
         }
-        // Queue 7.
+        
         let filename_queue_7 = format!("/home/mchsiao/omnetpp-6.0/INET_workspace/r438/simulations/gcl_schedules/{}_queue_7.txt", port_id_from_rust_to_omnetpp[gcl_index]);
         let mut file_queue_7 = File::create(filename_queue_7).expect("Cannot create text file for queue 7");
         for i in 0..gcl.expand().len() {
@@ -285,63 +222,14 @@ fn main() {
                 file_queue_7.write_all("\n".as_bytes()).expect("Cannot write entry into text file for queue 7");
             }
         }
-        
-        // println!("Port {}: success", gcl_index);
-        
-
-        // Check whether the result match that of expand().
-        /*
-        println!("\n");
-        if gcl_index == 33 {
-            
-            // Result of queue 0 and queue 1.
-            println!("GCL of queue 0 for port {}.", gcl_index);
-            println!("Queue 0 length: {}", gcl_one_hyperperiod_queue_0.len());
-            for i in 0..gcl_one_hyperperiod_queue_0.len() {
-                println!("{}, {}", gcl_one_hyperperiod_queue_0[i].start, gcl_one_hyperperiod_queue_0[i].end);
-            }
-            println!("\n");
-            println!("GCL of queue 1 for port {}", gcl_index);
-            println!("Queue 1 length: {}", gcl_one_hyperperiod_queue_1.len());
-            for i in 0..gcl_one_hyperperiod_queue_1.len() {
-                println!("{}, {}", gcl_one_hyperperiod_queue_1[i].start, gcl_one_hyperperiod_queue_1[i].end);
-            }
-            println!("\n");
-
-            // Result of expand(), which is queue 0 plus queue 1.
-            println!("Result of expand().");
-            println!("Length: {}", gcl.expand().len());
-            for gcl_entry in gcl.expand().iter() {
-                println!("start = {}, end = {}", gcl_entry.start, gcl_entry.end);
-            }
-            println!("\n");
-
-            // Result of queue 7.
-            println!("GCL of queue 7 for port {}.", gcl_index);
-            for i in 0..gcl.expand().len() {
-                if i == 0 {
-                    if gcl.expand()[i].start == 0 {
-                        continue;
-                    } else {
-                        println!("start = {}, end = {}", 0, gcl.expand()[i].start);
-                    }
-                } else if i == (gcl.expand().len() - 1) {
-                    println!("start = {}, end = {}", gcl.expand()[i - 1].end, gcl.expand()[i].start);
-                    println!("start = {}, end = {}", gcl.expand()[i].end, hyperperiod);
-                } else {
-                    println!("start = {}, end = {}", gcl.expand()[i - 1].end, gcl.expand()[i].start);
-                }
-            }
-            println!("\n");
-
-            break;
-        }
-        */
     }
 
-    // Routes.
-    // -------
+    // Input the second half test case and configure them.
+    cnc.input(tsns2, avbs2);
+    let stop_cond = scenario.stop_condition();
+    let elapsed = cnc.configure(&stop_cond);
 
+    println!("--- #2 elapsed time: {} μs ---", elapsed.as_micros());
 }
 
 #[inline]

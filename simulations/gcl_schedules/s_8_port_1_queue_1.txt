@@ -1,4 +1,0 @@
-start = 21, end = 22
-start = 521, end = 522
-start = 1021, end = 1022
-start = 1521, end = 1522

@@ -1,13 +1,2 @@
-start = 2, end = 9
-start = 202, end = 203
-start = 402, end = 405
-start = 505, end = 507
-start = 602, end = 603
-start = 802, end = 805
-start = 1002, end = 1003
-start = 1005, end = 1009
-start = 1202, end = 1205
-start = 1402, end = 1403
-start = 1505, end = 1507
-start = 1602, end = 1605
-start = 1802, end = 1803
+start = 3, end = 4
+start = 1003, end = 1004

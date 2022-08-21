@@ -1,9 +1,0 @@
-start = 18, end = 19
-start = 21, end = 22
-start = 25, end = 27
-start = 518, end = 519
-start = 525, end = 527
-start = 1018, end = 1019
-start = 1025, end = 1027
-start = 1518, end = 1519
-start = 1525, end = 1527

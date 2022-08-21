@@ -1,5 +1,5 @@
-start = 23, end = 24
-start = 30, end = 32
-start = 523, end = 524
-start = 1023, end = 1024
-start = 1523, end = 1524
+start = 11, end = 12
+start = 14, end = 15
+start = 511, end = 512
+start = 1011, end = 1012
+start = 1511, end = 1512

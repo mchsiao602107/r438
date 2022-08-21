@@ -10,7 +10,7 @@ name_mapping = {"3": "es_1", "4": "es_3", "5": "es_5",
 
 # Stream ID to initial production offset mapping for round-1 tsn streams.
 stream_id_initial_production_offset = dict()
-filename = "./stream_initial_production_offset/round_1_tsn_streams.txt"
+filename = "./stream_initial_production_offset/stream_initial_production_offset.txt"
 with open(filename, "rt") as my_file:
     while True:
         line = my_file.readline()
@@ -47,7 +47,6 @@ network_name = "partial_mesh"
 with open(filename, "wt") as my_file:
 
     # General settings.
-    # -----------------
     my_file.write("[General]\n")
     my_file.write("network = {}\n".format(network_name))
     my_file.write("sim-time-limit = 1ms\n")
@@ -58,7 +57,6 @@ with open(filename, "wt") as my_file:
     my_file.write("\n")
 
     # Gate schedule visualizer.
-    # -------------------------
     """
     my_file.write("**.displayGateSchedules = true\n")
     my_file.write('**.gateFilter = "**.eth[0].**"\n')
@@ -72,7 +70,6 @@ with open(filename, "wt") as my_file:
     my_file.write("\n")
 
     # Number of applications.
-    # -----------------------
     num_source_applications = {"es_1": 0, "es_2": 0, "es_3": 0, "es_4": 0, "es_5": 0, "es_6": 0}
     num_destination_applications = {"es_1": 0, "es_2": 0, "es_3": 0, "es_4": 0, "es_5": 0, "es_6": 0}
     for stream in data["tsns"] + data["avbs"]:
@@ -88,25 +85,16 @@ with open(filename, "wt") as my_file:
     my_file.write("\n")    
     
     # Enable egress traffic shaping on end stations.
-    # ----------------------------------------------
     my_file.write("{}.es_*.hasEgressTrafficShaping = true\n".format(network_name))
     my_file.write("\n")
     
     # Enable switching.
-    # -----------------
     my_file.write("{}.s_*.hasIncomingStreams = true\n".format(network_name))
     my_file.write("{}.s_*.hasOutgoingStreams = true\n".format(network_name))
     my_file.write("{}.s_*.hasEgressTrafficShaping = true\n".format(network_name))
     my_file.write("\n")
-
-    # Make gates initially open.
-    # --------------------------
-    #my_file.write("partial_mesh.es_*.eth[*].macLayer.queue.transmissionGate[*].initiallyOpen = true\n")
-    #my_file.write("partial_mesh.s_*.eth[*].macLayer.queue.transmissionGate[*].initiallyOpen = true\n")
-    #my_file.write("\n")
     
     # Application settings.
-    # ---------------------
     app_counts = {"es_1": 0, "es_2": 0, "es_3": 0, "es_4": 0, "es_5": 0, "es_6": 0}
     udp_port_number = 5000
 
@@ -163,7 +151,6 @@ with open(filename, "wt") as my_file:
         udp_port_number += 1
 
     # PCP to gate index mapping.
-    # --------------------------
     # 1. "PcpTrafficClassClassifier.mapping" for switches.
     my_file.write("*.*.eth[*].macLayer.queue.classifier.mapping = [[0, 0, 0, 0, 0, 0, 0, 0],\n")
     my_file.write("                                                [0, 0, 0, 0, 0, 1, 1, 1],\n")
@@ -175,54 +162,7 @@ with open(filename, "wt") as my_file:
     my_file.write("                                                [0, 1, 2, 3, 4, 5, 6, 7]]\n")
     my_file.write("\n")
 
-    # 2. "bridging.streamIdentifier.identifier.mapping" and "bridging.streamCoder.encoder.mapping" for sender.
-    """
-    udp_port_number = 5000
-    stream_to_udp_mapping = {"es_1": str(), "es_2": str(), "es_3": str(), "es_4": str(), "es_5": str(), "es_6": str()}
-    stream_to_pcp_mapping = {"es_1": str(), "es_2": str(), "es_3": str(), "es_4": str(), "es_5": str(), "es_6": str()}
-    for stream in data["tsns"]:
-        source = name_mapping[str(stream["src"])]
-        line = '{{stream: "tsn-{}", packetFilter: expr(udp.destPort == {})}}'.format(udp_port_number - 5000, udp_port_number)
-        if not stream_to_udp_mapping[source]:
-            stream_to_udp_mapping[source] = line
-        else:
-            stream_to_udp_mapping[source] += ",\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t" + line
-        line = '{{stream: "tsn-{}", pcp: {}}}'.format(udp_port_number - 5000, stream_id_queue_id_mapping[str(udp_port_number - 5000)])
-        if not stream_to_pcp_mapping[source]:
-            stream_to_pcp_mapping[source] = line
-        else:
-            stream_to_pcp_mapping[source] += ",\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t" + line
-        udp_port_number += 1
-    for stream in data["avbs"]:
-        source = name_mapping[str(stream["src"])]
-        line = '{{stream: "avb-{}", packetFilter: expr(udp.destPort == {})}}'.format(udp_port_number - 5000, udp_port_number)
-        if not stream_to_udp_mapping[source]:
-            stream_to_udp_mapping[source] = line
-        else:
-            stream_to_udp_mapping[source] += ",\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t" + line
-        line = '{{stream: "avb-{}", pcp: {}}}'.format(udp_port_number - 5000, stream_id_queue_id_mapping[str(udp_port_number - 5000)])
-        if not stream_to_pcp_mapping[source]:
-            stream_to_pcp_mapping[source] = line
-        else:
-            stream_to_pcp_mapping[source] += ",\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t" + line
-        udp_port_number += 1
-    for es, lines in stream_to_udp_mapping.items():
-        my_file.write("{}.{}.bridging.streamIdentifier.identifier.mapping = [{}]\n".format(network_name, es, lines))
-    my_file.write("\n")
-    for es, lines in stream_to_pcp_mapping.items():
-        my_file.write("{}.{}.bridging.streamCoder.encoder.mapping = [{}]\n".format(network_name, es, lines))
-    my_file.write("\n")
-    """
-
-    # Forwarding table.
-    # ----------------
-    # my_file.write('{}.macForwardingTableConfigurator.typename = ""\n'.format(network_name))
-    # for i in range(1, 13):
-    #     my_file.write('{}.s_{}.macTable.forwardingTableFile = "forwarding_table_s_{}.txt"\n'.format(network_name, i, i))
-    # my_file.write("\n")
-
     # Routing and FRER.
-    # -----------------
     my_file.write('*.macForwardingTableConfigurator.typename = ""\n')
     my_file.write('*.*.hasStreamRedundancy = true\n')
     my_file.write('*.*.bridging.streamRelay.typename = "StreamRelayLayer"\n')
@@ -322,37 +262,3 @@ with open(filename, "wt") as my_file:
     # -----------
     my_file.write('*.gateScheduleConfigurator.typename = "r438Configurator"\n')
     my_file.write('*.gateScheduleConfigurator.gateCycleDuration = {}us\n'.format(data["scale"]["hyperperiod"]))
-    """
-    my_file.write('*.gateScheduleConfigurator.configuration = \n')
-    
-    count = 0
-    app_counts = {"es_1": 0, "es_2": 0, "es_3": 0, "es_4": 0, "es_5": 0, "es_6": 0}
-    for stream in data["tsns"]:
-        source, destination = name_mapping[str(stream["src"])], name_mapping[str(stream["dst"])]
-        frame_size, period, deadline = stream["size"], stream["period"], stream["deadline"]
-        
-        if count == 0:
-            my_file.write('\t[{{pcp: 7, gateIndex: 7, application: "app[{}]", source: "{}", destination: "{}", packetLength: {}B, packetInterval: {}us, maxLatency: {}us}},\n'.format(app_counts[source], source, destination, frame_size, period, deadline))
-        else:
-            my_file.write('\t {{pcp: 7, gateIndex: 7, application: "app[{}]", source: "{}", destination: "{}", packetLength: {}B, packetInterval: {}us, maxLatency: {}us}},\n'.format(app_counts[source], source, destination, frame_size, period, deadline))
-        count += 1
-
-        app_counts[source] += 1
-        app_counts[destination] += 1
-    
-    count = 0
-    for stream in data["avbs"]:
-        source, destination = name_mapping[str(stream["src"])], name_mapping[str(stream["dst"])]
-        frame_size, period, deadline = stream["size"], stream["period"], stream["deadline"]
-        
-        if count == len(data["avbs"]) - 1:
-            my_file.write('\t {{pcp: 5, gateIndex: 5, application: "app[{}]", source: "{}", destination: "{}", packetLength: {}B, packetInterval: {}us, maxLatency: {}us}}]\n'.format(app_counts[source], source, destination, frame_size, period, deadline))
-        else:
-            my_file.write('\t {{pcp: 5, gateIndex: 5, application: "app[{}]", source: "{}", destination: "{}", packetLength: {}B, packetInterval: {}us, maxLatency: {}us}},\n'.format(app_counts[source], source, destination, frame_size, period, deadline))
-        count += 1
-
-        app_counts[source] += 1
-        app_counts[destination] += 1
-
-    my_file.write('\n')
-    """

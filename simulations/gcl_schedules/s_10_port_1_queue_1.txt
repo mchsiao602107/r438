@@ -1,14 +1,2 @@
-start = 7, end = 9
-start = 14, end = 15
-start = 17, end = 18
-start = 27, end = 29
-start = 37, end = 39
-start = 407, end = 409
-start = 514, end = 515
-start = 807, end = 809
-start = 1014, end = 1015
-start = 1017, end = 1018
-start = 1027, end = 1029
-start = 1207, end = 1209
-start = 1514, end = 1515
-start = 1607, end = 1609
+start = 9, end = 10
+start = 1009, end = 1010
