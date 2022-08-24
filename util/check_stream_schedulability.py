@@ -81,20 +81,16 @@ with open(result_vec_file, "rt") as my_file:
             if vector_id in vector_id_delay_gt_deadline:
                 dst_app = vector_id_dst_app_mapping[vector_id]
                 count = dst_app_stream_info_mapping[dst_app]['count']
-                # print(vector_id, dst_app)
-                event, time, value = int(re_result[2]), re_result[3], float(re_result[4])
-                dst_app_stream_info_mapping[dst_app]['output_vector'] = []
-                dst_app_stream_info_mapping[dst_app]['output_vector'].append("{}\t{}\t\t{}".format(event, time, format(value, '.4e')))
-                for i in range(1, count):
-                    line = my_file.readline()
-                    re_result = re.search(id_event_time_value_pattern, line)
-                    event, time, value = int(re_result[2]), re_result[3], float(re_result[4])
-                    dst_app_stream_info_mapping[dst_app]['output_vector'].append("{}\t{}\t\t{}".format(event, time, format(value, '.4e')))
+                event, time, value = int(re_result[2]), float(re_result[3]), float(re_result[4])
+                if 'output_vector' not in dst_app_stream_info_mapping[dst_app].keys():
+                    dst_app_stream_info_mapping[dst_app]['output_vector'] = []
+                dst_app_stream_info_mapping[dst_app]['output_vector'].append("{}\t{:.8f}\t\t{}".format(event, time, format(value, '.4e')))
 
 # print(dst_app_stream_info_mapping)
 
 # Print stream info if max(meanBitLifeTimePerPacket) > deadline.
 print("Streams with max(meanBitLifeTimePerPacket) > deadline")
+output_vector_shown = False
 for dst_app in dst_app_delay_gt_deadline:
     stream_info = dst_app_stream_info_mapping[dst_app]
     if stream_info['type'] == 'tsn':
@@ -114,9 +110,11 @@ for dst_app in dst_app_delay_gt_deadline:
             dst_app,
             format(stream_info['max'], '.1e'),
         ))
-    print('\tEvent\tTime\t\t\tValue')
-    for i in range(stream_info['count']):
-        print('\t' + stream_info['output_vector'][i])
+    if not output_vector_shown:
+        print('\tEvent\tTime\t\t\tValue')
+        for i in range(stream_info['count']):
+            print('\t' + stream_info['output_vector'][i])
+        output_vector_shown = True
 
 # Print streams without stats of meanBitLifeTimePerPacket.
 print("\nStreams without stats of meanBitLifeTimePerPacket:")
