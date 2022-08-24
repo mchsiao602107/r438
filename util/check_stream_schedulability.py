@@ -84,44 +84,41 @@ with open(result_vec_file, "rt") as my_file:
                 event, time, value = int(re_result[2]), float(re_result[3]), float(re_result[4])
                 if 'output_vector' not in dst_app_stream_info_mapping[dst_app].keys():
                     dst_app_stream_info_mapping[dst_app]['output_vector'] = []
-                dst_app_stream_info_mapping[dst_app]['output_vector'].append("{}\t{:.8f}\t\t{}".format(event, time, format(value, '.4e')))
+                dst_app_stream_info_mapping[dst_app]['output_vector'].append("{}\t{:.4f}us\t{:.4f}us".format(event, time * 1e6, value*1e6))
 
 # print(dst_app_stream_info_mapping)
 
 # Print stream info if max(meanBitLifeTimePerPacket) > deadline.
 print("Streams with max(meanBitLifeTimePerPacket) > deadline")
-output_vector_shown = False
 for dst_app in dst_app_delay_gt_deadline:
     stream_info = dst_app_stream_info_mapping[dst_app]
     if stream_info['type'] == 'tsn':
-        print("{}-{}, {}, queue: {}, period: {}, max: {}, mean: {}".format(
+        print("{}-{}, {}, queue: {}, period: {:.0f}us, max: {:.4f}us, mean: {:.4f}us".format(
             stream_info['type'],
             stream_info['stream_id'],
             dst_app,
             stream_id_queue_id_mapping[stream_info['stream_id']],
-            format(stream_info['period'], '.1e'),
-            format(stream_info['max'], '.1e'),
-            format(stream_info['mean'], '.1e')
+            stream_info['period'] * 1e6,
+            stream_info['max'] * 1e6,
+            stream_info['mean'] * 1e6,
         ))
     elif stream_info['type'] == 'avb':
-        print("{}-{}, {}, max: {}(> 2000us)".format(
+        print("{}-{}, {}, max: {:.4f}us(> 2000us)".format(
             stream_info['type'],
             stream_info['stream_id'],
             dst_app,
-            format(stream_info['max'], '.1e'),
+            stream_info['max'] * 1e6,
         ))
-    if not output_vector_shown:
-        print('\tEvent\tTime\t\t\tValue')
-        for i in range(stream_info['count']):
-            print('\t' + stream_info['output_vector'][i])
-        output_vector_shown = True
+    print('#\tEvent\tTime\t\tValue')
+    for i in range(stream_info['count']):
+        print(str(i) + '\t' + stream_info['output_vector'][i])
 
 # Print streams without stats of meanBitLifeTimePerPacket.
 print("\nStreams without stats of meanBitLifeTimePerPacket:")
 for dst_app in dst_app_without_stats:
-    print("{}-{}, queue: {}, period: {}".format(
+    print("{}-{}, queue: {}, period: {:.4f}us".format(
         dst_app_stream_info_mapping[dst_app]['type'],
         dst_app_stream_info_mapping[dst_app]['stream_id'],
         stream_id_queue_id_mapping[dst_app_stream_info_mapping[dst_app]['stream_id']],
-        dst_app_stream_info_mapping[dst_app]['period']
+        dst_app_stream_info_mapping[dst_app]['period'] * 1e6
     ))
