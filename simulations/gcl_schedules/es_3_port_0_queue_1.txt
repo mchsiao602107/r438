@@ -1,5 +1,0 @@
-start = 5, end = 7
-start = 405, end = 407
-start = 805, end = 807
-start = 1205, end = 1207
-start = 1605, end = 1607

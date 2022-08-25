@@ -9,280 +9,280 @@ scale:
 tsns:
 - src: 5 # 0
   dst: 0
-  size: 94
+  size: 106
   period: 400
   deadline: 400
   offset: 0
   survivable: true
 - src: 2 # 1
   dst: 5
-  size: 154
+  size: 166
   period: 2000
   deadline: 2000
   offset: 0
   survivable: true
 - src: 2 # 2
   dst: 5
-  size: 144
+  size: 156
   period: 200
   deadline: 200
   offset: 0
   survivable: true
 - src: 0 # 3
   dst: 4
-  size: 104
+  size: 116
   period: 200
   deadline: 200
   offset: 0
   survivable: true
 - src: 4 # 4
   dst: 0
-  size: 134
+  size: 146
   period: 400
   deadline: 400
   offset: 0
   survivable: true
 - src: 1 # 5
   dst: 3
-  size: 94
+  size: 106
   period: 200
   deadline: 200
   offset: 0
   survivable: true
 - src: 3 # 6
   dst: 2
-  size: 104
+  size: 116
   period: 500
   deadline: 500
   offset: 0
   survivable: true
 - src: 5 # 7
   dst: 2
-  size: 114
+  size: 126
   period: 2000
   deadline: 2000
   offset: 0
   survivable: true
 - src: 2 # 8
   dst: 0
-  size: 94
+  size: 106
   period: 500
   deadline: 500
   offset: 0
   survivable: true
 - src: 2 # 9
   dst: 4
-  size: 124
+  size: 136
   period: 400
   deadline: 400
   offset: 0
   survivable: true
 - src: 1 # 10
   dst: 2
-  size: 124
+  size: 136
   period: 400
   deadline: 400
   offset: 0
   survivable: true
 - src: 4 # 11
   dst: 0
-  size: 124
+  size: 136
   period: 200
   deadline: 200
   offset: 0
   survivable: true
 - src: 3 # 12
   dst: 4
-  size: 134
+  size: 146
   period: 200
   deadline: 200
   offset: 0
   survivable: true
 - src: 4 # 13
   dst: 0
-  size: 134
+  size: 146
   period: 500
   deadline: 500
   offset: 0
   survivable: true
 - src: 3 # 14
   dst: 4
-  size: 124
+  size: 136
   period: 500
   deadline: 500
   offset: 0
   survivable: true
 - src: 0 # 15
   dst: 3
-  size: 144
+  size: 156
   period: 500
   deadline: 500
   offset: 0
   survivable: true
 - src: 2 # 16
   dst: 4
-  size: 104
+  size: 116
   period: 500
   deadline: 500
   offset: 0
   survivable: true
 - src: 3 # 17
   dst: 0
-  size: 104
+  size: 116
   period: 100
   deadline: 100
   offset: 0
   survivable: true
 - src: 4 # 18
   dst: 0
-  size: 94
+  size: 106
   period: 100
   deadline: 100
   offset: 0
   survivable: true
 - src: 4 # 19
   dst: 1
-  size: 94
+  size: 106
   period: 100
   deadline: 100
   offset: 0
   survivable: true
 - src: 0 # 20
   dst: 4
-  size: 144
+  size: 156
   period: 100
   deadline: 100
   offset: 0
   survivable: true
 - src: 5 # 21
   dst: 3
-  size: 164
+  size: 176
   period: 100
   deadline: 100
   offset: 0
   survivable: true
 - src: 0 # 22
   dst: 2
-  size: 124
+  size: 136
   period: 500
   deadline: 500
   offset: 0
   survivable: true
 - src: 4 # 23
   dst: 1
-  size: 124
+  size: 136
   period: 500
   deadline: 500
   offset: 0
   survivable: true
 - src: 0 # 24
   dst: 2
-  size: 134
+  size: 146
   period: 500
   deadline: 500
   offset: 0
   survivable: true
 - src: 3 # 25
   dst: 0
-  size: 164
+  size: 176
   period: 200
   deadline: 200
   offset: 0
   survivable: true
 - src: 1 # 26
   dst: 4
-  size: 124
+  size: 136
   period: 100
   deadline: 100
   offset: 0
   survivable: true
 - src: 5 # 27
   dst: 3
-  size: 94
+  size: 106
   period: 400
   deadline: 400
   offset: 0
   survivable: true
 - src: 2 # 28
   dst: 1
-  size: 164
+  size: 176
   period: 500
   deadline: 500
   offset: 0
   survivable: true
 - src: 0 # 29
   dst: 2
-  size: 114
+  size: 126
   period: 2000
   deadline: 2000
   offset: 0
   survivable: true
 - src: 2 # 30
   dst: 1
-  size: 124
+  size: 136
   period: 200
   deadline: 200
   offset: 0
   survivable: true
 - src: 1 # 31
   dst: 3
-  size: 104
+  size: 116
   period: 200
   deadline: 200
   offset: 0
   survivable: true
 - src: 4 # 32
   dst: 2
-  size: 134
+  size: 146
   period: 200
   deadline: 200
   offset: 0
   survivable: true
 - src: 1 # 33
   dst: 2
-  size: 124
+  size: 136
   period: 100
   deadline: 100
   offset: 0
   survivable: true
 - src: 4 # 34
   dst: 2
-  size: 114
+  size: 126
   period: 400
   deadline: 400
   offset: 0
   survivable: true
 - src: 0 # 35
   dst: 2
-  size: 124
+  size: 136
   period: 200
   deadline: 200
   offset: 0
   survivable: true
 - src: 4 # 36
   dst: 0
-  size: 144
+  size: 156
   period: 1000
   deadline: 1000
   offset: 0
   survivable: true
 - src: 5 # 37
   dst: 4
-  size: 114
+  size: 126
   period: 1000
   deadline: 1000
   offset: 0
   survivable: true
 - src: 2 # 38
   dst: 5
-  size: 144
+  size: 156
   period: 1000
   deadline: 1000
   offset: 0
   survivable: true
 - src: 2 # 39
   dst: 3
-  size: 144
+  size: 156
   period: 1000
   deadline: 1000
   offset: 0

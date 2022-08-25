@@ -38,6 +38,7 @@ with open(filename, "rt") as my_file:
 
 # Read yaml file for round-1 streams.
 filename = "./streams/mesh-iso40-aud20-01-a.yaml"
+# filename = "./streams/tmp.yaml"
 with open(filename, "rt") as my_file:
     data = yaml.safe_load(my_file)
 
@@ -49,7 +50,7 @@ with open(filename, "wt") as my_file:
     # General settings.
     my_file.write("[General]\n")
     my_file.write("network = {}\n".format(network_name))
-    my_file.write("sim-time-limit = 1ms\n")
+    my_file.write("sim-time-limit = 6ms\n")
     my_file.write("record-eventlog = false\n")
     my_file.write("**.result-recording-modes = all\n")
     my_file.write("\n")
@@ -109,7 +110,7 @@ with open(filename, "wt") as my_file:
         my_file.write('{}.{}.app[{}].io.destAddress = "{}"\n'.format(network_name, source, app_counts[source], destination))
         my_file.write('{}.{}.app[{}].io.destPort = {}\n'.format(network_name, source, app_counts[source], udp_port_number))
         my_file.write('{}.{}.app[{}].source.packetNameFormat = "%M-%m-%c"\n'.format(network_name, source, app_counts[source]))
-        my_file.write('{}.{}.app[{}].source.packetLength = {}B\n'.format(network_name, source, app_counts[source], frame_size - 64))
+        my_file.write('{}.{}.app[{}].source.packetLength = {}B\n'.format(network_name, source, app_counts[source], frame_size - 76))
         my_file.write('{}.{}.app[{}].source.productionInterval = {}us\n'.format(network_name, source, app_counts[source], period))
         my_file.write('{}.{}.app[{}].source.initialProductionOffset = {}us\n'.format(network_name, source, app_counts[source], stream_id_initial_production_offset[udp_port_number - 5000]))
 
@@ -136,9 +137,9 @@ with open(filename, "wt") as my_file:
         my_file.write('{}.{}.app[{}].io.destAddress = "{}"\n'.format(network_name, source, app_counts[source], destination))
         my_file.write('{}.{}.app[{}].io.destPort = {}\n'.format(network_name, source, app_counts[source], udp_port_number))
         my_file.write('{}.{}.app[{}].source.packetNameFormat = "%M-%m-%c"\n'.format(network_name, source, app_counts[source]))
-        my_file.write('{}.{}.app[{}].source.packetLength = {}B\n'.format(network_name, source, app_counts[source], frame_size - 64))
+        my_file.write('{}.{}.app[{}].source.packetLength = {}B\n'.format(network_name, source, app_counts[source], frame_size - 76))
         my_file.write('{}.{}.app[{}].source.productionInterval = {}us\n'.format(network_name, source, app_counts[source], period))
-        my_file.write('{}.{}.app[{}].source.initialProductionOffset = 0us\n'.format(network_name, source, app_counts[source]))
+        my_file.write('{}.{}.app[{}].source.initialProductionOffset = {}us\n'.format(network_name, source, app_counts[source], udp_port_number - 5000))
 
         # Destination application.
         my_file.write('{}.{}.app[{}].typename = "UdpSinkApp"\n'.format(network_name, destination, app_counts[destination]))

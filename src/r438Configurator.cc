@@ -42,7 +42,8 @@ namespace inet
         schedule->cycleStart = 0;
         schedule->cycleDuration = gateCycleDuration;
 
-        if (queue_id == 0 || queue_id == 1 || queue_id == 7) {
+        // if (queue_id == 0 || queue_id == 1 || queue_id == 7) {
+        if (queue_id == 0 || queue_id == 1) {
             std::fstream my_file;
             std::string filename = "./gcl_schedules/" + std::string(device_id) + "_port_" + std::to_string(port_id) + "_queue_" + std::to_string(queue_id) + ".txt";
             my_file.open(filename, std::ios::in);
