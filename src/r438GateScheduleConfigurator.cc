@@ -1,11 +1,11 @@
-#include "r438Configurator.h"
+#include "r438GateScheduleConfigurator.h"
 
 namespace inet
 {
     // Register this module to be used in omnetpp.
-    Define_Module(r438Configurator);
+    Define_Module(r438GateScheduleConfigurator);
 
-    r438Configurator::Output *r438Configurator::computeGateScheduling(const Input& input) const
+    r438GateScheduleConfigurator::Output *r438GateScheduleConfigurator::computeGateScheduling(const Input& input) const
     {
         // GCL schedules for all ports of all switches.
         auto output = new Output();
@@ -32,7 +32,7 @@ namespace inet
         return output;
     }
 
-    r438Configurator::Output::Schedule *r438Configurator::set_gcl_schedule(char* device_id, int port_id, int queue_id, Input::Port* port) const
+    r438GateScheduleConfigurator::Output::Schedule *r438GateScheduleConfigurator::set_gcl_schedule(char* device_id, int port_id, int queue_id, Input::Port* port) const
     {
         Output::Schedule *schedule = new Output::Schedule();
 

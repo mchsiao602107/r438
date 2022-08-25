@@ -89,7 +89,7 @@ with open(result_vec_file, "rt") as my_file:
 # print(dst_app_stream_info_mapping)
 
 # Print stream info if max(meanBitLifeTimePerPacket) > deadline.
-print("Streams with max(meanBitLifeTimePerPacket) > deadline")
+print("Streams with max(meanBitLifeTimePerPacket) > deadline:")
 for dst_app in dst_app_delay_gt_deadline:
     stream_info = dst_app_stream_info_mapping[dst_app]
     if stream_info['type'] == 'tsn':

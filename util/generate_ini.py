@@ -261,5 +261,5 @@ with open(filename, "wt") as my_file:
 
     # Scheduling.
     # -----------
-    my_file.write('*.gateScheduleConfigurator.typename = "r438Configurator"\n')
+    my_file.write('*.gateScheduleConfigurator.typename = "r438GateScheduleConfigurator"\n')
     my_file.write('*.gateScheduleConfigurator.gateCycleDuration = {}us\n'.format(data["scale"]["hyperperiod"]))

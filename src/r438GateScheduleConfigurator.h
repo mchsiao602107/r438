@@ -1,5 +1,5 @@
-#ifndef R438CONFIGURATOR_H_
-#define R438CONFIGURATOR_H_
+#ifndef R438GATESCHEDULECONFIGURATOR_H_
+#define R438GATESCHEDULECONFIGURATOR_H_
 
 #include "inet/linklayer/configurator/gatescheduling/base/GateScheduleConfiguratorBase.h"
 
@@ -8,7 +8,7 @@
 
 namespace inet
 {
-    class INET_API r438Configurator : public GateScheduleConfiguratorBase
+    class INET_API r438GateScheduleConfigurator : public GateScheduleConfiguratorBase
     {
         protected:
 
