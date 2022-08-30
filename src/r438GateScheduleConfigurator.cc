@@ -42,7 +42,6 @@ namespace inet
         schedule->cycleStart = 0;
         schedule->cycleDuration = gateCycleDuration;
 
-        // if (queue_id == 0 || queue_id == 1 || queue_id == 7) {
         if (queue_id == 0 || queue_id == 1) {
             std::fstream my_file;
             std::string filename = "./gcl_schedules/" + std::string(device_id) + "_port_" + std::to_string(port_id) + "_queue_" + std::to_string(queue_id) + ".txt";
@@ -61,11 +60,31 @@ namespace inet
                     slot.duration = SimTime((end - start), SIMTIME_US);
                     schedule->slots.push_back(slot);
                 }
+            }
+            my_file.close();
+        } else if (queue_id == 7) {
+            std::fstream my_file;
+            std::string filename = "./gcl_schedules/" + std::string(device_id) + "_port_" + std::to_string(port_id) + "_queue_" + std::to_string(queue_id) + ".txt";
+            my_file.open(filename, std::ios::in);
+            if (my_file.is_open()) {
+                std::string line;
+                int start, end;
+                Output::Slot slot;
+                while (getline(my_file, line)) {
+                    sscanf(line.c_str(), "start = %d, end = %d", &start, &end);
 
+                    // Queue 7 only opens when interval is long enough for a MTU-sized AVB frame (1500B).
+                    // 12 us = 1500B * 8 / 1Gbps.
+                    if ((end - start) <= 12)
+                        continue;
+
+                    slot.start = SimTime(start, SIMTIME_US);
+                    slot.duration = SimTime((end - start), SIMTIME_US);
+                    schedule->slots.push_back(slot);
+                }
             }
             my_file.close();
         } else {
-
             // Don't add time slots into schedule (always closed).
         }
 

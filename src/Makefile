@@ -33,7 +33,7 @@ PROJECTRELATIVE_PATH = src
 O = $(PROJECT_OUTPUT_DIR)/$(CONFIGNAME)/$(PROJECTRELATIVE_PATH)
 
 # Object files for local .cc, .msg and .sm files
-OBJS = $O/r438GateScheduleConfigurator.o $O/r438StreamRedundancyConfigurator.o
+OBJS = $O/PcpClassifier.o $O/r438GateScheduleConfigurator.o $O/r438StreamRedundancyConfigurator.o
 
 # Message files
 MSGFILES =
