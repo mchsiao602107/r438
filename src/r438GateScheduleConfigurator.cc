@@ -42,9 +42,12 @@ namespace inet
         schedule->cycleStart = 0;
         schedule->cycleDuration = gateCycleDuration;
 
+        // Read the round number.
+        int round_number = par("round_number").intValue();
+
         if (queue_id == 0 || queue_id == 1) {
             std::fstream my_file;
-            std::string filename = "./gcl_schedules/" + std::string(device_id) + "_port_" + std::to_string(port_id) + "_queue_" + std::to_string(queue_id) + ".txt";
+            std::string filename = "./gcl_schedules/" + std::string(device_id) + "_port_" + std::to_string(port_id) + "_queue_" + std::to_string(queue_id) + "_round_" + std::to_string(round_number) + ".txt";
             my_file.open(filename, std::ios::in);
             if (my_file.is_open()) {
 
@@ -64,7 +67,7 @@ namespace inet
             my_file.close();
         } else if (queue_id == 7) {
             std::fstream my_file;
-            std::string filename = "./gcl_schedules/" + std::string(device_id) + "_port_" + std::to_string(port_id) + "_queue_" + std::to_string(queue_id) + ".txt";
+            std::string filename = "./gcl_schedules/" + std::string(device_id) + "_port_" + std::to_string(port_id) + "_queue_" + std::to_string(queue_id) + "_round_" + std::to_string(round_number) + ".txt";
             my_file.open(filename, std::ios::in);
             if (my_file.is_open()) {
                 std::string line;

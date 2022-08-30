@@ -7,5 +7,8 @@ simple r438GateScheduleConfigurator extends GateScheduleConfiguratorBase like IG
 {
 	parameters:
 	    // Explicitly specify the C++ class, which is defined in inet namespace.
-	    @class(inet::r438GateScheduleConfigurator);
+	    @class(inet::r438GateScheduleConfigurator);  
+	    
+	    // Round number to read corresponding gcl schedule text files.
+	    int round_number = default(1); 
 }

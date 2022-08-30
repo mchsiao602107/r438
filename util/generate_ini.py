@@ -1,5 +1,6 @@
 import yaml
 import re
+import sys
 
 name_mapping = {"3": "es_1", "4": "es_3", "5": "es_5",
                 "6": "s_1", "7": "s_5", "8": "s_9",
@@ -8,9 +9,18 @@ name_mapping = {"3": "es_1", "4": "es_3", "5": "es_5",
                 "15": "s_4", "16": "s_8", "17": "s_12",
                 "0": "es_2", "1": "es_4", "2": "es_6",}
 
+# Get the round number from command line.
+if len(sys.argv) != 2:
+    print("[error] to run this script -> python3 generate_ini.py round_number")
+    sys.exit(1)
+round_number = int(sys.argv[1])
+if round_number not in [1, 2]:
+    print("[error] invalid round number")
+    sys.exit(1)
+
 # Stream ID to initial production offset mapping for round-1 tsn streams.
 stream_id_initial_production_offset = dict()
-filename = "./stream_initial_production_offset/stream_initial_production_offset.txt"
+filename = "./stream_initial_production_offset/stream_initial_production_offset_round_{}.txt".format(round_number)
 with open(filename, "rt") as my_file:
     while True:
         line = my_file.readline()
@@ -22,7 +32,7 @@ with open(filename, "rt") as my_file:
 
 # Stream ID to queue ID mapping.
 stream_id_queue_id_mapping = dict()
-filename = "./stream_id_queue_id_mapping/stream_id_queue_id_mapping.txt"
+filename = "./stream_id_queue_id_mapping/stream_id_queue_id_mapping_round_{}.txt".format(round_number)
 with open(filename, "rt") as my_file:
     while True:
         line = my_file.readline()
@@ -36,14 +46,19 @@ with open(filename, "rt") as my_file:
             queue_id = 7
         stream_id_queue_id_mapping[stream_id] = queue_id
 
-# Read yaml file for round-1 streams.
+# Read yaml file for stream specification.
 filename = "./streams/mesh-iso40-aud20-01-a.yaml"
-# filename = "./streams/tmp.yaml"
 with open(filename, "rt") as my_file:
     data = yaml.safe_load(my_file)
+if round_number == 2:
+    filename = "./streams/mesh-iso40-aud20-01-b.yaml"
+    with open(filename, "rt") as my_file:
+        data_2 = yaml.safe_load(my_file)
+    data["tsns"].extend(data_2["tsns"])
+    data["avbs"].extend(data_2["avbs"])
 
 # Generate .ini file.
-filename = "../simulations/auto-generated.ini"
+filename = "../simulations/auto-generated-round-{}.ini".format(round_number)
 network_name = "partial_mesh"
 with open(filename, "wt") as my_file:
 
@@ -97,59 +112,69 @@ with open(filename, "wt") as my_file:
     
     # Application settings.
     app_counts = {"es_1": 0, "es_2": 0, "es_3": 0, "es_4": 0, "es_5": 0, "es_6": 0}
-    udp_port_number = 5000
-
+    
     # TSN streams.
+    stream_id = 0
     for stream in data["tsns"]:
         source, destination = name_mapping[str(stream["src"])], name_mapping[str(stream["dst"])]
         frame_size, period = stream["size"], stream["period"]
 
+        if stream_id == 40:
+            stream_id = 60
+
         # Source application.
         my_file.write('{}.{}.app[{}].typename = "UdpSourceApp"\n'.format(network_name, source, app_counts[source]))
-        my_file.write('{}.{}.app[{}].display-name = "tsn-{}"\n'.format(network_name, source, app_counts[source], udp_port_number - 5000))
+        my_file.write('{}.{}.app[{}].display-name = "tsn-{}"\n'.format(network_name, source, app_counts[source], stream_id))
         my_file.write('{}.{}.app[{}].io.destAddress = "{}"\n'.format(network_name, source, app_counts[source], destination))
-        my_file.write('{}.{}.app[{}].io.destPort = {}\n'.format(network_name, source, app_counts[source], udp_port_number))
+        my_file.write('{}.{}.app[{}].io.destPort = {}\n'.format(network_name, source, app_counts[source], stream_id + 5000))
         my_file.write('{}.{}.app[{}].source.packetNameFormat = "%M-%m-%c"\n'.format(network_name, source, app_counts[source]))
         my_file.write('{}.{}.app[{}].source.packetLength = {}B\n'.format(network_name, source, app_counts[source], frame_size - 76))
         my_file.write('{}.{}.app[{}].source.productionInterval = {}us\n'.format(network_name, source, app_counts[source], period))
-        my_file.write('{}.{}.app[{}].source.initialProductionOffset = {}us\n'.format(network_name, source, app_counts[source], stream_id_initial_production_offset[udp_port_number - 5000]))
+        if stream_id in stream_id_initial_production_offset:
+            my_file.write('{}.{}.app[{}].source.initialProductionOffset = {}us\n'.format(network_name, source, app_counts[source], stream_id_initial_production_offset[stream_id]))
+        else:
+            my_file.write('{}.{}.app[{}].source.initialProductionOffset = {}us\n'.format(network_name, source, app_counts[source], stream_id))
 
         # Destination application.
         my_file.write('{}.{}.app[{}].typename = "UdpSinkApp"\n'.format(network_name, destination, app_counts[destination]))
-        my_file.write('{}.{}.app[{}].display-name = "tsn-{}"\n'.format(network_name, destination, app_counts[destination], udp_port_number - 5000))
-        my_file.write('{}.{}.app[{}].io.localPort = {}\n'.format(network_name, destination, app_counts[destination], udp_port_number))
+        my_file.write('{}.{}.app[{}].display-name = "tsn-{}"\n'.format(network_name, destination, app_counts[destination], stream_id))
+        my_file.write('{}.{}.app[{}].io.localPort = {}\n'.format(network_name, destination, app_counts[destination], stream_id + 5000))
         my_file.write("\n")
 
         app_counts[source] += 1
         app_counts[destination] += 1
-        udp_port_number += 1
+        stream_id += 1
     
     # AVB streams.
+    stream_id = 40
     for stream in data["avbs"]:
         source = name_mapping[str(stream["src"])]
         destination = name_mapping[str(stream["dst"])]
         frame_size = stream["size"]
         period = stream["period"]
 
+        if stream_id == 60:
+            stream_id = 100
+
         # Source application.
         my_file.write('{}.{}.app[{}].typename = "UdpSourceApp"\n'.format(network_name, source, app_counts[source]))
-        my_file.write('{}.{}.app[{}].display-name = "avb-{}"\n'.format(network_name, source, app_counts[source], udp_port_number - 5000))
+        my_file.write('{}.{}.app[{}].display-name = "avb-{}"\n'.format(network_name, source, app_counts[source], stream_id))
         my_file.write('{}.{}.app[{}].io.destAddress = "{}"\n'.format(network_name, source, app_counts[source], destination))
-        my_file.write('{}.{}.app[{}].io.destPort = {}\n'.format(network_name, source, app_counts[source], udp_port_number))
+        my_file.write('{}.{}.app[{}].io.destPort = {}\n'.format(network_name, source, app_counts[source], stream_id + 5000))
         my_file.write('{}.{}.app[{}].source.packetNameFormat = "%M-%m-%c"\n'.format(network_name, source, app_counts[source]))
         my_file.write('{}.{}.app[{}].source.packetLength = {}B\n'.format(network_name, source, app_counts[source], frame_size - 76))
         my_file.write('{}.{}.app[{}].source.productionInterval = {}us\n'.format(network_name, source, app_counts[source], period))
-        my_file.write('{}.{}.app[{}].source.initialProductionOffset = {}us\n'.format(network_name, source, app_counts[source], udp_port_number - 5000))
+        my_file.write('{}.{}.app[{}].source.initialProductionOffset = {}us\n'.format(network_name, source, app_counts[source], stream_id))
 
         # Destination application.
         my_file.write('{}.{}.app[{}].typename = "UdpSinkApp"\n'.format(network_name, destination, app_counts[destination]))
-        my_file.write('{}.{}.app[{}].display-name = "avb-{}"\n'.format(network_name, destination, app_counts[destination], udp_port_number - 5000))
-        my_file.write('{}.{}.app[{}].io.localPort = {}\n'.format(network_name, destination, app_counts[destination], udp_port_number))
+        my_file.write('{}.{}.app[{}].display-name = "avb-{}"\n'.format(network_name, destination, app_counts[destination], stream_id))
+        my_file.write('{}.{}.app[{}].io.localPort = {}\n'.format(network_name, destination, app_counts[destination], stream_id + 5000))
         my_file.write("\n")
 
         app_counts[source] += 1
         app_counts[destination] += 1
-        udp_port_number += 1
+        stream_id += 1
 
     # PCP to gate index mapping.
     # 1. "PcpTrafficClassClassifier.mapping" for switches.
@@ -171,8 +196,9 @@ with open(filename, "wt") as my_file:
     my_file.write('*.streamRedundancyConfigurator.typename = "r438StreamRedundancyConfigurator"\n')
     my_file.write('*.streamRedundancyConfigurator.configuration = [\n')
 
-    # Add routes for round-1 TSN streams.
-    with open("./routes_tsn_avb/routes_tsn_round_1.txt", "rt") as routes_tsn_file:
+    # Add routes for TSN streams.
+    filename = "./routes_tsn_avb/routes_tsn_round_{}.txt".format(round_number) 
+    with open(filename, "rt") as routes_tsn_file:
         while True:
             line = routes_tsn_file.readline()
             if not line:
@@ -196,21 +222,19 @@ with open(filename, "wt") as my_file:
                 if i != len(route_2_mapped) - 1:
                     route_2_mapped_string += ", "
 
-            # Add only first half of streams.
-            # expr(udp.destPort == {})
-            if stream_id < 60:
-                my_file.write('\t{{pcp: {}, name: "{}", packetFilter: "*-{}-*", source: "{}", destination: "{}", trees: [[[{}]], [[{}]]]}},\n'.format(
-                    stream_id_queue_id_mapping[str(stream_id)],
-                    "tsn-" + str(stream_id),
-                    "tsn-" + str(stream_id),
-                    route_1_mapped[0],
-                    route_1_mapped[-1],
-                    route_1_mapped_string,
-                    route_2_mapped_string
-                ))
+            my_file.write('\t{{pcp: {}, name: "{}", packetFilter: "*-{}-*", source: "{}", destination: "{}", trees: [[[{}]], [[{}]]]}},\n'.format(
+                stream_id_queue_id_mapping[str(stream_id)],
+                "tsn-" + str(stream_id),
+                "tsn-" + str(stream_id),
+                route_1_mapped[0],
+                route_1_mapped[-1],
+                route_1_mapped_string,
+                route_2_mapped_string
+            ))
     
     # Add routes for AVB streams.
-    with open("./routes_tsn_avb/routes_avb_round_1.txt", "rt") as routes_avb_file:
+    filename = "./routes_tsn_avb/routes_avb_round_{}.txt".format(round_number) 
+    with open(filename, "rt") as routes_avb_file:
         while True:
             line = routes_avb_file.readline()
             if not line:
@@ -234,28 +258,26 @@ with open(filename, "wt") as my_file:
                 if i != len(route_2_mapped) - 1:
                     route_2_mapped_string += ", "
 
-            # Add only first half of streams.
-            if stream_id < 60:
-                if stream_id == 59:
-                    my_file.write('\t{{pcp: {}, name: "{}", packetFilter: "*-{}-*", source: "{}", destination: "{}", trees: [[[{}]], [[{}]]]}}]\n'.format(
-                        stream_id_queue_id_mapping[str(stream_id)],
-                        "avb-" + str(stream_id),
-                        "avb-" + str(stream_id),
-                        route_1_mapped[0],
-                        route_1_mapped[-1],
-                        route_1_mapped_string,
-                        route_2_mapped_string
-                    ))
-                else:
-                    my_file.write('\t{{pcp: {}, name: "{}", packetFilter: "*-{}-*", source: "{}", destination: "{}", trees: [[[{}]], [[{}]]]}},\n'.format(
-                        stream_id_queue_id_mapping[str(stream_id)],
-                        "avb-" + str(stream_id),
-                        "avb-" + str(stream_id),
-                        route_1_mapped[0],
-                        route_1_mapped[-1],
-                        route_1_mapped_string,
-                        route_2_mapped_string
-                    ))
+            if stream_id == (60 * round_number - 1):
+                my_file.write('\t{{pcp: {}, name: "{}", packetFilter: "*-{}-*", source: "{}", destination: "{}", trees: [[[{}]], [[{}]]]}}]\n'.format(
+                    stream_id_queue_id_mapping[str(stream_id)],
+                    "avb-" + str(stream_id),
+                    "avb-" + str(stream_id),
+                    route_1_mapped[0],
+                    route_1_mapped[-1],
+                    route_1_mapped_string,
+                    route_2_mapped_string
+                ))
+            else:
+                my_file.write('\t{{pcp: {}, name: "{}", packetFilter: "*-{}-*", source: "{}", destination: "{}", trees: [[[{}]], [[{}]]]}},\n'.format(
+                    stream_id_queue_id_mapping[str(stream_id)],
+                    "avb-" + str(stream_id),
+                    "avb-" + str(stream_id),
+                    route_1_mapped[0],
+                    route_1_mapped[-1],
+                    route_1_mapped_string,
+                    route_2_mapped_string
+                ))
 
     my_file.write("\n")
 
@@ -263,3 +285,4 @@ with open(filename, "wt") as my_file:
     # -----------
     my_file.write('*.gateScheduleConfigurator.typename = "r438GateScheduleConfigurator"\n')
     my_file.write('*.gateScheduleConfigurator.gateCycleDuration = {}us\n'.format(data["scale"]["hyperperiod"]))
+    my_file.write('*.gateScheduleConfigurator.round_number = {}\n'.format(round_number))
