@@ -12,6 +12,11 @@ dst_app_delay_gt_deadline = []
 dst_app_without_stats = []
 vector_id_delay_gt_deadline = []
 
+O1 = 0 # non-schedulable TSN stream count
+O2 = 0 # non-schedulable AVB stream count
+# O3 = 0 # rerouted background stream count (rust has computed it already)
+O4 = 0.0 # sum of AVB stream worst-case delays (max(meanBitLifeTimePerPacket))
+
 with open(result_sca_file, "rt") as my_file:
     while True:
         line = my_file.readline()
@@ -46,9 +51,14 @@ with open(result_sca_file, "rt") as my_file:
             if dst_app_stream_info_mapping[dst_app]['count'] == 0:
                 dst_app_without_stats.append(dst_app)
             # TSN streams: deadline == period, AVB streams: deadline == 2000us
-            elif stream_info['type'] == 'tsn' and stream_info['max'] > stream_info['period'] or \
-                 stream_info['type'] == 'avb' and stream_info['max'] > 2e-3:
+            elif stream_info['type'] == 'tsn' and stream_info['max'] >= stream_info['period']:
+                O1 += 1
                 dst_app_delay_gt_deadline.append(dst_app)
+            elif stream_info['type'] == 'avb':
+                O4 += stream_info['max']
+                if stream_info['max'] >= 2e-3:
+                    O2 += 1
+                    dst_app_delay_gt_deadline.append(dst_app)
 
         # Store mapping of stream_id -> queue_id.
         re_result = re.findall(r'pcp: ([\d]+), name: \\\"([^\\]+)\\\"', line)
@@ -88,37 +98,50 @@ with open(result_vec_file, "rt") as my_file:
 
 # print(dst_app_stream_info_mapping)
 
-# Print stream info if max(meanBitLifeTimePerPacket) > deadline.
-print("Streams with max(meanBitLifeTimePerPacket) > deadline:")
-for dst_app in dst_app_delay_gt_deadline:
-    stream_info = dst_app_stream_info_mapping[dst_app]
-    if stream_info['type'] == 'tsn':
-        print("{}-{}, {}, queue: {}, period: {:.0f}us, max: {:.4f}us, mean: {:.4f}us".format(
-            stream_info['type'],
-            stream_info['stream_id'],
-            dst_app,
-            stream_id_queue_id_mapping[stream_info['stream_id']],
-            stream_info['period'] * 1e6,
-            stream_info['max'] * 1e6,
-            stream_info['mean'] * 1e6,
-        ))
-    elif stream_info['type'] == 'avb':
-        print("{}-{}, {}, max: {:.4f}us(> 2000us)".format(
-            stream_info['type'],
-            stream_info['stream_id'],
-            dst_app,
-            stream_info['max'] * 1e6,
-        ))
-    print('#\tEvent\tTime\t\tValue')
-    for i in range(stream_info['count']):
-        print(str(i) + '\t' + stream_info['output_vector'][i])
+# Print stream info if max(meanBitLifeTimePerPacket) >= deadline.
+if not len(dst_app_delay_gt_deadline):
+    print("All streams have max(meanBitLifeTimePerPacket) < deadline.")
+else:
+    print("Streams with max(meanBitLifeTimePerPacket) >= deadline:")
+    for dst_app in dst_app_delay_gt_deadline:
+        stream_info = dst_app_stream_info_mapping[dst_app]
+        if stream_info['type'] == 'tsn':
+            print("{}-{}, {}, queue: {}, period: {:.0f}us, max: {:.4f}us, mean: {:.4f}us".format(
+                stream_info['type'],
+                stream_info['stream_id'],
+                dst_app,
+                stream_id_queue_id_mapping[stream_info['stream_id']],
+                stream_info['period'] * 1e6,
+                stream_info['max'] * 1e6,
+                stream_info['mean'] * 1e6,
+            ))
+        elif stream_info['type'] == 'avb':
+            print("{}-{}, {}, max: {:.4f}us(> 2000us)".format(
+                stream_info['type'],
+                stream_info['stream_id'],
+                dst_app,
+                stream_info['max'] * 1e6,
+            ))
+        print('#\tEvent\tTime\t\tValue')
+        for i in range(stream_info['count']):
+            print(str(i) + '\t' + stream_info['output_vector'][i])
 
 # Print streams without stats of meanBitLifeTimePerPacket.
-print("\nStreams without stats of meanBitLifeTimePerPacket:")
-for dst_app in dst_app_without_stats:
-    print("{}-{}, queue: {}, period: {:.4f}us".format(
-        dst_app_stream_info_mapping[dst_app]['type'],
-        dst_app_stream_info_mapping[dst_app]['stream_id'],
-        stream_id_queue_id_mapping[dst_app_stream_info_mapping[dst_app]['stream_id']],
-        dst_app_stream_info_mapping[dst_app]['period'] * 1e6
-    ))
+if not len(dst_app_without_stats):
+    print("All streams have stats of meanBitLifeTimePerPacket.")
+else:
+    print("Streams without stats of meanBitLifeTimePerPacket:")
+    for dst_app in dst_app_without_stats:
+        print("{}-{}, queue: {}, period: {:.4f}us".format(
+            dst_app_stream_info_mapping[dst_app]['type'],
+            dst_app_stream_info_mapping[dst_app]['stream_id'],
+            stream_id_queue_id_mapping[dst_app_stream_info_mapping[dst_app]['stream_id']],
+            dst_app_stream_info_mapping[dst_app]['period'] * 1e6
+        ))
+
+print()
+
+# Print O1, O2, O4
+print("O1: {}".format(O1))
+print("O2: {}".format(O2))
+print("O4: {:.5f} ms".format(O4 * 1e3))
