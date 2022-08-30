@@ -5,7 +5,13 @@ cargo run --release -- mesh-iso-aud.yaml
 # Run python script to genrate ini files.
 cd ~/omnetpp-6.0/INET_workspace/r438/util
 python3 generate_ini.py 1
+if [[ $? -ne 0 ]] ; then
+    exit 1
+fi
 python3 generate_ini.py 2
+if [[ $? -ne 0 ]] ; then
+    exit 1
+fi
 
 # Remove statistics of previous simulation.
 rm -rf ~/omnetpp-6.0/INET_workspace/r438/simulations/results 
