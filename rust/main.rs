@@ -73,7 +73,7 @@ fn main() {
                                         "s_4_port_2", "s_8_port_2", "s_8_port_3", "s_12_port_2"];
 
     // Collect initial production offset for each stream in round 1.
-    let filename = format!("/home/mchsiao/omnetpp-6.0/INET_workspace/r438/util/stream_initial_production_offset/stream_initial_production_offset_round_1.txt");
+    let filename = format!("../../r438/util/stream_initial_production_offset/stream_initial_production_offset_round_1.txt");
     let mut my_file = File::create(filename).expect("Cannot open file");
     let plan = &(cnc.plan());
     for gcl_index in 0..plan.allocated_tsns.len() {
@@ -88,7 +88,7 @@ fn main() {
     }
 
     // Store stream ID to queue ID mapping.
-    let mut my_file = File::create("/home/mchsiao/omnetpp-6.0/INET_workspace/r438/util/stream_id_queue_id_mapping/stream_id_queue_id_mapping_round_1.txt").expect("Cannot create text file");
+    let mut my_file = File::create("../../r438/util/stream_id_queue_id_mapping/stream_id_queue_id_mapping_round_1.txt").expect("Cannot create text file");
     for i in 0..cnc.plan().outcomes.len() {
         let mut line;
         if cnc.plan().outcomes[i].is_scheduled() {
@@ -181,7 +181,7 @@ fn main() {
             }
         }
 
-        let filename_queue_0 = format!("/home/mchsiao/omnetpp-6.0/INET_workspace/r438/simulations/gcl_schedules/{}_queue_0_round_1.txt", port_id_from_rust_to_omnetpp[gcl_index]);
+        let filename_queue_0 = format!("../../r438/simulations/gcl_schedules/{}_queue_0_round_1.txt", port_id_from_rust_to_omnetpp[gcl_index]);
         let mut file_queue_0 = File::create(filename_queue_0).expect("Cannot create text file for queue 0");
         for i in 0..gcl_one_hyperperiod_queue_0.len() {
             let line = format!("start = {}, end = {}", gcl_one_hyperperiod_queue_0[i].start, gcl_one_hyperperiod_queue_0[i].end);
@@ -191,7 +191,7 @@ fn main() {
             }
         }
         
-        let filename_queue_1 = format!("/home/mchsiao/omnetpp-6.0/INET_workspace/r438/simulations/gcl_schedules/{}_queue_1_round_1.txt", port_id_from_rust_to_omnetpp[gcl_index]);
+        let filename_queue_1 = format!("../../r438/simulations/gcl_schedules/{}_queue_1_round_1.txt", port_id_from_rust_to_omnetpp[gcl_index]);
         let mut file_queue_1 = File::create(filename_queue_1).expect("Cannot create text file for queue 1");
         for i in 0..gcl_one_hyperperiod_queue_1.len() {
             let line = format!("start = {}, end = {}", gcl_one_hyperperiod_queue_1[i].start, gcl_one_hyperperiod_queue_1[i].end);
@@ -201,7 +201,7 @@ fn main() {
             }
         }
         
-        let filename_queue_7 = format!("/home/mchsiao/omnetpp-6.0/INET_workspace/r438/simulations/gcl_schedules/{}_queue_7_round_1.txt", port_id_from_rust_to_omnetpp[gcl_index]);
+        let filename_queue_7 = format!("../../r438/simulations/gcl_schedules/{}_queue_7_round_1.txt", port_id_from_rust_to_omnetpp[gcl_index]);
         let mut file_queue_7 = File::create(filename_queue_7).expect("Cannot create text file for queue 7");
         for i in 0..gcl.expand().len() {
             let mut line;
@@ -234,7 +234,7 @@ fn main() {
     // --------------------------------
 
     // Collect initial production offset for each stream in round 2.
-    let filename = format!("/home/mchsiao/omnetpp-6.0/INET_workspace/r438/util/stream_initial_production_offset/stream_initial_production_offset_round_2.txt");
+    let filename = format!("../../r438/util/stream_initial_production_offset/stream_initial_production_offset_round_2.txt");
     let mut my_file = File::create(filename).expect("Cannot open file");
     let plan = &(cnc.plan());
     for gcl_index in 0..plan.allocated_tsns.len() {
@@ -249,7 +249,7 @@ fn main() {
     }
 
     // Store stream ID to queue ID mapping.
-    let mut my_file = File::create("/home/mchsiao/omnetpp-6.0/INET_workspace/r438/util/stream_id_queue_id_mapping/stream_id_queue_id_mapping_round_2.txt").expect("Cannot create text file");
+    let mut my_file = File::create("../../r438/util/stream_id_queue_id_mapping/stream_id_queue_id_mapping_round_2.txt").expect("Cannot create text file");
     for i in 0..cnc.plan().outcomes.len() {
         let mut line;
         if cnc.plan().outcomes[i].is_scheduled() {
@@ -342,7 +342,7 @@ fn main() {
             }
         }
 
-        let filename_queue_0 = format!("/home/mchsiao/omnetpp-6.0/INET_workspace/r438/simulations/gcl_schedules/{}_queue_0_round_2.txt", port_id_from_rust_to_omnetpp[gcl_index]);
+        let filename_queue_0 = format!("../../r438/simulations/gcl_schedules/{}_queue_0_round_2.txt", port_id_from_rust_to_omnetpp[gcl_index]);
         let mut file_queue_0 = File::create(filename_queue_0).expect("Cannot create text file for queue 0");
         for i in 0..gcl_one_hyperperiod_queue_0.len() {
             let line = format!("start = {}, end = {}", gcl_one_hyperperiod_queue_0[i].start, gcl_one_hyperperiod_queue_0[i].end);
@@ -352,7 +352,7 @@ fn main() {
             }
         }
         
-        let filename_queue_1 = format!("/home/mchsiao/omnetpp-6.0/INET_workspace/r438/simulations/gcl_schedules/{}_queue_1_round_2.txt", port_id_from_rust_to_omnetpp[gcl_index]);
+        let filename_queue_1 = format!("../../r438/simulations/gcl_schedules/{}_queue_1_round_2.txt", port_id_from_rust_to_omnetpp[gcl_index]);
         let mut file_queue_1 = File::create(filename_queue_1).expect("Cannot create text file for queue 1");
         for i in 0..gcl_one_hyperperiod_queue_1.len() {
             let line = format!("start = {}, end = {}", gcl_one_hyperperiod_queue_1[i].start, gcl_one_hyperperiod_queue_1[i].end);
@@ -362,7 +362,7 @@ fn main() {
             }
         }
         
-        let filename_queue_7 = format!("/home/mchsiao/omnetpp-6.0/INET_workspace/r438/simulations/gcl_schedules/{}_queue_7_round_2.txt", port_id_from_rust_to_omnetpp[gcl_index]);
+        let filename_queue_7 = format!("../../r438/simulations/gcl_schedules/{}_queue_7_round_2.txt", port_id_from_rust_to_omnetpp[gcl_index]);
         let mut file_queue_7 = File::create(filename_queue_7).expect("Cannot create text file for queue 7");
         for i in 0..gcl.expand().len() {
             let mut line;
