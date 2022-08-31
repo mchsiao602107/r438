@@ -1,5 +1,0 @@
-start = 8, end = 10
-start = 408, end = 410
-start = 808, end = 810
-start = 1208, end = 1210
-start = 1608, end = 1610

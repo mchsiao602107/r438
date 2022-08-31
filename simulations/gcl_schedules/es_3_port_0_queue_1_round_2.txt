@@ -1,2 +1,0 @@
-start = 26, end = 30
-start = 1026, end = 1030

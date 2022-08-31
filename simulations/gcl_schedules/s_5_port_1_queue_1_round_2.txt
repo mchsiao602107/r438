@@ -1,5 +1,0 @@
-start = 33, end = 35
-start = 45, end = 47
-start = 51, end = 53
-start = 1033, end = 1035
-start = 1045, end = 1047

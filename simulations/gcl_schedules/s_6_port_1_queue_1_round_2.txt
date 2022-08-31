@@ -1,9 +1,0 @@
-start = 9, end = 10
-start = 43, end = 45
-start = 51, end = 55
-start = 409, end = 410
-start = 809, end = 810
-start = 1043, end = 1045
-start = 1051, end = 1053
-start = 1209, end = 1210
-start = 1609, end = 1610

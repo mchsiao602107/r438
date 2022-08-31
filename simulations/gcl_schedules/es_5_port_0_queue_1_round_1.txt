@@ -1,6 +1,0 @@
-start = 2, end = 4
-start = 5, end = 6
-start = 502, end = 504
-start = 1002, end = 1004
-start = 1005, end = 1006
-start = 1502, end = 1504

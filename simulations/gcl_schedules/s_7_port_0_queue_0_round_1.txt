@@ -1,7 +1,0 @@
-start = 12, end = 16
-start = 24, end = 26
-start = 412, end = 416
-start = 812, end = 816
-start = 1024, end = 1026
-start = 1212, end = 1216
-start = 1612, end = 1616
