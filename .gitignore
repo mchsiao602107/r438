@@ -77,10 +77,9 @@ xxx
 # Ignore schedule & simulation results
 simulations/gcl_schedules/*
 simulations/results/*
-simulations/*
 util/stream_id_queue_id_mapping/*
 util/stream_initial_production_offset/*
-util/routes_tsn_avb/*
+util/routes_tsn_avb/*.txt
 
 # Ignore omnetpp files
 .project
