@@ -73,7 +73,7 @@ fn main() {
                                         "s_4_port_2", "s_8_port_2", "s_8_port_3", "s_12_port_2"];
 
     // Collect initial production offset for each stream in round 1.
-    let filename = format!("/home/mchsiao/omnetpp-6.0/INET_workspace/r438/util/stream_initial_production_offset/stream_initial_production_offset.txt");
+    let filename = format!("/home/mchsiao/omnetpp-6.0/INET_workspace/r438/util/stream_initial_production_offset/stream_initial_production_offset_round_1.txt");
     let mut my_file = File::create(filename).expect("Cannot open file");
     let plan = &(cnc.plan());
     for gcl_index in 0..plan.allocated_tsns.len() {
@@ -88,7 +88,7 @@ fn main() {
     }
 
     // Store stream ID to queue ID mapping.
-    let mut my_file = File::create("/home/mchsiao/omnetpp-6.0/INET_workspace/r438/util/stream_id_queue_id_mapping/stream_id_queue_id_mapping.txt").expect("Cannot create text file");
+    let mut my_file = File::create("/home/mchsiao/omnetpp-6.0/INET_workspace/r438/util/stream_id_queue_id_mapping/stream_id_queue_id_mapping_round_1.txt").expect("Cannot create text file");
     for i in 0..cnc.plan().outcomes.len() {
         let mut line;
         if cnc.plan().outcomes[i].is_scheduled() {
@@ -181,7 +181,7 @@ fn main() {
             }
         }
 
-        let filename_queue_0 = format!("/home/mchsiao/omnetpp-6.0/INET_workspace/r438/simulations/gcl_schedules/{}_queue_0.txt", port_id_from_rust_to_omnetpp[gcl_index]);
+        let filename_queue_0 = format!("/home/mchsiao/omnetpp-6.0/INET_workspace/r438/simulations/gcl_schedules/{}_queue_0_round_1.txt", port_id_from_rust_to_omnetpp[gcl_index]);
         let mut file_queue_0 = File::create(filename_queue_0).expect("Cannot create text file for queue 0");
         for i in 0..gcl_one_hyperperiod_queue_0.len() {
             let line = format!("start = {}, end = {}", gcl_one_hyperperiod_queue_0[i].start, gcl_one_hyperperiod_queue_0[i].end);
@@ -191,7 +191,7 @@ fn main() {
             }
         }
         
-        let filename_queue_1 = format!("/home/mchsiao/omnetpp-6.0/INET_workspace/r438/simulations/gcl_schedules/{}_queue_1.txt", port_id_from_rust_to_omnetpp[gcl_index]);
+        let filename_queue_1 = format!("/home/mchsiao/omnetpp-6.0/INET_workspace/r438/simulations/gcl_schedules/{}_queue_1_round_1.txt", port_id_from_rust_to_omnetpp[gcl_index]);
         let mut file_queue_1 = File::create(filename_queue_1).expect("Cannot create text file for queue 1");
         for i in 0..gcl_one_hyperperiod_queue_1.len() {
             let line = format!("start = {}, end = {}", gcl_one_hyperperiod_queue_1[i].start, gcl_one_hyperperiod_queue_1[i].end);
@@ -201,7 +201,7 @@ fn main() {
             }
         }
         
-        let filename_queue_7 = format!("/home/mchsiao/omnetpp-6.0/INET_workspace/r438/simulations/gcl_schedules/{}_queue_7.txt", port_id_from_rust_to_omnetpp[gcl_index]);
+        let filename_queue_7 = format!("/home/mchsiao/omnetpp-6.0/INET_workspace/r438/simulations/gcl_schedules/{}_queue_7_round_1.txt", port_id_from_rust_to_omnetpp[gcl_index]);
         let mut file_queue_7 = File::create(filename_queue_7).expect("Cannot create text file for queue 7");
         for i in 0..gcl.expand().len() {
             let mut line;
@@ -230,6 +230,161 @@ fn main() {
     let elapsed = cnc.configure(&stop_cond);
 
     println!("--- #2 elapsed time: {} μs ---", elapsed.as_micros());
+
+    // --------------------------------
+
+    // Collect initial production offset for each stream in round 2.
+    let filename = format!("/home/mchsiao/omnetpp-6.0/INET_workspace/r438/util/stream_initial_production_offset/stream_initial_production_offset_round_2.txt");
+    let mut my_file = File::create(filename).expect("Cannot open file");
+    let plan = &(cnc.plan());
+    for gcl_index in 0..plan.allocated_tsns.len() {
+        let gcl = &(plan.allocated_tsns[gcl_index]);
+        let outcomes = &(plan.outcomes);
+        if gcl_index == 0 || gcl_index == 2 || gcl_index == 4 || gcl_index == 24 || gcl_index == 26 || gcl_index == 28 {
+            for event in gcl.inner.iter() {
+                let line = format!("stream ID: {}, initial production offset: {}\n", event.value, event.start);
+                my_file.write_all(line.as_bytes()).expect("Cannot write.");
+            }
+        } 
+    }
+
+    // Store stream ID to queue ID mapping.
+    let mut my_file = File::create("/home/mchsiao/omnetpp-6.0/INET_workspace/r438/util/stream_id_queue_id_mapping/stream_id_queue_id_mapping_round_2.txt").expect("Cannot create text file");
+    for i in 0..cnc.plan().outcomes.len() {
+        let mut line;
+        if cnc.plan().outcomes[i].is_scheduled() {
+            line = format!("stream ID: {}, is scheduled: {}, queue: {}\n", i, cnc.plan().outcomes[i].is_scheduled(), cnc.plan().outcomes[i].used_queue());
+        } else {
+            line = format!("stream ID: {}, is scheduled: {}\n", i, cnc.plan().outcomes[i].is_scheduled());
+        }
+        my_file.write_all(line.as_bytes()).expect("Cannot write entry");
+    }
+
+    // Iterate through each port to construct GCL with all events.
+    let plan = &(cnc.plan());
+    for gcl_index in 0..plan.allocated_tsns.len() {
+        
+        let gcl = &(plan.allocated_tsns[gcl_index]);
+        let outcomes = &(plan.outcomes);
+
+        let hyperperiod = gcl.hyperperiod();
+        let mut gcl_one_hyperperiod_queue_0: Vec<Range<u32>> = Vec::new();
+        let mut gcl_one_hyperperiod_queue_1: Vec<Range<u32>> = Vec::new();
+        for event in gcl.inner.iter() {
+            if outcomes[event.value].is_scheduled() && outcomes[event.value].used_queue() == 0 {
+                for i in 0..hyperperiod / event.period {
+                    gcl_one_hyperperiod_queue_0.push(Range { start: event.start + event.period * i, end: event.end + event.period * i });
+                }
+            } else if outcomes[event.value].is_scheduled() && outcomes[event.value].used_queue() == 1 {
+                for i in 0..hyperperiod / event.period {
+                    gcl_one_hyperperiod_queue_1.push(Range { start: event.start + event.period * i, end: event.end + event.period * i });
+                }
+            } 
+        }
+
+        for i in 0..gcl_one_hyperperiod_queue_0.len() {
+            let mut min_index = i;
+            for j in (i + 1)..gcl_one_hyperperiod_queue_0.len() {
+                if gcl_one_hyperperiod_queue_0[min_index].start > gcl_one_hyperperiod_queue_0[j].start {
+                    min_index = j;
+                }
+            }
+            gcl_one_hyperperiod_queue_0.swap(min_index, i);
+        }
+        
+        let mut is_entry_changed = true;
+        while is_entry_changed {
+            is_entry_changed = false;
+            for i in 0..gcl_one_hyperperiod_queue_0.len() {
+                for j in (i + 1)..gcl_one_hyperperiod_queue_0.len() {
+                    if gcl_one_hyperperiod_queue_0[i].end == gcl_one_hyperperiod_queue_0[j].start {
+                        let new_entry = Range { start: gcl_one_hyperperiod_queue_0[i].start, end: gcl_one_hyperperiod_queue_0[j].end };
+                        gcl_one_hyperperiod_queue_0.remove(j);
+                        gcl_one_hyperperiod_queue_0.remove(i);
+                        gcl_one_hyperperiod_queue_0.insert(i, new_entry);
+                        is_entry_changed = true;
+                        break;
+                    }
+                }
+                if is_entry_changed {
+                    break;
+                }
+            }
+        }
+
+        for i in 0..gcl_one_hyperperiod_queue_1.len() {
+            let mut min_index = i;
+            for j in (i + 1)..gcl_one_hyperperiod_queue_1.len() {
+                if gcl_one_hyperperiod_queue_1[min_index].start > gcl_one_hyperperiod_queue_1[j].start {
+                    min_index = j;
+                }
+            }
+            gcl_one_hyperperiod_queue_1.swap(min_index, i);
+        }
+        
+        let mut is_entry_changed = true;
+        while is_entry_changed {
+            is_entry_changed = false;
+            for i in 0..gcl_one_hyperperiod_queue_1.len() {
+                for j in (i + 1)..gcl_one_hyperperiod_queue_1.len() {
+                    if gcl_one_hyperperiod_queue_1[i].end == gcl_one_hyperperiod_queue_1[j].start {
+                        let new_entry = Range { start: gcl_one_hyperperiod_queue_1[i].start, end: gcl_one_hyperperiod_queue_1[j].end };
+                        gcl_one_hyperperiod_queue_1.remove(j);
+                        gcl_one_hyperperiod_queue_1.remove(i);
+                        gcl_one_hyperperiod_queue_1.insert(i, new_entry);
+                        is_entry_changed = true;
+                        break;
+                    }
+                }
+                if is_entry_changed {
+                    break;
+                }
+            }
+        }
+
+        let filename_queue_0 = format!("/home/mchsiao/omnetpp-6.0/INET_workspace/r438/simulations/gcl_schedules/{}_queue_0_round_2.txt", port_id_from_rust_to_omnetpp[gcl_index]);
+        let mut file_queue_0 = File::create(filename_queue_0).expect("Cannot create text file for queue 0");
+        for i in 0..gcl_one_hyperperiod_queue_0.len() {
+            let line = format!("start = {}, end = {}", gcl_one_hyperperiod_queue_0[i].start, gcl_one_hyperperiod_queue_0[i].end);
+            file_queue_0.write_all(line.as_bytes()).expect("Cannot write entry into text file for queue 0");
+            if i != (gcl_one_hyperperiod_queue_0.len() - 1) {
+                file_queue_0.write_all("\n".as_bytes()).expect("Cannot write entry into text file for queue 0");
+            }
+        }
+        
+        let filename_queue_1 = format!("/home/mchsiao/omnetpp-6.0/INET_workspace/r438/simulations/gcl_schedules/{}_queue_1_round_2.txt", port_id_from_rust_to_omnetpp[gcl_index]);
+        let mut file_queue_1 = File::create(filename_queue_1).expect("Cannot create text file for queue 1");
+        for i in 0..gcl_one_hyperperiod_queue_1.len() {
+            let line = format!("start = {}, end = {}", gcl_one_hyperperiod_queue_1[i].start, gcl_one_hyperperiod_queue_1[i].end);
+            file_queue_1.write_all(line.as_bytes()).expect("Cannot write entry into text file for queue 1");
+            if i != (gcl_one_hyperperiod_queue_1.len() - 1) {
+                file_queue_1.write_all("\n".as_bytes()).expect("Cannot write entry into text file for queue 1");
+            }
+        }
+        
+        let filename_queue_7 = format!("/home/mchsiao/omnetpp-6.0/INET_workspace/r438/simulations/gcl_schedules/{}_queue_7_round_2.txt", port_id_from_rust_to_omnetpp[gcl_index]);
+        let mut file_queue_7 = File::create(filename_queue_7).expect("Cannot create text file for queue 7");
+        for i in 0..gcl.expand().len() {
+            let mut line;
+            if i == 0 {
+                if gcl.expand()[i].start == 0 {
+                    continue;
+                } else {
+                    line = format!("start = {}, end = {}", 0, gcl.expand()[i].start);
+                }
+            } else if i == (gcl.expand().len() - 1) {
+                line = format!("start = {}, end = {}\nstart = {}, end = {}", gcl.expand()[i - 1].end, gcl.expand()[i].start, gcl.expand()[i].end, hyperperiod);
+            } else {
+                line = format!("start = {}, end = {}", gcl.expand()[i - 1].end, gcl.expand()[i].start);
+            }
+
+            file_queue_7.write_all(line.as_bytes()).expect("Cannot write entry into text file for queue 7");
+            if i != (gcl.expand().len() - 1) {
+                file_queue_7.write_all("\n".as_bytes()).expect("Cannot write entry into text file for queue 7");
+            }
+        }
+    }
+
 }
 
 #[inline]
