@@ -78,8 +78,11 @@ namespace inet
 
                     // Queue 7 only opens when interval is long enough for a MTU-sized AVB frame (1500B).
                     // 12 us = 1500B * 8 / 1Gbps.
+                    // "end -= 12" simulates effects of guard band.
                     if ((end - start) <= 12)
                         continue;
+                    else
+                        end -= 12;
 
                     slot.start = SimTime(start, SIMTIME_US);
                     slot.duration = SimTime((end - start), SIMTIME_US);
