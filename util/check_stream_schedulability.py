@@ -1,5 +1,6 @@
 """Check schedulability using the statistic of meanBitLifeTimePerPacket & stream deadline(period)"""
 import re
+import argparse
 
 result_sca_file = '../simulations/results/General-#0.sca'
 result_vec_file = '../simulations/results/General-#0.vec'
@@ -16,6 +17,10 @@ O1 = 0 # non-schedulable TSN stream count
 O2 = 0 # non-schedulable AVB stream count
 # O3 = 0 # rerouted background stream count (rust has computed it already)
 O4 = 0.0 # sum of AVB stream worst-case delays (max(meanBitLifeTimePerPacket))
+
+parser = argparse.ArgumentParser()
+parser.add_argument("-v", "--verbose", help="show output vector", action="store_true", default=False)
+args = parser.parse_args()
 
 with open(result_sca_file, "rt") as my_file:
     while True:
@@ -122,9 +127,12 @@ else:
                 dst_app,
                 stream_info['max'] * 1e6,
             ))
-        print('#\tEvent\tTime\t\tValue')
-        for i in range(stream_info['count']):
-            print(str(i) + '\t' + stream_info['output_vector'][i])
+        if args.verbose:
+            print('\t#\tEvent\tTime\t\tValue')
+            for i in range(stream_info['count']):
+                print('\t' + str(i) + '\t' + stream_info['output_vector'][i])
+
+print()
 
 # Print streams without stats of meanBitLifeTimePerPacket.
 if not len(dst_app_without_stats):
@@ -142,6 +150,6 @@ else:
 print()
 
 # Print O1, O2, O4
-print("O1: {}".format(O1))
-print("O2: {}".format(O2))
-print("O4: {:.5f} ms".format(O4 * 1e3))
+print("O1: {} -> non-schedulable TSN stream count".format(O1))
+print("O2: {} -> non-schedulable AVB stream count".format(O2))
+print("O4: {:.2f} ms -> sum of AVB stream worst-case delays (max(meanBitLifeTimePerPacket))".format(O4 * 1e3))

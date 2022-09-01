@@ -68,6 +68,7 @@ with open(filename, "wt") as my_file:
     my_file.write("sim-time-limit = 6ms\n")
     my_file.write("record-eventlog = false\n")
     my_file.write("**.result-recording-modes = all\n")
+    my_file.write("**.cmdenv-log-level = off\n")
     my_file.write("\n")
     my_file.write("*.*.eth[*].bitrate = 1Gbps\n")
     my_file.write("\n")
