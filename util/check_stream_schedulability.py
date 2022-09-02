@@ -1,9 +1,11 @@
 """Check schedulability using the statistic of meanBitLifeTimePerPacket & stream deadline(period)"""
 import re
 import argparse
+import sys
 
 result_sca_file = '../simulations/results/General-#0.sca'
 result_vec_file = '../simulations/results/General-#0.vec'
+rust_result_file = '../rust-result'
 
 dst_app_stream_info_mapping = dict()
 stream_id_queue_id_mapping = dict()
@@ -13,15 +15,47 @@ dst_app_delay_gt_deadline = []
 dst_app_without_stats = []
 vector_id_delay_gt_deadline = []
 
-O1 = 0 # non-schedulable TSN stream count
-O2 = 0 # non-schedulable AVB stream count
-# O3 = 0 # rerouted background stream count (rust has computed it already)
-O4 = 0.0 # sum of AVB stream worst-case delays (max(meanBitLifeTimePerPacket))
+O1_rust, O1_sim = 0, 0 # non-schedulable TSN stream count
+O2_rust, O2_sim = 0, 0 # non-schedulable AVB stream count
+O3_rust = 0 # rerouted background stream count (rust has computed it already)
+O4_rust, O4_sim = 0.0, 0.0 # sum of AVB stream worst-case delays (max(meanBitLifeTimePerPacket))
 
 parser = argparse.ArgumentParser()
 parser.add_argument("-v", "--verbose", help="show output vector", action="store_true", default=False)
+parser.add_argument("round_number", nargs=1, type=int)
 args = parser.parse_args()
 
+round_number = int(args.round_number[0])
+if round_number not in [1, 2]:
+    print("[error] invalid round number")
+    sys.exit(1)
+
+"""Read rust result"""
+with open(rust_result_file, "rt") as my_file:
+    lines = my_file.readlines()
+    line_iter = iter(lines)
+    for line in line_iter:
+        float_pattern = r"([0-9]+[.][0-9]+)"
+        int_pattern = r"([0-9]+)[.][0-9]+"
+        obj_output_pattern = rf"^.*objectives\s\[{int_pattern}, {int_pattern}, {int_pattern}, {float_pattern}\]$"
+        obj_re_result = re.search(obj_output_pattern, line)
+        # check which round is it
+        if obj_re_result:
+            # skip 1 newline
+            next(line_iter)
+            round_re_result = re.search(r"^--- #([0-9]).*$", next(line_iter))
+            if round_re_result:
+                current_round = int(round_re_result[1])
+                if current_round != round_number:
+                    continue
+                else:
+                    O1_rust = int(obj_re_result[1])
+                    O2_rust = int(obj_re_result[2])
+                    O3_rust = int(obj_re_result[3])
+                    O4_rust = float(obj_re_result[4])
+                    break
+
+"""Read omnetpp simulation result"""
 with open(result_sca_file, "rt") as my_file:
     while True:
         line = my_file.readline()
@@ -57,12 +91,12 @@ with open(result_sca_file, "rt") as my_file:
                 dst_app_without_stats.append(dst_app)
             # TSN streams: deadline == period, AVB streams: deadline == 2000us
             elif stream_info['type'] == 'tsn' and stream_info['max'] >= stream_info['period']:
-                O1 += 1
+                O1_sim += 1
                 dst_app_delay_gt_deadline.append(dst_app)
             elif stream_info['type'] == 'avb':
-                O4 += stream_info['max']
+                O4_sim += stream_info['max']
                 if stream_info['max'] >= 2e-3:
-                    O2 += 1
+                    O2_sim += 1
                     dst_app_delay_gt_deadline.append(dst_app)
 
         # Store mapping of stream_id -> queue_id.
@@ -103,7 +137,7 @@ with open(result_vec_file, "rt") as my_file:
 
 # print(dst_app_stream_info_mapping)
 
-# Print stream info if max(meanBitLifeTimePerPacket) >= deadline.
+"""Print stream info if max(meanBitLifeTimePerPacket) >= deadline."""
 if not len(dst_app_delay_gt_deadline):
     print("All streams have max(meanBitLifeTimePerPacket) < deadline.")
 else:
@@ -134,7 +168,7 @@ else:
 
 print()
 
-# Print streams without stats of meanBitLifeTimePerPacket.
+"""Print streams without stats of meanBitLifeTimePerPacket."""
 if not len(dst_app_without_stats):
     print("All streams have stats of meanBitLifeTimePerPacket.")
 else:
@@ -149,7 +183,8 @@ else:
 
 print()
 
-# Print O1, O2, O4
-print("O1: {} -> non-schedulable TSN stream count".format(O1))
-print("O2: {} -> non-schedulable AVB stream count".format(O2))
-print("O4: {:.2f} ms -> sum of AVB stream worst-case delays (max(meanBitLifeTimePerPacket))".format(O4 * 1e3))
+"""Print objectives from rust & simulation result"""
+print("O1 (non-schedulable TSN stream count): {} (rust) / {} (sim)".format(O1_rust, O1_sim))
+print("O2 (non-schedulable AVB stream count): {} (rust)/ {} (sim)".format(O2_rust, O2_sim))
+print("O3 (rust rerouted background stream count): {} (rust) / *".format(O3_rust))
+print("O4 (sum of max e2e delay of AVB streams): {:.2f}ms (rust) / {:.2f}ms (sim)".format(O4_rust, O4_sim * 1e3))

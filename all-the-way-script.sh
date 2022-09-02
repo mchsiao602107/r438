@@ -12,7 +12,7 @@ cp "$INET_workspace"/r438/util/streams/*.yaml "$INET_workspace"/r08922075/adams-
 cd "${INET_workspace}"/r08922075/adams-ants-v1.3.2
 # Disable warnings
 export RUSTFLAGS="-Awarnings" 
-cargo run --release -- mesh-iso-aud.yaml
+cargo run --release -- mesh-iso-aud.yaml | tee "$INET_workspace"/r438/rust-result
 
 # Run python script to genrate ini files.
 cd "${INET_workspace}"/r438/util
@@ -38,7 +38,7 @@ cd "${INET_workspace}"/r438/simulations
 
 # Run python script to analyze statistics.
 cd "${INET_workspace}"/r438/util
-python3 check_stream_schedulability.py > "${INET_workspace}"/r438/round-1-result
+python3 check_stream_schedulability.py 1 > "${INET_workspace}"/r438/sim-round-1-result
 
 # Run round-2 omnetpp simulation.
 cpu_num=$(grep -c 'cpu[0-9]' /proc/stat)
@@ -49,15 +49,15 @@ cd "${INET_workspace}"/r438/simulations
 
 # Run python script to analyze statistics.
 cd "${INET_workspace}"/r438/util
-python3 check_stream_schedulability.py > "${INET_workspace}"/r438/round-2-result
+python3 check_stream_schedulability.py 2 > "${INET_workspace}"/r438/sim-round-2-result
 
 # Show result.
 printf "\nresult of round-1:\n"
 printf -- "-------------------\n"
-cat "${INET_workspace}"/r438/round-1-result
+cat "${INET_workspace}"/r438/sim-round-1-result
 printf "\nresult of round-2:\n"
 printf -- "-------------------\n"
-cat "${INET_workspace}"/r438/round-2-result
+cat "${INET_workspace}"/r438/sim-round-2-result
 
 # Back to r438 directory.
 cd "${INET_workspace}"/r438

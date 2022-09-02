@@ -1,0 +1,22 @@
+Streams with max(meanBitLifeTimePerPacket) >= deadline:
+avb-50, partial_mesh.es_1.app[25], max: 3475.4080us(> 2000us)
+avb-55, partial_mesh.es_1.app[27], max: 2549.1040us(> 2000us)
+avb-102, partial_mesh.es_1.app[29], max: 2517.2080us(> 2000us)
+avb-115, partial_mesh.es_1.app[33], max: 2480.8080us(> 2000us)
+avb-118, partial_mesh.es_1.app[34], max: 2534.6080us(> 2000us)
+avb-47, partial_mesh.es_2.app[31], max: 2187.8080us(> 2000us)
+avb-51, partial_mesh.es_2.app[34], max: 2216.4080us(> 2000us)
+avb-107, partial_mesh.es_3.app[42], max: 3251.5040us(> 2000us)
+avb-113, partial_mesh.es_3.app[47], max: 2786.5040us(> 2000us)
+avb-45, partial_mesh.es_5.app[21], max: 2754.3120us(> 2000us)
+avb-56, partial_mesh.es_5.app[23], max: 2809.1120us(> 2000us)
+avb-119, partial_mesh.es_5.app[35], max: 2869.8080us(> 2000us)
+avb-40, partial_mesh.es_6.app[33], max: 3099.0080us(> 2000us)
+avb-106, partial_mesh.es_6.app[43], max: 3052.0080us(> 2000us)
+
+All streams have stats of meanBitLifeTimePerPacket.
+
+O1 (non-schedulable TSN stream count): 0 (rust) / 0 (sim)
+O2 (non-schedulable AVB stream count): 4 (rust)/ 14 (sim)
+O3 (rust rerouted background stream count): 8 (rust) / *
+O4 (sum of max e2e delay of AVB streams): 34.99ms (rust) / 67.70ms (sim)

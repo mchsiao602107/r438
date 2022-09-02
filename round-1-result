@@ -1,6 +1,0 @@
-All streams have max(meanBitLifeTimePerPacket) < deadline.
-All streams have stats of meanBitLifeTimePerPacket.
-
-O1: 0
-O2: 0
-O4: 1.76109 ms
