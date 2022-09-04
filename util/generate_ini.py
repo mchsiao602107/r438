@@ -1,6 +1,7 @@
 import yaml
 import re
 import sys
+import random
 
 name_mapping = {"3": "es_1", "4": "es_3", "5": "es_5",
                 "6": "s_1", "7": "s_5", "8": "s_9",
@@ -29,6 +30,7 @@ with open(filename, "rt") as my_file:
 
 # Stream ID to queue ID mapping.
 stream_id_queue_id_mapping = dict()
+failed_streams = list()
 filename = "./stream_id_queue_id_mapping/stream_id_queue_id_mapping_round_{}.txt".format(round_number)
 with open(filename, "rt") as my_file:
     for line in my_file:
@@ -36,9 +38,11 @@ with open(filename, "rt") as my_file:
         is_scheduled = str(re.findall(r"is scheduled: ([\w]+)", line)[0])
         if is_scheduled == "true":
             queue_id = str(re.findall(r"queue: ([\d]+)", line)[0])
+            stream_id_queue_id_mapping[stream_id] = queue_id
         else:
-            queue_id = 7
-        stream_id_queue_id_mapping[stream_id] = queue_id
+            queue_id = "7"
+            stream_id_queue_id_mapping[stream_id] = queue_id
+            failed_streams.append(int(stream_id))
 
 # Read yaml file for stream specification.
 filename = "./streams/mesh-iso40-aud20-01-a.yaml"
@@ -110,7 +114,7 @@ with open(filename, "wt") as my_file:
             stream_id = 60
 
         # Exclude TSN streams not schedulable by rust.
-        if stream_id not in stream_id_initial_production_offset:
+        if stream_id in failed_streams:
             num_source_applications[source] -= 1
             num_destination_applications[destination] -= 1
         else:
@@ -152,7 +156,7 @@ with open(filename, "wt") as my_file:
         my_file.write('{}.{}.app[{}].source.packetNameFormat = "%M-%m-%c"\n'.format(network_name, source, app_counts[source]))
         my_file.write('{}.{}.app[{}].source.packetLength = {}B\n'.format(network_name, source, app_counts[source], frame_size - 76))
         my_file.write('{}.{}.app[{}].source.productionInterval = {}us\n'.format(network_name, source, app_counts[source], period))
-        my_file.write('{}.{}.app[{}].source.initialProductionOffset = {}us\n'.format(network_name, source, app_counts[source], stream_id))
+        my_file.write('{}.{}.app[{}].source.initialProductionOffset = {}us\n'.format(network_name, source, app_counts[source], random.randint(0, 10)))
 
         # Destination application.
         my_file.write('{}.{}.app[{}].typename = "UdpSinkApp"\n'.format(network_name, destination, app_counts[destination]))
@@ -162,6 +166,31 @@ with open(filename, "wt") as my_file:
 
         app_counts[source] += 1
         app_counts[destination] += 1
+
+        # # Exclude AVB streams not schedulable by rust.
+        # if stream_id in failed_streams:
+        #     num_source_applications[source] -= 1
+        #     num_destination_applications[destination] -= 1
+        # else:
+        #     # Source application.
+        #     my_file.write('{}.{}.app[{}].typename = "UdpSourceApp"\n'.format(network_name, source, app_counts[source]))
+        #     my_file.write('{}.{}.app[{}].display-name = "avb-{}"\n'.format(network_name, source, app_counts[source], stream_id))
+        #     my_file.write('{}.{}.app[{}].io.destAddress = "{}"\n'.format(network_name, source, app_counts[source], destination))
+        #     my_file.write('{}.{}.app[{}].io.destPort = {}\n'.format(network_name, source, app_counts[source], stream_id + 5000))
+        #     my_file.write('{}.{}.app[{}].source.packetNameFormat = "%M-%m-%c"\n'.format(network_name, source, app_counts[source]))
+        #     my_file.write('{}.{}.app[{}].source.packetLength = {}B\n'.format(network_name, source, app_counts[source], frame_size - 76))
+        #     my_file.write('{}.{}.app[{}].source.productionInterval = {}us\n'.format(network_name, source, app_counts[source], period))
+        #     my_file.write('{}.{}.app[{}].source.initialProductionOffset = {}us\n'.format(network_name, source, app_counts[source], random.randint(0, 10)))
+
+        #     # Destination application.
+        #     my_file.write('{}.{}.app[{}].typename = "UdpSinkApp"\n'.format(network_name, destination, app_counts[destination]))
+        #     my_file.write('{}.{}.app[{}].display-name = "avb-{}"\n'.format(network_name, destination, app_counts[destination], stream_id))
+        #     my_file.write('{}.{}.app[{}].io.localPort = {}\n'.format(network_name, destination, app_counts[destination], stream_id + 5000))
+        #     my_file.write("\n")
+
+        #     app_counts[source] += 1
+        #     app_counts[destination] += 1
+        
         stream_id += 1
 
     # Write actual number of applications.
@@ -211,7 +240,7 @@ with open(filename, "wt") as my_file:
             route_2_mapped = [name_mapping[node.strip()] for node in route_2.split(",")]
 
             # Exclude TSN streams not schedulable by rust.
-            if stream_id not in stream_id_initial_production_offset:
+            if stream_id in failed_streams:
                 continue
             
             # Convert "pair of routes in omnetpp notation" into format required by "trees".
@@ -246,6 +275,10 @@ with open(filename, "wt") as my_file:
             route_1, route_2 = tuple(re.findall(r"\[([,\s\d]+)\]", line))
             route_1_mapped = [name_mapping[node.strip()] for node in route_1.split(",")]
             route_2_mapped = [name_mapping[node.strip()] for node in route_2.split(",")]
+
+            # # Exclude AVB streams not schedulable by rust.
+            # if stream_id in failed_streams:
+            #     continue
             
             # Convert "pair of routes in omnetpp notation" into format required by "trees".
             route_1_mapped_string = str()
