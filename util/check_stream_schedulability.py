@@ -107,33 +107,34 @@ with open(result_sca_file, "rt") as my_file:
                 stream_id_queue_id_mapping[stream_id] = pcp
 
 # Store output vector of meanBitLifeTimePerPacket for streams that fail to meet deadline.
-with open(result_vec_file, "rt") as my_file:
-    while True:
-        line = my_file.readline()
-        if not line:
-            break
+if args.verbose:
+    with open(result_vec_file, "rt") as my_file:
+        while True:
+            line = my_file.readline()
+            if not line:
+                break
 
-        # Store vector_id to locate the output vector.
-        vector_declaration_pattern = r"^vector ([\d]+) (.+)\.sink meanBitLifeTimePerPacket:vector ETV$"
-        re_result = re.search(vector_declaration_pattern, line)
-        if re_result:
-            vector_id, dst_app = int(re_result[1]), re_result[2]
-            if dst_app in dst_app_delay_gt_deadline:
-                vector_id_delay_gt_deadline.append(vector_id)
-                vector_id_dst_app_mapping[vector_id] = dst_app
+            # Store vector_id to locate the output vector.
+            vector_declaration_pattern = r"^vector ([\d]+) (.+)\.sink meanBitLifeTimePerPacket:vector ETV$"
+            re_result = re.search(vector_declaration_pattern, line)
+            if re_result:
+                vector_id, dst_app = int(re_result[1]), re_result[2]
+                if dst_app in dst_app_delay_gt_deadline:
+                    vector_id_delay_gt_deadline.append(vector_id)
+                    vector_id_dst_app_mapping[vector_id] = dst_app
 
-        # Store output vector.
-        id_event_time_value_pattern = r"^([\d]+)\t([\d]+)\t(.+)\t(.+)$"
-        re_result = re.search(id_event_time_value_pattern, line)
-        if re_result:
-            vector_id = int(re_result[1])
-            if vector_id in vector_id_delay_gt_deadline:
-                dst_app = vector_id_dst_app_mapping[vector_id]
-                count = dst_app_stream_info_mapping[dst_app]['count']
-                event, time, value = int(re_result[2]), float(re_result[3]), float(re_result[4])
-                if 'output_vector' not in dst_app_stream_info_mapping[dst_app].keys():
-                    dst_app_stream_info_mapping[dst_app]['output_vector'] = []
-                dst_app_stream_info_mapping[dst_app]['output_vector'].append("{}\t{:.4f}us\t{:.4f}us".format(event, time * 1e6, value*1e6))
+            # Store output vector.
+            id_event_time_value_pattern = r"^([\d]+)\t([\d]+)\t(.+)\t(.+)$"
+            re_result = re.search(id_event_time_value_pattern, line)
+            if re_result:
+                vector_id = int(re_result[1])
+                if vector_id in vector_id_delay_gt_deadline:
+                    dst_app = vector_id_dst_app_mapping[vector_id]
+                    count = dst_app_stream_info_mapping[dst_app]['count']
+                    event, time, value = int(re_result[2]), float(re_result[3]), float(re_result[4])
+                    if 'output_vector' not in dst_app_stream_info_mapping[dst_app].keys():
+                        dst_app_stream_info_mapping[dst_app]['output_vector'] = []
+                    dst_app_stream_info_mapping[dst_app]['output_vector'].append("{}\t{:.4f}us\t{:.4f}us".format(event, time * 1e6, value*1e6))
 
 # print(dst_app_stream_info_mapping)
 
