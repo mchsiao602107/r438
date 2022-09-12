@@ -5,6 +5,86 @@ namespace inet
     // Register this module to be used in omnetpp.
     Define_Module(r438GateScheduleConfigurator);
 
+    void r438GateScheduleConfigurator::addPorts(Input& input) const
+    {
+        for (int i = 0; i < topology->getNumNodes(); i++) {
+            auto node = (Node *)topology->getNode(i);
+            auto networkNode = input.getNetworkNode(node->module);
+            for (auto interface : node->interfaces) {
+                auto networkInterface = interface->networkInterface;
+                if (!networkInterface->isLoopback()) {
+                    auto subqueue = networkInterface->findModuleByPath(".macLayer.expressMacLayer.queue.queue[0]");
+                    auto port = new Input::Port();
+                    port->numGates = subqueue != nullptr ? subqueue->getVectorSize() : -1;
+                    port->module = interface->networkInterface;
+                    port->datarate = bps(interface->networkInterface->getDatarate());
+                    port->propagationTime = check_and_cast<cDatarateChannel *>(interface->networkInterface->getTxTransmissionChannel())->getDelay();
+                    port->maxPacketLength = B(interface->networkInterface->getMtu());
+                    port->guardBand = s(port->maxPacketLength / port->datarate).get();
+                    port->maxCycleTime = gateCycleDuration;
+                    port->maxSlotDuration = gateCycleDuration;
+                    port->startNode = networkNode;
+                    networkNode->ports.push_back(port);
+                    input.ports.push_back(port);
+                }
+            }
+        }
+        for (auto networkNode : input.networkNodes) {
+            auto node = check_and_cast<Node *>(topology->getNodeFor(networkNode->module));
+            for (auto port : networkNode->ports) {
+                auto networkInterface = check_and_cast<NetworkInterface *>(port->module);
+                auto link = findLinkOut(findInterface(node, networkInterface));
+                auto linkOut = findLinkOut(node, networkInterface->getNodeOutputGateId());
+                auto remoteNode = check_and_cast<Node *>(linkOut->getLinkOutRemoteNode());
+                port->endNode = *std::find_if(input.networkNodes.begin(), input.networkNodes.end(), [&] (const auto& networkNode) {
+                    return networkNode->module == remoteNode->module;
+                });
+                port->otherPort = *std::find_if(input.ports.begin(), input.ports.end(), [&] (const auto& otherPort) {
+                    return otherPort->module == link->destinationInterface->networkInterface;
+                });
+                ASSERT(port->endNode);
+                ASSERT(port->otherPort);
+            }
+        }
+    }
+
+    void r438GateScheduleConfigurator::configureGateScheduling()
+    {
+        // Configure GCL in express MAC.
+        for (int i = 0; i < topology->getNumNodes(); i++) {
+            auto node = (Node *)topology->getNode(i);
+            auto networkNode = node->module;
+            for (auto interface : node->interfaces) {
+                auto queue = interface->networkInterface->findModuleByPath(".macLayer.expressMacLayer.queue");
+                if (queue != nullptr) {
+                    for (cModule::SubmoduleIterator it(queue); !it.end(); ++it) {
+                        cModule *gate = *it;
+                        if (dynamic_cast<queueing::PeriodicGate *>(gate) != nullptr)
+                            // Explicitly reference parent's method.
+                            GateScheduleConfiguratorBase::configureGateScheduling(networkNode, gate, interface);
+                    }
+                }
+            }
+        }
+
+        // Configure GCL in preemptable MAC.
+        for (int i = 0; i < topology->getNumNodes(); i++) {
+            auto node = (Node *)topology->getNode(i);
+            auto networkNode = node->module;
+            for (auto interface : node->interfaces) {
+                auto queue = interface->networkInterface->findModuleByPath(".macLayer.preemptableMacLayer.queue");
+                if (queue != nullptr) {
+                    for (cModule::SubmoduleIterator it(queue); !it.end(); ++it) {
+                        cModule *gate = *it;
+                        if (dynamic_cast<queueing::PeriodicGate *>(gate) != nullptr)
+                            // Explicitly reference parent's method.
+                            GateScheduleConfiguratorBase::configureGateScheduling(networkNode, gate, interface);
+                    }
+                }
+            }
+        }
+    }
+
     r438GateScheduleConfigurator::Output *r438GateScheduleConfigurator::computeGateScheduling(const Input& input) const
     {
         // GCL schedules for all ports of all switches.
@@ -79,10 +159,10 @@ namespace inet
                     // Queue 7 only opens when interval is long enough for a MTU-sized AVB frame (1500B).
                     // 12 us = 1500B * 8 / 1Gbps.
                     // "end -= 12" simulates effects of guard band.
-                    if ((end - start) <= 12)
+                    if ((end - start) <= 2)
                         continue;
                     else
-                        end -= 12;
+                        end -= 2;
 
                     slot.start = SimTime(start, SIMTIME_US);
                     slot.duration = SimTime((end - start), SIMTIME_US);
