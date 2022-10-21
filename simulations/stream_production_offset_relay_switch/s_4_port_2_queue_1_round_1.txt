@@ -1,0 +1,12 @@
+stream ID: 4, offset: 8
+stream ID: 21, offset: 18
+stream ID: 4, offset: 208
+stream ID: 4, offset: 408
+stream ID: 4, offset: 608
+stream ID: 4, offset: 808
+stream ID: 4, offset: 1008
+stream ID: 21, offset: 1018
+stream ID: 4, offset: 1208
+stream ID: 4, offset: 1408
+stream ID: 4, offset: 1608
+stream ID: 4, offset: 1808

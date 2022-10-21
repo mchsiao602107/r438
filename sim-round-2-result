@@ -1,22 +1,63 @@
-Streams with max(meanBitLifeTimePerPacket) >= deadline:
-avb-50, partial_mesh.es_1.app[25], max: 3475.4080us(> 2000us)
-avb-55, partial_mesh.es_1.app[27], max: 2549.1040us(> 2000us)
-avb-102, partial_mesh.es_1.app[29], max: 2517.2080us(> 2000us)
-avb-115, partial_mesh.es_1.app[33], max: 2480.8080us(> 2000us)
-avb-118, partial_mesh.es_1.app[34], max: 2534.6080us(> 2000us)
-avb-47, partial_mesh.es_2.app[31], max: 2187.8080us(> 2000us)
-avb-51, partial_mesh.es_2.app[34], max: 2216.4080us(> 2000us)
-avb-107, partial_mesh.es_3.app[42], max: 3251.5040us(> 2000us)
-avb-113, partial_mesh.es_3.app[47], max: 2786.5040us(> 2000us)
-avb-45, partial_mesh.es_5.app[21], max: 2754.3120us(> 2000us)
-avb-56, partial_mesh.es_5.app[23], max: 2809.1120us(> 2000us)
-avb-119, partial_mesh.es_5.app[35], max: 2869.8080us(> 2000us)
-avb-40, partial_mesh.es_6.app[33], max: 3099.0080us(> 2000us)
-avb-106, partial_mesh.es_6.app[43], max: 3052.0080us(> 2000us)
+All streams have max(meanBitLifeTimePerPacket) < deadline.
 
-All streams have stats of meanBitLifeTimePerPacket.
+Streams without stats of meanBitLifeTimePerPacket:
+tsn-11, queue: 0, period: 100.0000us
+tsn-13, queue: 0, period: 500.0000us
+tsn-36, queue: 0, period: 2000.0000us
+tsn-65, queue: 0, period: 200.0000us
+tsn-75, queue: 0, period: 500.0000us
+tsn-91, queue: 0, period: 200.0000us
+tsn-99, queue: 0, period: 1000.0000us
+tsn-0, queue: 0, period: 100.0000us
+tsn-7, queue: 0, period: 500.0000us
+tsn-10, queue: 0, period: 200.0000us
+tsn-16, queue: 0, period: 100.0000us
+tsn-28, queue: 0, period: 2000.0000us
+tsn-31, queue: 0, period: 200.0000us
+tsn-35, queue: 0, period: 100.0000us
+tsn-68, queue: 0, period: 500.0000us
+tsn-71, queue: 0, period: 200.0000us
+tsn-73, queue: 0, period: 500.0000us
+tsn-77, queue: 0, period: 100.0000us
+tsn-78, queue: 0, period: 100.0000us
+tsn-85, queue: 0, period: 200.0000us
+tsn-96, queue: 0, period: 1000.0000us
+tsn-3, queue: 0, period: 200.0000us
+tsn-6, queue: 0, period: 200.0000us
+tsn-17, queue: 0, period: 400.0000us
+tsn-24, queue: 0, period: 500.0000us
+tsn-25, queue: 0, period: 400.0000us
+tsn-26, queue: 0, period: 200.0000us
+tsn-63, queue: 0, period: 200.0000us
+tsn-69, queue: 0, period: 400.0000us
+tsn-72, queue: 0, period: 200.0000us
+tsn-74, queue: 0, period: 500.0000us
+tsn-80, queue: 0, period: 100.0000us
+tsn-86, queue: 0, period: 100.0000us
+tsn-18, queue: 0, period: 1000.0000us
+tsn-23, queue: 0, period: 400.0000us
+tsn-30, queue: 0, period: 2000.0000us
+tsn-79, queue: 0, period: 100.0000us
+tsn-83, queue: 0, period: 500.0000us
+tsn-88, queue: 0, period: 500.0000us
+tsn-90, queue: 0, period: 200.0000us
+tsn-8, queue: 0, period: 500.0000us
+tsn-32, queue: 0, period: 400.0000us
+tsn-61, queue: 0, period: 2000.0000us
+tsn-98, queue: 0, period: 1000.0000us
+tsn-1, queue: 1, period: 2000.0000us
+tsn-5, queue: 1, period: 400.0000us
+tsn-9, queue: 0, period: 1000.0000us
+tsn-21, queue: 1, period: 1000.0000us
+tsn-27, queue: 0, period: 200.0000us
+tsn-66, queue: 0, period: 500.0000us
+tsn-67, queue: 1, period: 2000.0000us
+tsn-70, queue: 0, period: 400.0000us
+tsn-82, queue: 0, period: 500.0000us
+tsn-84, queue: 0, period: 500.0000us
+tsn-92, queue: 0, period: 200.0000us
 
-O1 (non-schedulable TSN stream count): 0 (rust) / 0 (sim)
-O2 (non-schedulable AVB stream count): 4 (rust)/ 14 (sim)
-O3 (rust rerouted background stream count): 8 (rust) / *
-O4 (sum of max e2e delay of AVB streams): 34.99ms (rust) / 67.70ms (sim)
+O1 (non-schedulable TSN stream count): 2 (rust) / 0 (sim)
+O2 (non-schedulable AVB stream count): 6 (rust)/ 0 (sim)
+O3 (rust rerouted background stream count): 7 (rust) / *
+O4 (sum of max e2e delay of AVB streams): 39.55ms (rust) / 0.00ms (sim)

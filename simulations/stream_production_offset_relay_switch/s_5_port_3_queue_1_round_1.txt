@@ -1,0 +1,8 @@
+stream ID: 5, offset: 4
+stream ID: 39, offset: 16
+stream ID: 21, offset: 22
+stream ID: 5, offset: 404
+stream ID: 5, offset: 804
+stream ID: 21, offset: 1022
+stream ID: 5, offset: 1204
+stream ID: 5, offset: 1604

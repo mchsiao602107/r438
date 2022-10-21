@@ -12,7 +12,11 @@ cp "$INET_workspace"/r438/util/streams/*.yaml "$INET_workspace"/r08922075/adams-
 cd "${INET_workspace}"/r08922075/adams-ants-v1.3.2
 # Disable warnings
 export RUSTFLAGS="-Awarnings" 
-cargo run --release -- mesh-iso-aud.yaml | tee "$INET_workspace"/r438/rust-result
+cargo run --release -- mesh-iso-aud.yaml -t 0.1 | tee "$INET_workspace"/r438/rust-result
+
+# Sort production offset on relay switches.
+cd "${INET_workspace}"/r438/util
+python3 sort_stream_production_offset_relay_switch.py
 
 # Run python script to genrate ini files.
 cd "${INET_workspace}"/r438/util

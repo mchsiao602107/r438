@@ -72,7 +72,7 @@ fn main() {
                                         "s_7_port_2", "s_7_port_3", "s_11_port_2",
                                         "s_4_port_2", "s_8_port_2", "s_8_port_3", "s_12_port_2"];
 
-    // Collect initial production offset for each stream in round 1.
+    // Collect initial production offset on end stations.
     let filename = format!("../../r438/util/stream_initial_production_offset/stream_initial_production_offset_round_1.txt");
     let mut my_file = File::create(filename).expect("Cannot open file");
     let plan = &(cnc.plan());
@@ -83,6 +83,36 @@ fn main() {
             for event in gcl.inner.iter() {
                 let line = format!("stream ID: {}, initial production offset: {}\n", event.value, event.start);
                 my_file.write_all(line.as_bytes()).expect("Cannot write.");
+            }
+        } 
+    }
+
+    // Collect production offset on relay switches.
+    let plan = &(cnc.plan());
+    for gcl_index in 0..plan.allocated_tsns.len() {
+        let gcl = &(plan.allocated_tsns[gcl_index]);
+        let hyperperiod = gcl.hyperperiod();
+        let outcomes = &(plan.outcomes);
+        if gcl_index == 6 || gcl_index == 30 || gcl_index == 19 || gcl_index == 42 || gcl_index == 8 || gcl_index == 31 || gcl_index == 32 || gcl_index == 21 || gcl_index == 43 || gcl_index == 44 || gcl_index == 10 || gcl_index == 33 || gcl_index == 23 || gcl_index == 45 {
+            let filename = format!("../../r438/simulations/stream_production_offset_relay_switch/{}_queue_0_round_1.txt", port_id_from_rust_to_omnetpp[gcl_index]);
+            let mut my_file = File::create(filename).expect("Cannot open file");
+            for event in gcl.inner.iter() {
+                if outcomes[event.value].is_scheduled() && outcomes[event.value].used_queue() == 0 {
+                    for i in 0..hyperperiod / event.period {
+                        let line = format!("stream ID: {}, offset: {}, period: {}\n", event.value, event.start + event.period * i, event.period);
+                        my_file.write_all(line.as_bytes()).expect("Cannot write.");
+                    }
+                }
+            }
+            let filename = format!("../../r438/simulations/stream_production_offset_relay_switch/{}_queue_1_round_1.txt", port_id_from_rust_to_omnetpp[gcl_index]);
+            let mut my_file = File::create(filename).expect("Cannot open file");
+            for event in gcl.inner.iter() {
+                if outcomes[event.value].is_scheduled() && outcomes[event.value].used_queue() == 1 {
+                    for i in 0..hyperperiod / event.period {
+                        let line = format!("stream ID: {}, offset: {}, period: {}\n", event.value, event.start + event.period * i, event.period);
+                        my_file.write_all(line.as_bytes()).expect("Cannot write.");
+                    }
+                }
             }
         } 
     }
@@ -110,6 +140,13 @@ fn main() {
         let mut gcl_one_hyperperiod_queue_0: Vec<Range<u32>> = Vec::new();
         let mut gcl_one_hyperperiod_queue_1: Vec<Range<u32>> = Vec::new();
         for event in gcl.inner.iter() {
+            println!("[DEBUG] tsn-{}, {}, queue {}", event.value, port_id_from_rust_to_omnetpp[gcl_index], outcomes[event.value].used_queue());
+            if outcomes[event.value].is_scheduled(){
+                for i in 0..hyperperiod / event.period {
+                    println!("{} - {}, ", event.start + event.period * i, event.end + event.period * i );
+                }
+            }
+
             if outcomes[event.value].is_scheduled() && outcomes[event.value].used_queue() == 0 {
                 for i in 0..hyperperiod / event.period {
                     gcl_one_hyperperiod_queue_0.push(Range { start: event.start + event.period * i, end: event.end + event.period * i });
@@ -131,25 +168,25 @@ fn main() {
             gcl_one_hyperperiod_queue_0.swap(min_index, i);
         }
         
-        let mut is_entry_changed = true;
-        while is_entry_changed {
-            is_entry_changed = false;
-            for i in 0..gcl_one_hyperperiod_queue_0.len() {
-                for j in (i + 1)..gcl_one_hyperperiod_queue_0.len() {
-                    if gcl_one_hyperperiod_queue_0[i].end == gcl_one_hyperperiod_queue_0[j].start {
-                        let new_entry = Range { start: gcl_one_hyperperiod_queue_0[i].start, end: gcl_one_hyperperiod_queue_0[j].end };
-                        gcl_one_hyperperiod_queue_0.remove(j);
-                        gcl_one_hyperperiod_queue_0.remove(i);
-                        gcl_one_hyperperiod_queue_0.insert(i, new_entry);
-                        is_entry_changed = true;
-                        break;
-                    }
-                }
-                if is_entry_changed {
-                    break;
-                }
-            }
-        }
+        // let mut is_entry_changed = true;
+        // while is_entry_changed {
+        //     is_entry_changed = false;
+        //     for i in 0..gcl_one_hyperperiod_queue_0.len() {
+        //         for j in (i + 1)..gcl_one_hyperperiod_queue_0.len() {
+        //             if gcl_one_hyperperiod_queue_0[i].end == gcl_one_hyperperiod_queue_0[j].start {
+        //                 let new_entry = Range { start: gcl_one_hyperperiod_queue_0[i].start, end: gcl_one_hyperperiod_queue_0[j].end };
+        //                 gcl_one_hyperperiod_queue_0.remove(j);
+        //                 gcl_one_hyperperiod_queue_0.remove(i);
+        //                 gcl_one_hyperperiod_queue_0.insert(i, new_entry);
+        //                 is_entry_changed = true;
+        //                 break;
+        //             }
+        //         }
+        //         if is_entry_changed {
+        //             break;
+        //         }
+        //     }
+        // }
 
         for i in 0..gcl_one_hyperperiod_queue_1.len() {
             let mut min_index = i;
@@ -161,25 +198,25 @@ fn main() {
             gcl_one_hyperperiod_queue_1.swap(min_index, i);
         }
         
-        let mut is_entry_changed = true;
-        while is_entry_changed {
-            is_entry_changed = false;
-            for i in 0..gcl_one_hyperperiod_queue_1.len() {
-                for j in (i + 1)..gcl_one_hyperperiod_queue_1.len() {
-                    if gcl_one_hyperperiod_queue_1[i].end == gcl_one_hyperperiod_queue_1[j].start {
-                        let new_entry = Range { start: gcl_one_hyperperiod_queue_1[i].start, end: gcl_one_hyperperiod_queue_1[j].end };
-                        gcl_one_hyperperiod_queue_1.remove(j);
-                        gcl_one_hyperperiod_queue_1.remove(i);
-                        gcl_one_hyperperiod_queue_1.insert(i, new_entry);
-                        is_entry_changed = true;
-                        break;
-                    }
-                }
-                if is_entry_changed {
-                    break;
-                }
-            }
-        }
+        // let mut is_entry_changed = true;
+        // while is_entry_changed {
+        //     is_entry_changed = false;
+        //     for i in 0..gcl_one_hyperperiod_queue_1.len() {
+        //         for j in (i + 1)..gcl_one_hyperperiod_queue_1.len() {
+        //             if gcl_one_hyperperiod_queue_1[i].end == gcl_one_hyperperiod_queue_1[j].start {
+        //                 let new_entry = Range { start: gcl_one_hyperperiod_queue_1[i].start, end: gcl_one_hyperperiod_queue_1[j].end };
+        //                 gcl_one_hyperperiod_queue_1.remove(j);
+        //                 gcl_one_hyperperiod_queue_1.remove(i);
+        //                 gcl_one_hyperperiod_queue_1.insert(i, new_entry);
+        //                 is_entry_changed = true;
+        //                 break;
+        //             }
+        //         }
+        //         if is_entry_changed {
+        //             break;
+        //         }
+        //     }
+        // }
 
         let filename_queue_0 = format!("../../r438/simulations/gcl_schedules/{}_queue_0_round_1.txt", port_id_from_rust_to_omnetpp[gcl_index]);
         let mut file_queue_0 = File::create(filename_queue_0).expect("Cannot create text file for queue 0");
@@ -233,7 +270,7 @@ fn main() {
 
     // --------------------------------
 
-    // Collect initial production offset for each stream in round 2.
+    // Collect initial production offset on end station.
     let filename = format!("../../r438/util/stream_initial_production_offset/stream_initial_production_offset_round_2.txt");
     let mut my_file = File::create(filename).expect("Cannot open file");
     let plan = &(cnc.plan());
@@ -244,6 +281,36 @@ fn main() {
             for event in gcl.inner.iter() {
                 let line = format!("stream ID: {}, initial production offset: {}\n", event.value, event.start);
                 my_file.write_all(line.as_bytes()).expect("Cannot write.");
+            }
+        } 
+    }
+
+    // Collect production offset on relay switches.
+    let plan = &(cnc.plan());
+    for gcl_index in 0..plan.allocated_tsns.len() {
+        let gcl = &(plan.allocated_tsns[gcl_index]);
+        let hyperperiod = gcl.hyperperiod();
+        let outcomes = &(plan.outcomes);
+        if gcl_index == 6 || gcl_index == 30 || gcl_index == 19 || gcl_index == 42 || gcl_index == 8 || gcl_index == 31 || gcl_index == 32 || gcl_index == 21 || gcl_index == 43 || gcl_index == 44 || gcl_index == 10 || gcl_index == 33 || gcl_index == 23 || gcl_index == 45 {
+            let filename = format!("../../r438/simulations/stream_production_offset_relay_switch/{}_queue_0_round_2.txt", port_id_from_rust_to_omnetpp[gcl_index]);
+            let mut my_file = File::create(filename).expect("Cannot open file");
+            for event in gcl.inner.iter() {
+                if outcomes[event.value].is_scheduled() && outcomes[event.value].used_queue() == 0 {
+                    for i in 0..hyperperiod / event.period {
+                        let line = format!("stream ID: {}, offset: {}, period: {}\n", event.value, event.start + event.period * i, event.period);
+                        my_file.write_all(line.as_bytes()).expect("Cannot write.");
+                    }
+                }
+            }
+            let filename = format!("../../r438/simulations/stream_production_offset_relay_switch/{}_queue_1_round_2.txt", port_id_from_rust_to_omnetpp[gcl_index]);
+            let mut my_file = File::create(filename).expect("Cannot open file");
+            for event in gcl.inner.iter() {
+                if outcomes[event.value].is_scheduled() && outcomes[event.value].used_queue() == 1 {
+                    for i in 0..hyperperiod / event.period {
+                        let line = format!("stream ID: {}, offset: {}, period: {}\n", event.value, event.start + event.period * i, event.period);
+                        my_file.write_all(line.as_bytes()).expect("Cannot write.");
+                    }
+                }
             }
         } 
     }

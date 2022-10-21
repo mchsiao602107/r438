@@ -156,9 +156,7 @@ namespace inet
                 while (getline(my_file, line)) {
                     sscanf(line.c_str(), "start = %d, end = %d", &start, &end);
 
-                    // Queue 7 only opens when interval is long enough for a MTU-sized AVB frame (1500B).
-                    // 12 us = 1500B * 8 / 1Gbps.
-                    // "end -= 12" simulates effects of guard band.
+                    // 12 us guard band if no preemption, 2 us if having preemption.
                     if ((end - start) <= 2)
                         continue;
                     else
@@ -170,7 +168,7 @@ namespace inet
                 }
             }
             my_file.close();
-        } else {
+       } else {
             // Don't add time slots into schedule (always closed).
         }
 
