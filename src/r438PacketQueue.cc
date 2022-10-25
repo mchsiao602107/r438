@@ -91,8 +91,9 @@ namespace inet {
                     is_inserted = false;
                     for (int i = 0; i < this->buffer_count; i ++) {
                         Packet *buffered_packet = this->stream_buffer[i];
-                        sscanf(packet->findTag<StreamReq>()->getStreamName(), "tsn-%d", &stream_id);
+                        sscanf(buffered_packet->findTag<StreamReq>()->getStreamName(), "tsn-%d", &stream_id);
                         if (stream_id == this->order_streams[this->eligible_stream_index]) {
+                            EV << "Enqueue stream " << stream_id << " from buffered_packet" << endl;
                             is_inserted = true;
                             queue.insert(buffered_packet);
                             this->eligible_stream_index = (this->eligible_stream_index + 1) % this->order_count;
