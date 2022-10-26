@@ -6,13 +6,18 @@ INET_workspace=$(dirname $(dirname $(readlink -f "$0")))
 # Get the name of inet
 INET=$(ls -l "${INET_workspace}" | grep inet | awk '{print $9}')
 
+# Remove statistics of previous simulation.
+rm -rf "${INET_workspace}"/r438/simulations/results 
+rm -f "${INET_workspace}"/r438/simulations/General.anf
+rm "${INET_workspace}"/r438/simulations/stream_production_offset_relay_switch/*
+
 # Run rust code to generate all required text files.
 cp "$INET_workspace"/r438/rust/*.rs "$INET_workspace"/r08922075/adams-ants-v1.3.2/src/
 cp "$INET_workspace"/r438/util/streams/*.yaml "$INET_workspace"/r08922075/adams-ants-v1.3.2/data/streams/
 cd "${INET_workspace}"/r08922075/adams-ants-v1.3.2
 # Disable warnings
-export RUSTFLAGS="-Awarnings" 
-cargo run --release -- mesh-iso-aud.yaml -t 0.1 | tee "$INET_workspace"/r438/rust-result
+export RUSTFLAGS="-Awarnings"
+cargo run --release -- mesh-iso-aud.yaml -t 0.1 | tee "$INET_workspace"/r438/rust-result >/dev/null
 
 # Sort production offset on relay switches.
 cd "${INET_workspace}"/r438/util
@@ -28,10 +33,6 @@ python3 generate_ini.py 2
 if [[ $? -ne 0 ]] ; then
     exit 1
 fi
-
-# Remove statistics of previous simulation.
-rm -rf "${INET_workspace}"/r438/simulations/results 
-rm -f "${INET_workspace}"/r438/simulations/General.anf
 
 # Run round-1 omnetpp simulation.
 cpu_num=$(grep -c 'cpu[0-9]' /proc/stat)

@@ -1,0 +1,8 @@
+start = 18, end = 20
+start = 30, end = 32
+start = 32, end = 34
+start = 418, end = 420
+start = 818, end = 820
+start = 1030, end = 1032
+start = 1218, end = 1220
+start = 1618, end = 1620

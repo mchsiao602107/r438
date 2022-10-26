@@ -140,7 +140,7 @@ fn main() {
         let mut gcl_one_hyperperiod_queue_0: Vec<Range<u32>> = Vec::new();
         let mut gcl_one_hyperperiod_queue_1: Vec<Range<u32>> = Vec::new();
         for event in gcl.inner.iter() {
-            println!("[DEBUG] tsn-{}, {}, queue {}", event.value, port_id_from_rust_to_omnetpp[gcl_index], outcomes[event.value].used_queue());
+            println!("[DEBUG_round-1] tsn-{}, {}, queue {}", event.value, port_id_from_rust_to_omnetpp[gcl_index], outcomes[event.value].used_queue());
             if outcomes[event.value].is_scheduled(){
                 for i in 0..hyperperiod / event.period {
                     println!("{} - {}, ", event.start + event.period * i, event.end + event.period * i );
@@ -338,6 +338,13 @@ fn main() {
         let mut gcl_one_hyperperiod_queue_0: Vec<Range<u32>> = Vec::new();
         let mut gcl_one_hyperperiod_queue_1: Vec<Range<u32>> = Vec::new();
         for event in gcl.inner.iter() {
+            println!("[DEBUG_round-2] tsn-{}, {}, queue {}", event.value, port_id_from_rust_to_omnetpp[gcl_index], outcomes[event.value].used_queue());
+            if outcomes[event.value].is_scheduled(){
+                for i in 0..hyperperiod / event.period {
+                    println!("{} - {}, ", event.start + event.period * i, event.end + event.period * i );
+                }
+            }
+
             if outcomes[event.value].is_scheduled() && outcomes[event.value].used_queue() == 0 {
                 for i in 0..hyperperiod / event.period {
                     gcl_one_hyperperiod_queue_0.push(Range { start: event.start + event.period * i, end: event.end + event.period * i });

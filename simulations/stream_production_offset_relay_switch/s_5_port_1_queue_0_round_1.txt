@@ -4,8 +4,7 @@ stream ID: 15, offset: 10
 stream ID: 7, offset: 12
 stream ID: 9, offset: 18
 stream ID: 18, offset: 20
-stream ID: 1, offset: 24
-stream ID: 28, offset: 26
+stream ID: 28, offset: 24
 stream ID: 35, offset: 102
 stream ID: 35, offset: 202
 stream ID: 35, offset: 302

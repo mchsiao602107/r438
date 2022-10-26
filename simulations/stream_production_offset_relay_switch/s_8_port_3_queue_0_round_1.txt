@@ -1,7 +1,6 @@
 stream ID: 27, offset: 4
 stream ID: 25, offset: 8
 stream ID: 9, offset: 26
-stream ID: 1, offset: 30
 stream ID: 27, offset: 204
 stream ID: 27, offset: 404
 stream ID: 25, offset: 408

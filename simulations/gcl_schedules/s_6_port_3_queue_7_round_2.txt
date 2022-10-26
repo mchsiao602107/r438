@@ -1,0 +1,11 @@
+start = 0, end = 24
+start = 26, end = 33
+start = 37, end = 46
+start = 47, end = 424
+start = 426, end = 533
+start = 537, end = 824
+start = 826, end = 1033
+start = 1037, end = 1224
+start = 1226, end = 1533
+start = 1537, end = 1624
+start = 1626, end = 2000

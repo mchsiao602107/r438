@@ -1,0 +1,13 @@
+start = 7, end = 8
+start = 10, end = 12
+start = 34, end = 35
+start = 407, end = 408
+start = 510, end = 512
+start = 534, end = 535
+start = 807, end = 808
+start = 1010, end = 1012
+start = 1034, end = 1035
+start = 1207, end = 1208
+start = 1510, end = 1512
+start = 1534, end = 1535
+start = 1607, end = 1608

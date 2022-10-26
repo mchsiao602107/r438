@@ -1,0 +1,7 @@
+start = 4, end = 6
+start = 7, end = 8
+start = 14, end = 16
+start = 504, end = 506
+start = 1004, end = 1006
+start = 1007, end = 1008
+start = 1504, end = 1506

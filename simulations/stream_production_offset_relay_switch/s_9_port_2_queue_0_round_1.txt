@@ -1,6 +1,5 @@
 stream ID: 34, offset: 2
 stream ID: 22, offset: 6
-stream ID: 1, offset: 8
 stream ID: 25, offset: 16
 stream ID: 24, offset: 20
 stream ID: 34, offset: 202

@@ -1,0 +1,12 @@
+start = 0, end = 10
+start = 14, end = 16
+start = 18, end = 26
+start = 27, end = 28
+start = 30, end = 410
+start = 414, end = 516
+start = 518, end = 810
+start = 814, end = 1016
+start = 1018, end = 1210
+start = 1214, end = 1516
+start = 1518, end = 1610
+start = 1614, end = 2000
