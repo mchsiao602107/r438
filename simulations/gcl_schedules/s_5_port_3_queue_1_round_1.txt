@@ -1,7 +1,4 @@
-start = 4, end = 6
-start = 22, end = 24
-start = 404, end = 406
-start = 804, end = 806
-start = 1022, end = 1024
-start = 1204, end = 1206
-start = 1604, end = 1606
+start = 9, end = 10
+start = 509, end = 510
+start = 1009, end = 1010
+start = 1509, end = 1510

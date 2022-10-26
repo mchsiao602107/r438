@@ -1,4 +1,2 @@
 stream ID: 2, offset: 10
-stream ID: 38, offset: 21
 stream ID: 2, offset: 1010
-stream ID: 38, offset: 1021

@@ -1,6 +1,1 @@
-stream ID: 33, offset: 16
-stream ID: 38, offset: 20
-stream ID: 33, offset: 516
-stream ID: 33, offset: 1016
-stream ID: 38, offset: 1020
-stream ID: 33, offset: 1516
+stream ID: 30, offset: 12

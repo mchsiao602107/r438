@@ -1,10 +1,2 @@
-start = 16, end = 18
-start = 27, end = 29
-start = 36, end = 38
-start = 416, end = 418
-start = 527, end = 529
-start = 816, end = 818
-start = 1027, end = 1029
-start = 1216, end = 1218
-start = 1527, end = 1529
-start = 1616, end = 1618
+start = 26, end = 27
+start = 1026, end = 1027

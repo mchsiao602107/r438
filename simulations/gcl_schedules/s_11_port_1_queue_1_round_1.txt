@@ -1,14 +1,1 @@
-start = 12, end = 14
-start = 14, end = 16
-start = 16, end = 17
-start = 20, end = 22
-start = 28, end = 30
-start = 412, end = 414
-start = 514, end = 516
-start = 812, end = 814
-start = 1014, end = 1016
-start = 1016, end = 1017
-start = 1028, end = 1030
-start = 1212, end = 1214
-start = 1514, end = 1516
-start = 1612, end = 1614
+start = 11, end = 12

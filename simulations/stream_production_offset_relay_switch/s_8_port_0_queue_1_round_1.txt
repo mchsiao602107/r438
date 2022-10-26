@@ -1,2 +1,2 @@
-stream ID: 2, offset: 20
-stream ID: 2, offset: 1020
+stream ID: 2, offset: 17
+stream ID: 2, offset: 1017

@@ -1,0 +1,431 @@
+name: UNTITLED
+
+scale:
+  tsns: 40
+  avbs: 20
+  hyperperiod: 2000
+  end_devices: 6
+
+tsns:
+- src: 2 # 0
+  dst: 0
+  size: 40
+  period: 100
+  deadline: 100
+  offset: 0
+  survivable: true
+- src: 5 # 1
+  dst: 2
+  size: 50
+  period: 2000
+  deadline: 2000
+  offset: 0
+  survivable: true
+- src: 1 # 2
+  dst: 4
+  size: 50
+  period: 1000
+  deadline: 1000
+  offset: 0
+  survivable: true
+- src: 1 # 3
+  dst: 4
+  size: 50
+  period: 200
+  deadline: 200
+  offset: 0
+  survivable: true
+- src: 3 # 4
+  dst: 1
+  size: 80
+  period: 200
+  deadline: 200
+  offset: 0
+  survivable: true
+- src: 4 # 5
+  dst: 2
+  size: 70
+  period: 400
+  deadline: 400
+  offset: 0
+  survivable: true
+- src: 3 # 6
+  dst: 4
+  size: 40
+  period: 200
+  deadline: 200
+  offset: 0
+  survivable: true
+- src: 4 # 7
+  dst: 0
+  size: 50
+  period: 500
+  deadline: 500
+  offset: 0
+  survivable: true
+- src: 0 # 8
+  dst: 5
+  size: 90
+  period: 500
+  deadline: 500
+  offset: 0
+  survivable: true
+- src: 4 # 9
+  dst: 2
+  size: 90
+  period: 1000
+  deadline: 1000
+  offset: 0
+  survivable: true
+- src: 1 # 10
+  dst: 0
+  size: 30
+  period: 200
+  deadline: 200
+  offset: 0
+  survivable: true
+- src: 0 # 11
+  dst: 3
+  size: 60
+  period: 100
+  deadline: 100
+  offset: 0
+  survivable: true
+- src: 2 # 12
+  dst: 1
+  size: 50
+  period: 200
+  deadline: 200
+  offset: 0
+  survivable: true
+- src: 0 # 13
+  dst: 3
+  size: 60
+  period: 500
+  deadline: 500
+  offset: 0
+  survivable: true
+- src: 4 # 14
+  dst: 0
+  size: 100
+  period: 400
+  deadline: 400
+  offset: 0
+  survivable: true
+- src: 4 # 15
+  dst: 5
+  size: 80
+  period: 400
+  deadline: 400
+  offset: 0
+  survivable: true
+- src: 2 # 16
+  dst: 0
+  size: 30
+  period: 100
+  deadline: 100
+  offset: 0
+  survivable: true
+- src: 3 # 17
+  dst: 4
+  size: 50
+  period: 400
+  deadline: 400
+  offset: 0
+  survivable: true
+- src: 4 # 18
+  dst: 1
+  size: 60
+  period: 1000
+  deadline: 1000
+  offset: 0
+  survivable: true
+- src: 3 # 19
+  dst: 5
+  size: 30
+  period: 500
+  deadline: 500
+  offset: 0
+  survivable: true
+- src: 2 # 20
+  dst: 5
+  size: 70
+  period: 2000
+  deadline: 2000
+  offset: 0
+  survivable: true
+- src: 3 # 21
+  dst: 2
+  size: 90
+  period: 1000
+  deadline: 1000
+  offset: 0
+  survivable: true
+- src: 5 # 22
+  dst: 4
+  size: 30
+  period: 500
+  deadline: 500
+  offset: 0
+  survivable: true
+- src: 0 # 23
+  dst: 1
+  size: 30
+  period: 400
+  deadline: 400
+  offset: 0
+  survivable: true
+- src: 2 # 24
+  dst: 4
+  size: 50
+  period: 500
+  deadline: 500
+  offset: 0
+  survivable: true
+- src: 1 # 25
+  dst: 4
+  size: 70
+  period: 400
+  deadline: 400
+  offset: 0
+  survivable: true
+- src: 0 # 26
+  dst: 4
+  size: 70
+  period: 200
+  deadline: 200
+  offset: 0
+  survivable: true
+- src: 1 # 27
+  dst: 2
+  size: 40
+  period: 200
+  deadline: 200
+  offset: 0
+  survivable: true
+- src: 3 # 28
+  dst: 0
+  size: 100
+  period: 2000
+  deadline: 2000
+  offset: 0
+  survivable: true
+- src: 3 # 29
+  dst: 4
+  size: 70
+  period: 400
+  deadline: 400
+  offset: 0
+  survivable: true
+- src: 2 # 30
+  dst: 1
+  size: 90
+  period: 2000
+  deadline: 2000
+  offset: 0
+  survivable: true
+- src: 1 # 31
+  dst: 0
+  size: 70
+  period: 200
+  deadline: 200
+  offset: 0
+  survivable: true
+- src: 2 # 32
+  dst: 5
+  size: 70
+  period: 400
+  deadline: 400
+  offset: 0
+  survivable: true
+- src: 5 # 33
+  dst: 1
+  size: 60
+  period: 500
+  deadline: 500
+  offset: 0
+  survivable: true
+- src: 5 # 34
+  dst: 4
+  size: 50
+  period: 200
+  deadline: 200
+  offset: 0
+  survivable: true
+- src: 4 # 35
+  dst: 0
+  size: 50
+  period: 100
+  deadline: 100
+  offset: 0
+  survivable: true
+- src: 2 # 36
+  dst: 3
+  size: 40
+  period: 2000
+  deadline: 2000
+  offset: 0
+  survivable: true
+- src: 2 # 37
+  dst: 1
+  size: 50
+  period: 100
+  deadline: 100
+  offset: 0
+  survivable: true
+- src: 5 # 38
+  dst: 0
+  size: 40
+  period: 1000
+  deadline: 1000
+  offset: 0
+  survivable: true
+- src: 3 # 39
+  dst: 5
+  size: 30
+  period: 2000
+  deadline: 2000
+  offset: 0
+  survivable: true
+
+avbs:
+- src: 5 # 40
+  dst: 2
+  size: 1200
+  period: 125
+  deadline: 2000
+  class: A
+  survivable: true
+- src: 2 # 41
+  dst: 4
+  size: 1500
+  period: 125
+  deadline: 2000
+  class: A
+  survivable: true
+- src: 0 # 42
+  dst: 2
+  size: 1000
+  period: 125
+  deadline: 2000
+  class: A
+  survivable: true
+- src: 4 # 43
+  dst: 3
+  size: 1100
+  period: 125
+  deadline: 2000
+  class: A
+  survivable: true
+- src: 5 # 44
+  dst: 1
+  size: 1100
+  period: 125
+  deadline: 2000
+  class: A
+  survivable: true
+- src: 1 # 45
+  dst: 5
+  size: 1000
+  period: 125
+  deadline: 2000
+  class: A
+  survivable: true
+- src: 2 # 46
+  dst: 3
+  size: 1100
+  period: 125
+  deadline: 2000
+  class: A
+  survivable: true
+- src: 1 # 47
+  dst: 0
+  size: 1400
+  period: 125
+  deadline: 2000
+  class: A
+  survivable: true
+- src: 3 # 48
+  dst: 2
+  size: 1500
+  period: 125
+  deadline: 2000
+  class: A
+  survivable: true
+- src: 4 # 49
+  dst: 0
+  size: 1000
+  period: 125
+  deadline: 2000
+  class: A
+  survivable: true
+- src: 0 # 50
+  dst: 3
+  size: 1000
+  period: 125
+  deadline: 2000
+  class: A
+  survivable: true
+- src: 1 # 51
+  dst: 0
+  size: 1400
+  period: 125
+  deadline: 2000
+  class: A
+  survivable: true
+- src: 4 # 52
+  dst: 0
+  size: 1200
+  period: 125
+  deadline: 2000
+  class: A
+  survivable: true
+- src: 3 # 53
+  dst: 1
+  size: 1200
+  period: 125
+  deadline: 2000
+  class: A
+  survivable: true
+- src: 1 # 54
+  dst: 2
+  size: 1500
+  period: 125
+  deadline: 2000
+  class: A
+  survivable: true
+- src: 5 # 55
+  dst: 3
+  size: 1400
+  period: 125
+  deadline: 2000
+  class: A
+  survivable: true
+- src: 2 # 56
+  dst: 5
+  size: 1100
+  period: 125
+  deadline: 2000
+  class: A
+  survivable: true
+- src: 2 # 57
+  dst: 3
+  size: 1100
+  period: 125
+  deadline: 2000
+  class: A
+  survivable: true
+- src: 1 # 58
+  dst: 5
+  size: 1300
+  period: 125
+  deadline: 2000
+  class: A
+  survivable: true
+- src: 1 # 59
+  dst: 2
+  size: 1000
+  period: 125
+  deadline: 2000
+  class: A
+  survivable: true

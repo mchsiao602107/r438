@@ -1,9 +1,0 @@
-start = 13, end = 14
-start = 29, end = 30
-start = 413, end = 414
-start = 529, end = 530
-start = 813, end = 814
-start = 1029, end = 1030
-start = 1213, end = 1214
-start = 1529, end = 1530
-start = 1613, end = 1614

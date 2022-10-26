@@ -1,14 +1,2 @@
-stream ID: 17, offset: 16
-stream ID: 66, offset: 27
-stream ID: 19, offset: 28
-stream ID: 28, offset: 36
-stream ID: 17, offset: 416
-stream ID: 66, offset: 527
-stream ID: 19, offset: 528
-stream ID: 17, offset: 816
-stream ID: 66, offset: 1027
-stream ID: 19, offset: 1028
-stream ID: 17, offset: 1216
-stream ID: 66, offset: 1527
-stream ID: 19, offset: 1528
-stream ID: 17, offset: 1616
+stream ID: 2, offset: 26
+stream ID: 2, offset: 1026
