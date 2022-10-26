@@ -93,7 +93,12 @@ fn main() {
         let gcl = &(plan.allocated_tsns[gcl_index]);
         let hyperperiod = gcl.hyperperiod();
         let outcomes = &(plan.outcomes);
-        if gcl_index == 6 || gcl_index == 30 || gcl_index == 19 || gcl_index == 42 || gcl_index == 8 || gcl_index == 31 || gcl_index == 32 || gcl_index == 21 || gcl_index == 43 || gcl_index == 44 || gcl_index == 10 || gcl_index == 33 || gcl_index == 23 || gcl_index == 45 {
+        if gcl_index == 1 || gcl_index == 6 || gcl_index == 30 // s1
+        || gcl_index == 19 || gcl_index == 25 || gcl_index == 42 // s4
+        || gcl_index == 3 || gcl_index == 8 || gcl_index == 31 || gcl_index == 32 // s5
+        || gcl_index == 21 || gcl_index == 27 || gcl_index == 43 || gcl_index == 44 // s8
+        || gcl_index == 5 || gcl_index == 10 || gcl_index == 33 // s9
+        || gcl_index == 23 || gcl_index == 29 || gcl_index == 45 { // s12
             let filename = format!("../../r438/simulations/stream_production_offset_relay_switch/{}_queue_0_round_1.txt", port_id_from_rust_to_omnetpp[gcl_index]);
             let mut my_file = File::create(filename).expect("Cannot open file");
             for event in gcl.inner.iter() {
@@ -140,7 +145,7 @@ fn main() {
         let mut gcl_one_hyperperiod_queue_0: Vec<Range<u32>> = Vec::new();
         let mut gcl_one_hyperperiod_queue_1: Vec<Range<u32>> = Vec::new();
         for event in gcl.inner.iter() {
-            println!("[DEBUG] tsn-{}, {}, queue {}", event.value, port_id_from_rust_to_omnetpp[gcl_index], outcomes[event.value].used_queue());
+            println!("[DEBUG_round-1] tsn-{}, {}, queue {}", event.value, port_id_from_rust_to_omnetpp[gcl_index], outcomes[event.value].used_queue());
             if outcomes[event.value].is_scheduled(){
                 for i in 0..hyperperiod / event.period {
                     println!("{} - {}, ", event.start + event.period * i, event.end + event.period * i );
@@ -291,7 +296,12 @@ fn main() {
         let gcl = &(plan.allocated_tsns[gcl_index]);
         let hyperperiod = gcl.hyperperiod();
         let outcomes = &(plan.outcomes);
-        if gcl_index == 6 || gcl_index == 30 || gcl_index == 19 || gcl_index == 42 || gcl_index == 8 || gcl_index == 31 || gcl_index == 32 || gcl_index == 21 || gcl_index == 43 || gcl_index == 44 || gcl_index == 10 || gcl_index == 33 || gcl_index == 23 || gcl_index == 45 {
+        if gcl_index == 1 || gcl_index == 6 || gcl_index == 30 // s1
+        || gcl_index == 19 || gcl_index == 25 || gcl_index == 42 // s4
+        || gcl_index == 3 || gcl_index == 8 || gcl_index == 31 || gcl_index == 32 // s5
+        || gcl_index == 21 || gcl_index == 27 || gcl_index == 43 || gcl_index == 44 // s8
+        || gcl_index == 5 || gcl_index == 10 || gcl_index == 33 // s9
+        || gcl_index == 23 || gcl_index == 29 || gcl_index == 45 { // s12
             let filename = format!("../../r438/simulations/stream_production_offset_relay_switch/{}_queue_0_round_2.txt", port_id_from_rust_to_omnetpp[gcl_index]);
             let mut my_file = File::create(filename).expect("Cannot open file");
             for event in gcl.inner.iter() {
@@ -338,6 +348,13 @@ fn main() {
         let mut gcl_one_hyperperiod_queue_0: Vec<Range<u32>> = Vec::new();
         let mut gcl_one_hyperperiod_queue_1: Vec<Range<u32>> = Vec::new();
         for event in gcl.inner.iter() {
+            println!("[DEBUG_round-2] tsn-{}, {}, queue {}", event.value, port_id_from_rust_to_omnetpp[gcl_index], outcomes[event.value].used_queue());
+            if outcomes[event.value].is_scheduled(){
+                for i in 0..hyperperiod / event.period {
+                    println!("{} - {}, ", event.start + event.period * i, event.end + event.period * i );
+                }
+            }
+
             if outcomes[event.value].is_scheduled() && outcomes[event.value].used_queue() == 0 {
                 for i in 0..hyperperiod / event.period {
                     gcl_one_hyperperiod_queue_0.push(Range { start: event.start + event.period * i, end: event.end + event.period * i });

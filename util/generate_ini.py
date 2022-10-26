@@ -113,7 +113,7 @@ with open(filename, "wt") as my_file:
     
     # Support flow reordering on relay switches (edge switches).
     relay_switches = ["s_1", "s_4", "s_5", "s_8", "s_9", "s_12"]
-    included_ports = {"s_1": [1, 2], "s_4": [0, 2], "s_5": [1, 2, 3], "s_8": [0, 2, 3], "s_9": [1, 2], "s_12": [0, 2]}
+    included_ports = {"s_1": [0, 1, 2], "s_4": [0, 1, 2], "s_5": [0, 1, 2, 3], "s_8": [0, 1, 2, 3], "s_9": [0, 1, 2], "s_12": [0, 1, 2]}
     for relay_switch, ports in included_ports.items():
         for port in ports:
             for queue_id in [0, 1]:
