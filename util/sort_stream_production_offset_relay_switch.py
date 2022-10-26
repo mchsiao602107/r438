@@ -4,6 +4,9 @@ from parse import parse
 target_dir = "../simulations/stream_production_offset_relay_switch/"
 for filename in os.listdir(target_dir):
 
+    if filename == ".gitignore":
+        continue
+
     # Read all lines from a file.
     lines = list()
     with open(target_dir + filename, "r") as my_file:
@@ -18,4 +21,3 @@ for filename in os.listdir(target_dir):
     with open(target_dir + filename, "w") as my_file:
         for stream_id, offset in lines_sorted:
             my_file.write("stream ID: {}, offset: {}\n".format(stream_id, offset))
-            

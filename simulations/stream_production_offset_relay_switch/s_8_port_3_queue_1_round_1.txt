@@ -1,7 +1,0 @@
-stream ID: 5, offset: 16
-stream ID: 21, offset: 20
-stream ID: 5, offset: 416
-stream ID: 5, offset: 816
-stream ID: 21, offset: 1020
-stream ID: 5, offset: 1216
-stream ID: 5, offset: 1616

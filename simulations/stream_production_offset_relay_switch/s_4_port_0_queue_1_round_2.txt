@@ -1,3 +1,0 @@
-stream ID: 2, offset: 27
-stream ID: 89, offset: 29
-stream ID: 2, offset: 1027
