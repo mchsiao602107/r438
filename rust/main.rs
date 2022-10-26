@@ -56,6 +56,7 @@ fn main() {
     // --------------------------------
 
     // Mapping from rust port ID to omnetpp port ID.
+
     let port_id_from_rust_to_omnetpp = ["es_1_port_0", "s_1_port_0", "es_3_port_0",
                                         "s_5_port_0", "es_5_port_0", "s_9_port_0",
                                         "s_1_port_1", "s_2_port_0", "s_5_port_1",
@@ -93,7 +94,12 @@ fn main() {
         let gcl = &(plan.allocated_tsns[gcl_index]);
         let hyperperiod = gcl.hyperperiod();
         let outcomes = &(plan.outcomes);
-        if gcl_index == 6 || gcl_index == 30 || gcl_index == 19 || gcl_index == 42 || gcl_index == 8 || gcl_index == 31 || gcl_index == 32 || gcl_index == 21 || gcl_index == 43 || gcl_index == 44 || gcl_index == 10 || gcl_index == 33 || gcl_index == 23 || gcl_index == 45 {
+        if gcl_index == 1 || gcl_index == 6 || gcl_index == 30 // s1
+        || gcl_index == 19 || gcl_index == 25 || gcl_index == 42 // s4
+        || gcl_index == 3 || gcl_index == 8 || gcl_index == 31 || gcl_index == 32 // s5
+        || gcl_index == 21 || gcl_index == 27 || gcl_index == 43 || gcl_index == 44 // s8
+        || gcl_index == 5 || gcl_index == 10 || gcl_index == 33 // s9
+        || gcl_index == 23 || gcl_index == 29 || gcl_index == 45 { // s12
             let filename = format!("../../r438/simulations/stream_production_offset_relay_switch/{}_queue_0_round_1.txt", port_id_from_rust_to_omnetpp[gcl_index]);
             let mut my_file = File::create(filename).expect("Cannot open file");
             for event in gcl.inner.iter() {
@@ -291,7 +297,12 @@ fn main() {
         let gcl = &(plan.allocated_tsns[gcl_index]);
         let hyperperiod = gcl.hyperperiod();
         let outcomes = &(plan.outcomes);
-        if gcl_index == 6 || gcl_index == 30 || gcl_index == 19 || gcl_index == 42 || gcl_index == 8 || gcl_index == 31 || gcl_index == 32 || gcl_index == 21 || gcl_index == 43 || gcl_index == 44 || gcl_index == 10 || gcl_index == 33 || gcl_index == 23 || gcl_index == 45 {
+        if gcl_index == 1 || gcl_index == 6 || gcl_index == 30 // s1
+        || gcl_index == 19 || gcl_index == 25 || gcl_index == 42 // s4
+        || gcl_index == 3 || gcl_index == 8 || gcl_index == 31 || gcl_index == 32 // s5
+        || gcl_index == 21 || gcl_index == 27 || gcl_index == 43 || gcl_index == 44 // s8
+        || gcl_index == 5 || gcl_index == 10 || gcl_index == 33 // s9
+        || gcl_index == 23 || gcl_index == 29 || gcl_index == 45 { // s12
             let filename = format!("../../r438/simulations/stream_production_offset_relay_switch/{}_queue_0_round_2.txt", port_id_from_rust_to_omnetpp[gcl_index]);
             let mut my_file = File::create(filename).expect("Cannot open file");
             for event in gcl.inner.iter() {

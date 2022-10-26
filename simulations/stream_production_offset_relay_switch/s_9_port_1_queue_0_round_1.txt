@@ -3,7 +3,9 @@ stream ID: 33, offset: 2
 stream ID: 22, offset: 4
 stream ID: 5, offset: 5
 stream ID: 38, offset: 7
+stream ID: 1, offset: 9
 stream ID: 9, offset: 12
+stream ID: 21, offset: 18
 stream ID: 34, offset: 201
 stream ID: 34, offset: 401
 stream ID: 5, offset: 405
@@ -17,6 +19,7 @@ stream ID: 33, offset: 1002
 stream ID: 22, offset: 1004
 stream ID: 38, offset: 1007
 stream ID: 9, offset: 1012
+stream ID: 21, offset: 1018
 stream ID: 34, offset: 1201
 stream ID: 5, offset: 1205
 stream ID: 34, offset: 1401

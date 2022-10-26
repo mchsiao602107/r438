@@ -1,8 +1,8 @@
 start = 0, end = 4
 start = 6, end = 9
-start = 12, end = 16
-start = 18, end = 26
-start = 28, end = 205
+start = 13, end = 16
+start = 18, end = 22
+start = 24, end = 205
 start = 206, end = 405
 start = 406, end = 409
 start = 411, end = 504
@@ -10,9 +10,10 @@ start = 505, end = 605
 start = 606, end = 805
 start = 806, end = 809
 start = 811, end = 1004
-start = 1006, end = 1016
-start = 1018, end = 1026
-start = 1028, end = 1205
+start = 1006, end = 1011
+start = 1012, end = 1016
+start = 1018, end = 1022
+start = 1024, end = 1205
 start = 1206, end = 1209
 start = 1211, end = 1405
 start = 1406, end = 1504

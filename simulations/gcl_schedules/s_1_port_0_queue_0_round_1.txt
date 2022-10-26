@@ -1,6 +1,5 @@
 start = 6, end = 7
 start = 22, end = 23
-start = 24, end = 25
 start = 106, end = 107
 start = 206, end = 207
 start = 306, end = 307

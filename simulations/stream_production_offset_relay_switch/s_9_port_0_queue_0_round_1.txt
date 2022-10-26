@@ -1,0 +1,16 @@
+stream ID: 15, offset: 17
+stream ID: 32, offset: 20
+stream ID: 8, offset: 22
+stream ID: 39, offset: 25
+stream ID: 20, offset: 28
+stream ID: 15, offset: 417
+stream ID: 32, offset: 420
+stream ID: 8, offset: 522
+stream ID: 15, offset: 817
+stream ID: 32, offset: 820
+stream ID: 8, offset: 1022
+stream ID: 15, offset: 1217
+stream ID: 32, offset: 1220
+stream ID: 8, offset: 1522
+stream ID: 15, offset: 1617
+stream ID: 32, offset: 1620

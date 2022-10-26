@@ -7,10 +7,9 @@ stream ID: 31, offset: 8
 stream ID: 25, offset: 10
 stream ID: 32, offset: 12
 stream ID: 8, offset: 14
-stream ID: 13, offset: 16
-stream ID: 24, offset: 18
-stream ID: 36, offset: 20
-stream ID: 20, offset: 22
+stream ID: 13, offset: 17
+stream ID: 2, offset: 18
+stream ID: 20, offset: 20
 stream ID: 11, offset: 102
 stream ID: 3, offset: 201
 stream ID: 11, offset: 202
@@ -29,8 +28,7 @@ stream ID: 25, offset: 410
 stream ID: 32, offset: 412
 stream ID: 11, offset: 502
 stream ID: 8, offset: 514
-stream ID: 13, offset: 516
-stream ID: 24, offset: 518
+stream ID: 13, offset: 517
 stream ID: 3, offset: 601
 stream ID: 11, offset: 602
 stream ID: 27, offset: 603
@@ -54,8 +52,8 @@ stream ID: 26, offset: 1005
 stream ID: 10, offset: 1007
 stream ID: 31, offset: 1008
 stream ID: 8, offset: 1014
-stream ID: 13, offset: 1016
-stream ID: 24, offset: 1018
+stream ID: 13, offset: 1017
+stream ID: 2, offset: 1018
 stream ID: 11, offset: 1102
 stream ID: 3, offset: 1201
 stream ID: 11, offset: 1202
@@ -74,8 +72,7 @@ stream ID: 10, offset: 1407
 stream ID: 31, offset: 1408
 stream ID: 11, offset: 1502
 stream ID: 8, offset: 1514
-stream ID: 13, offset: 1516
-stream ID: 24, offset: 1518
+stream ID: 13, offset: 1517
 stream ID: 3, offset: 1601
 stream ID: 11, offset: 1602
 stream ID: 27, offset: 1603

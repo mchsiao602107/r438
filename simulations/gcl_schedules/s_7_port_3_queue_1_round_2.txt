@@ -1,1 +1,5 @@
-start = 36, end = 37
+start = 20, end = 21
+start = 25, end = 27
+start = 525, end = 527
+start = 1025, end = 1027
+start = 1525, end = 1527

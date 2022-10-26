@@ -7,10 +7,11 @@ start = 14, end = 16
 start = 16, end = 17
 start = 17, end = 18
 start = 18, end = 19
-start = 19, end = 20
 start = 22, end = 24
+start = 24, end = 25
 start = 25, end = 26
 start = 28, end = 30
+start = 30, end = 32
 start = 103, end = 104
 start = 106, end = 107
 start = 203, end = 204
@@ -51,9 +52,8 @@ start = 1008, end = 1010
 start = 1010, end = 1011
 start = 1017, end = 1018
 start = 1018, end = 1019
-start = 1019, end = 1020
 start = 1022, end = 1024
-start = 1025, end = 1026
+start = 1024, end = 1025
 start = 1103, end = 1104
 start = 1106, end = 1107
 start = 1203, end = 1204

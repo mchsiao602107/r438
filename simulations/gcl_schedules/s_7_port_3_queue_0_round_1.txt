@@ -1,6 +1,5 @@
 start = 4, end = 5
 start = 16, end = 18
-start = 24, end = 26
 start = 204, end = 205
 start = 404, end = 405
 start = 516, end = 518
@@ -8,7 +7,6 @@ start = 604, end = 605
 start = 804, end = 805
 start = 1004, end = 1005
 start = 1016, end = 1018
-start = 1024, end = 1026
 start = 1204, end = 1205
 start = 1404, end = 1405
 start = 1516, end = 1518

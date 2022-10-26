@@ -1,9 +1,6 @@
-start = 12, end = 15
-start = 17, end = 18
-start = 412, end = 415
-start = 517, end = 518
-start = 812, end = 815
-start = 1017, end = 1018
-start = 1212, end = 1215
-start = 1517, end = 1518
-start = 1612, end = 1615
+start = 13, end = 14
+start = 22, end = 23
+start = 422, end = 423
+start = 822, end = 823
+start = 1222, end = 1223
+start = 1622, end = 1623

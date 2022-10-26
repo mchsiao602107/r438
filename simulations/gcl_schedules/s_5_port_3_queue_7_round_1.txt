@@ -1,9 +1,8 @@
 start = 0, end = 3
 start = 5, end = 7
 start = 12, end = 14
-start = 17, end = 18
-start = 20, end = 28
-start = 30, end = 403
+start = 21, end = 26
+start = 28, end = 403
 start = 405, end = 407
 start = 409, end = 418
 start = 420, end = 509
@@ -13,7 +12,7 @@ start = 805, end = 807
 start = 809, end = 818
 start = 820, end = 1009
 start = 1012, end = 1014
-start = 1016, end = 1203
+start = 1018, end = 1203
 start = 1205, end = 1207
 start = 1209, end = 1218
 start = 1220, end = 1509

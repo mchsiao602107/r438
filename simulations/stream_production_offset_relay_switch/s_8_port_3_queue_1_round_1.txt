@@ -1,1 +1,0 @@
-stream ID: 1, offset: 21

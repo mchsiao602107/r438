@@ -1,9 +1,10 @@
 Streams with max(meanBitLifeTimePerPacket) >= deadline:
-tsn-90, partial_mesh.es_4.app[19], queue: 1, period: 200us, max: 409.8960us, mean: 196.4187us
+tsn-82, partial_mesh.es_6.app[22], queue: 1, period: 500us, max: 517.9920us, mean: 119.7904us
+tsn-84, partial_mesh.es_6.app[23], queue: 1, period: 500us, max: 522.0720us, mean: 418.7792us
 
 All streams have stats of meanBitLifeTimePerPacket.
 
-O1 (non-schedulable TSN stream count): 1 (rust) / 1 (sim)
-O2 (non-schedulable AVB stream count): 5 (rust)/ 0 (sim)
-O3 (rust rerouted background stream count): 5 (rust) / *
-O4 (sum of max e2e delay of AVB streams): 37.20ms (rust) / 0.00ms (sim)
+O1 (non-schedulable TSN stream count): 0 (rust) / 2 (sim)
+O2 (non-schedulable AVB stream count): 4 (rust)/ 0 (sim)
+O3 (rust rerouted background stream count): 1 (rust) / *
+O4 (sum of max e2e delay of AVB streams): 36.93ms (rust) / 0.00ms (sim)

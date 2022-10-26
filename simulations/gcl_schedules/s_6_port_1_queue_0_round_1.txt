@@ -4,9 +4,8 @@ start = 10, end = 12
 start = 12, end = 14
 start = 16, end = 17
 start = 17, end = 18
-start = 18, end = 19
-start = 20, end = 22
-start = 22, end = 24
+start = 19, end = 21
+start = 22, end = 23
 start = 24, end = 25
 start = 26, end = 28
 start = 102, end = 103
@@ -32,10 +31,8 @@ start = 1002, end = 1003
 start = 1006, end = 1008
 start = 1016, end = 1017
 start = 1017, end = 1018
-start = 1018, end = 1019
-start = 1020, end = 1022
-start = 1022, end = 1024
-start = 1024, end = 1025
+start = 1019, end = 1021
+start = 1022, end = 1023
 start = 1102, end = 1103
 start = 1202, end = 1203
 start = 1206, end = 1208

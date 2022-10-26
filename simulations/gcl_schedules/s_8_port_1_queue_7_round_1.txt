@@ -2,9 +2,9 @@ start = 0, end = 7
 start = 8, end = 11
 start = 14, end = 17
 start = 18, end = 19
-start = 20, end = 26
-start = 27, end = 28
-start = 30, end = 107
+start = 20, end = 25
+start = 26, end = 32
+start = 34, end = 107
 start = 108, end = 207
 start = 208, end = 211
 start = 214, end = 307
@@ -23,8 +23,8 @@ start = 818, end = 907
 start = 908, end = 1007
 start = 1008, end = 1011
 start = 1014, end = 1019
-start = 1020, end = 1026
-start = 1027, end = 1107
+start = 1020, end = 1025
+start = 1026, end = 1107
 start = 1108, end = 1207
 start = 1208, end = 1211
 start = 1214, end = 1217

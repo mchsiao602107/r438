@@ -113,7 +113,7 @@ with open(filename, "wt") as my_file:
     
     # Support flow reordering on relay switches (edge switches).
     relay_switches = ["s_1", "s_4", "s_5", "s_8", "s_9", "s_12"]
-    included_ports = {"s_1": [1, 2], "s_4": [0, 2], "s_5": [1, 2, 3], "s_8": [0, 2, 3], "s_9": [1, 2], "s_12": [0, 2]}
+    included_ports = {"s_1": [0, 1, 2], "s_4": [0, 1, 2], "s_5": [0, 1, 2, 3], "s_8": [0, 1, 2, 3], "s_9": [0, 1, 2], "s_12": [0, 1, 2]}
     for relay_switch, ports in included_ports.items():
         for port in ports:
             for queue_id in [0, 1]:
@@ -174,27 +174,30 @@ with open(filename, "wt") as my_file:
             frame_size, period = stream["size"], stream["period"]
             stream_id = stream["stream_id"]
             
-            num_source_applications[source] += 1
-            num_destination_applications[destination] += 1
+            # Exclude AVB streams not schedulable by rust.
+            if stream_id not in failed_streams:
 
-            # Source application.
-            my_file.write('{}.{}.app[{}].typename = "UdpSourceApp"\n'.format(network_name, source, app_counts[source]))
-            my_file.write('{}.{}.app[{}].display-name = "avb-{}"\n'.format(network_name, source, app_counts[source], stream_id))
-            my_file.write('{}.{}.app[{}].io.destAddress = "{}"\n'.format(network_name, source, app_counts[source], destination))
-            my_file.write('{}.{}.app[{}].io.destPort = {}\n'.format(network_name, source, app_counts[source], stream_id + 5000))
-            my_file.write('{}.{}.app[{}].source.packetNameFormat = "%M-%m-%c"\n'.format(network_name, source, app_counts[source]))
-            my_file.write('{}.{}.app[{}].source.packetLength = {}B\n'.format(network_name, source, app_counts[source], frame_size - 64))
-            my_file.write('{}.{}.app[{}].source.productionInterval = {}us\n'.format(network_name, source, app_counts[source], period))
-            my_file.write('{}.{}.app[{}].source.initialProductionOffset = {}us\n'.format(network_name, source, app_counts[source], random.randint(0, 10)))
+                num_source_applications[source] += 1
+                num_destination_applications[destination] += 1
 
-            # Destination application.
-            my_file.write('{}.{}.app[{}].typename = "UdpSinkApp"\n'.format(network_name, destination, app_counts[destination]))
-            my_file.write('{}.{}.app[{}].display-name = "avb-{}"\n'.format(network_name, destination, app_counts[destination], stream_id))
-            my_file.write('{}.{}.app[{}].io.localPort = {}\n'.format(network_name, destination, app_counts[destination], stream_id + 5000))
-            my_file.write("\n")
+                # Source application.
+                my_file.write('{}.{}.app[{}].typename = "UdpSourceApp"\n'.format(network_name, source, app_counts[source]))
+                my_file.write('{}.{}.app[{}].display-name = "avb-{}"\n'.format(network_name, source, app_counts[source], stream_id))
+                my_file.write('{}.{}.app[{}].io.destAddress = "{}"\n'.format(network_name, source, app_counts[source], destination))
+                my_file.write('{}.{}.app[{}].io.destPort = {}\n'.format(network_name, source, app_counts[source], stream_id + 5000))
+                my_file.write('{}.{}.app[{}].source.packetNameFormat = "%M-%m-%c"\n'.format(network_name, source, app_counts[source]))
+                my_file.write('{}.{}.app[{}].source.packetLength = {}B\n'.format(network_name, source, app_counts[source], frame_size - 64))
+                my_file.write('{}.{}.app[{}].source.productionInterval = {}us\n'.format(network_name, source, app_counts[source], period))
+                my_file.write('{}.{}.app[{}].source.initialProductionOffset = {}us\n'.format(network_name, source, app_counts[source], random.randint(0, 10)))
 
-            app_counts[source] += 1
-            app_counts[destination] += 1
+                # Destination application.
+                my_file.write('{}.{}.app[{}].typename = "UdpSinkApp"\n'.format(network_name, destination, app_counts[destination]))
+                my_file.write('{}.{}.app[{}].display-name = "avb-{}"\n'.format(network_name, destination, app_counts[destination], stream_id))
+                my_file.write('{}.{}.app[{}].io.localPort = {}\n'.format(network_name, destination, app_counts[destination], stream_id + 5000))
+                my_file.write("\n")
+
+                app_counts[source] += 1
+                app_counts[destination] += 1
 
     # Write actual number of applications.
     for es in ["es_1", "es_2", "es_3", "es_4", "es_5", "es_6"]:
@@ -244,7 +247,7 @@ with open(filename, "wt") as my_file:
     filename = "./routes_tsn_avb/routes_tsn_round_{}.txt".format(round_number) 
     with open(filename, "rt") as routes_tsn_file:
         line = routes_tsn_file.readline()
-        while True:
+        while line != "":
 
             # Get "stream ID", "pair of routes in rust notation", and "pair of routes in omnetpp notation".
             stream_id = int(re.findall(r"#([\d]+)", line)[0])
@@ -284,7 +287,7 @@ with open(filename, "wt") as my_file:
                 if is_avb_disable:
                     my_file.write("]")
                 else:
-                    my_file.write(",\n")
+                    my_file.write("")
                 break
             else:
                 my_file.write(",\n")
@@ -294,13 +297,22 @@ with open(filename, "wt") as my_file:
         filename = "./routes_tsn_avb/routes_avb_round_{}.txt".format(round_number) 
         with open(filename, "rt") as routes_avb_file:
             line = routes_avb_file.readline()
-            while True:
+            while line != "":
 
                 # Get "stream ID", "pair of routes in rust notation", and "pair of routes in omnetpp notation".
                 stream_id = int(re.findall(r"#([\d]+)", line)[0])
                 route_1, route_2 = tuple(re.findall(r"\[([,\s\d]+)\]", line))
                 route_1_mapped = [name_mapping[node.strip()] for node in route_1.split(",")]
                 route_2_mapped = [name_mapping[node.strip()] for node in route_2.split(",")]
+
+                # Exclude AVB streams not schedulable by rust.
+                if stream_id in failed_streams:
+                    line = routes_avb_file.readline()
+                    if not line:
+                        my_file.write("]")
+                        break
+                    else:
+                        continue
                 
                 # Convert "pair of routes in omnetpp notation" into format required by "trees".
                 route_1_mapped_string = str()
@@ -314,7 +326,7 @@ with open(filename, "wt") as my_file:
                     if i != len(route_2_mapped) - 1:
                         route_2_mapped_string += ", "
 
-                my_file.write('\t{{pcp: {}, name: "{}", packetFilter: "*-{}-*", source: "{}", destination: "{}", trees: [[[{}]], [[{}]]]}}'.format(
+                my_file.write(',\n\t{{pcp: {}, name: "{}", packetFilter: "*-{}-*", source: "{}", destination: "{}", trees: [[[{}]], [[{}]]]}}'.format(
                     stream_id_queue_id_mapping[str(stream_id)],
                     "avb-" + str(stream_id),
                     "avb-" + str(stream_id),
@@ -328,5 +340,3 @@ with open(filename, "wt") as my_file:
                 if not line:
                     my_file.write("]")
                     break
-                else:
-                    my_file.write(",\n")
