@@ -157,10 +157,12 @@ namespace inet
                     sscanf(line.c_str(), "start = %d, end = %d", &start, &end);
 
                     // 12 us guard band if no preemption, 2 us if having preemption.
-                    if ((end - start) <= 2)
-                        continue;
-                    else
-                        end -= 2;
+                    // Guard band is not required if using r438PeriodicGate.
+
+                    // if ((end - start) <= 2)
+                    //     continue;
+                    // else
+                    //     end -= 2;
 
                     slot.start = SimTime(start, SIMTIME_US);
                     slot.duration = SimTime((end - start), SIMTIME_US);
