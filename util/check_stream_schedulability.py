@@ -186,6 +186,6 @@ print()
 
 """Print objectives from rust & simulation result"""
 print("O1 (non-schedulable TSN stream count): {} (rust) / {} (sim)".format(O1_rust, O1_sim))
-print("O2 (non-schedulable AVB stream count): {} (rust)/ {} (sim)".format(O2_rust, O2_sim))
+print("O2 (non-schedulable AVB stream count): {} (rust) / {} (sim)".format(O2_rust, O2_sim))
 print("O3 (rust rerouted background stream count): {} (rust) / *".format(O3_rust))
 print("O4 (sum of max e2e delay of AVB streams): {:.2f}ms (rust) / {:.2f}ms (sim)".format(O4_rust, O4_sim * 1e3))

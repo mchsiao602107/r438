@@ -1,4 +1,8 @@
 #!/usr/bin/bash
+seed=2
+if [ "$#" -eq 1 ]; then
+    seed=$1
+fi
 
 # Get the absolue path of INET_workspace
 INET_workspace=$(dirname $(dirname $(readlink -f "$0")))
@@ -9,7 +13,7 @@ INET=$(ls -l "${INET_workspace}" | grep inet | awk '{print $9}')
 # Remove statistics of previous simulation.
 rm -rf "${INET_workspace}"/r438/simulations/results 
 rm -f "${INET_workspace}"/r438/simulations/General.anf
-rm "${INET_workspace}"/r438/simulations/stream_production_offset_relay_switch/*
+rm -f "${INET_workspace}"/r438/simulations/stream_production_offset_relay_switch/*
 
 # Run rust code to generate all required text files.
 cp "$INET_workspace"/r438/rust/*.rs "$INET_workspace"/r08922075/adams-ants-v1.3.2/src/
@@ -17,7 +21,7 @@ cp "$INET_workspace"/r438/util/streams/*.yaml "$INET_workspace"/r08922075/adams-
 cd "${INET_workspace}"/r08922075/adams-ants-v1.3.2
 # Disable warnings
 export RUSTFLAGS="-Awarnings"
-cargo run --release -- mesh-iso-aud.yaml -t 5 | tee "$INET_workspace"/r438/rust-result >/dev/null
+cargo run --release -- mesh-iso-aud.yaml -s $seed -t 0.1 | tee "$INET_workspace"/r438/rust-result >/dev/null
 
 # Sort production offset on relay switches.
 cd "${INET_workspace}"/r438/util

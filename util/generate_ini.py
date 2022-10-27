@@ -4,7 +4,10 @@ import sys
 import random
 
 # Flags for experimental purposes.
-is_avb_disable = False
+is_avb_enabled = False
+exclude_non_schedulable_avb = True
+is_flow_reorder_on_src_relay_sw = True
+is_flow_reorder_on_dst_relay_sw = True
 
 name_mapping = {"3": "es_1", "4": "es_3", "5": "es_5",
                 "6": "s_1", "7": "s_5", "8": "s_9",
@@ -113,7 +116,15 @@ with open(filename, "wt") as my_file:
     
     # Support flow reordering on relay switches (edge switches).
     relay_switches = ["s_1", "s_4", "s_5", "s_8", "s_9", "s_12"]
-    included_ports = {"s_1": [0, 1, 2], "s_4": [0, 1, 2], "s_5": [0, 1, 2, 3], "s_8": [0, 1, 2, 3], "s_9": [0, 1, 2], "s_12": [0, 1, 2]}
+    included_ports = {"s_1": [], "s_4": [], "s_5": [], "s_8": [], "s_9": [], "s_12": []}
+    if is_flow_reorder_on_src_relay_sw:
+        included_ports["s_1"] += [1, 2]; included_ports["s_4"] += [0, 2]
+        included_ports["s_5"] += [1, 2, 3]; included_ports["s_8"] += [0, 2, 3]
+        included_ports["s_9"] += [1, 2]; included_ports["s_12"] += [0, 2]
+    if is_flow_reorder_on_dst_relay_sw:
+        included_ports["s_1"] += [0]; included_ports["s_4"] += [1]
+        included_ports["s_5"] += [0]; included_ports["s_8"] += [1]
+        included_ports["s_9"] += [0]; included_ports["s_12"] += [1]
     for relay_switch, ports in included_ports.items():
         for port in ports:
             for queue_id in [0, 1]:
@@ -154,7 +165,7 @@ with open(filename, "wt") as my_file:
             my_file.write('{}.{}.app[{}].io.destAddress = "{}"\n'.format(network_name, source, app_counts[source], destination))
             my_file.write('{}.{}.app[{}].io.destPort = {}\n'.format(network_name, source, app_counts[source], stream_id + 5000))
             my_file.write('{}.{}.app[{}].source.packetNameFormat = "%M-%m-%c"\n'.format(network_name, source, app_counts[source]))
-            my_file.write('{}.{}.app[{}].source.packetLength = {}B\n'.format(network_name, source, app_counts[source], frame_size - 76))
+            my_file.write('{}.{}.app[{}].source.packetLength = {}B\n'.format(network_name, source, app_counts[source], frame_size - 64))
             my_file.write('{}.{}.app[{}].source.productionInterval = {}us\n'.format(network_name, source, app_counts[source], period))
             my_file.write('{}.{}.app[{}].source.initialProductionOffset = {}us\n'.format(network_name, source, app_counts[source], stream_id_initial_production_offset[stream_id]))        
             
@@ -168,14 +179,14 @@ with open(filename, "wt") as my_file:
             app_counts[destination] += 1
     
     # AVB streams.
-    if not is_avb_disable:
+    if is_avb_enabled:
         for stream in data["avbs"]:
             source, destination = name_mapping[str(stream["src"])], name_mapping[str(stream["dst"])]
             frame_size, period = stream["size"], stream["period"]
             stream_id = stream["stream_id"]
             
             # Exclude AVB streams not schedulable by rust.
-            if stream_id not in failed_streams:
+            if not exclude_non_schedulable_avb or stream_id not in failed_streams:
 
                 num_source_applications[source] += 1
                 num_destination_applications[destination] += 1
@@ -186,7 +197,7 @@ with open(filename, "wt") as my_file:
                 my_file.write('{}.{}.app[{}].io.destAddress = "{}"\n'.format(network_name, source, app_counts[source], destination))
                 my_file.write('{}.{}.app[{}].io.destPort = {}\n'.format(network_name, source, app_counts[source], stream_id + 5000))
                 my_file.write('{}.{}.app[{}].source.packetNameFormat = "%M-%m-%c"\n'.format(network_name, source, app_counts[source]))
-                my_file.write('{}.{}.app[{}].source.packetLength = {}B\n'.format(network_name, source, app_counts[source], frame_size - 76))
+                my_file.write('{}.{}.app[{}].source.packetLength = {}B\n'.format(network_name, source, app_counts[source], frame_size - 64))
                 my_file.write('{}.{}.app[{}].source.productionInterval = {}us\n'.format(network_name, source, app_counts[source], period))
                 my_file.write('{}.{}.app[{}].source.initialProductionOffset = {}us\n'.format(network_name, source, app_counts[source], random.randint(0, 10)))
 
@@ -284,7 +295,7 @@ with open(filename, "wt") as my_file:
 
             line = routes_tsn_file.readline()
             if not line:
-                if is_avb_disable:
+                if not is_avb_enabled:
                     my_file.write("]")
                 else:
                     my_file.write("")
@@ -293,7 +304,7 @@ with open(filename, "wt") as my_file:
                 my_file.write(",\n")
     
     # Add routes for AVB streams.
-    if not is_avb_disable:
+    if is_avb_enabled:
         filename = "./routes_tsn_avb/routes_avb_round_{}.txt".format(round_number) 
         with open(filename, "rt") as routes_avb_file:
             line = routes_avb_file.readline()
@@ -306,13 +317,14 @@ with open(filename, "wt") as my_file:
                 route_2_mapped = [name_mapping[node.strip()] for node in route_2.split(",")]
 
                 # Exclude AVB streams not schedulable by rust.
-                if stream_id in failed_streams:
-                    line = routes_avb_file.readline()
-                    if not line:
-                        my_file.write("]")
-                        break
-                    else:
-                        continue
+                if exclude_non_schedulable_avb:
+                    if stream_id in failed_streams:
+                        line = routes_avb_file.readline()
+                        if not line:
+                            my_file.write("]")
+                            break
+                        else:
+                            continue
                 
                 # Convert "pair of routes in omnetpp notation" into format required by "trees".
                 route_1_mapped_string = str()

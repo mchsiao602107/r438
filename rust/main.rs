@@ -148,7 +148,7 @@ fn main() {
             println!("[DEBUG_round-1] tsn-{}, {}, queue {}", event.value, port_id_from_rust_to_omnetpp[gcl_index], outcomes[event.value].used_queue());
             if outcomes[event.value].is_scheduled(){
                 for i in 0..hyperperiod / event.period {
-                    println!("{} - {}, ", event.start + event.period * i, event.end + event.period * i );
+                    println!("{} - {}", event.start + event.period * i, event.end + event.period * i );
                 }
             }
 
@@ -351,7 +351,7 @@ fn main() {
             println!("[DEBUG_round-2] tsn-{}, {}, queue {}", event.value, port_id_from_rust_to_omnetpp[gcl_index], outcomes[event.value].used_queue());
             if outcomes[event.value].is_scheduled(){
                 for i in 0..hyperperiod / event.period {
-                    println!("{} - {}, ", event.start + event.period * i, event.end + event.period * i );
+                    println!("{} - {}", event.start + event.period * i, event.end + event.period * i );
                 }
             }
 
