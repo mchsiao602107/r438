@@ -121,23 +121,31 @@ with open(filename, "wt") as my_file:
     my_file.write('*.es_*.eth[*].macLayer.preemptableMacLayer.queue.transmissionGate[*].typename = "r438PeriodicGate"\n')
     my_file.write('\n')
     
-    # Support flow reordering on relay switches (edge switches).
-    relay_switches = ["s_1", "s_4", "s_5", "s_8", "s_9", "s_12"]
-    included_ports = {"s_1": [], "s_4": [], "s_5": [], "s_8": [], "s_9": [], "s_12": []}
-    if is_flow_reorder_on_src_relay_sw:
-        included_ports["s_1"] += [1, 2]; included_ports["s_4"] += [0, 2]
-        included_ports["s_5"] += [1, 2, 3]; included_ports["s_8"] += [0, 2, 3]
-        included_ports["s_9"] += [1, 2]; included_ports["s_12"] += [0, 2]
-    if is_flow_reorder_on_dst_relay_sw:
-        included_ports["s_1"] += [0]; included_ports["s_4"] += [1]
-        included_ports["s_5"] += [0]; included_ports["s_8"] += [1]
-        included_ports["s_9"] += [0]; included_ports["s_12"] += [1]
-    for relay_switch, ports in included_ports.items():
-        for port in ports:
-            for queue_id in [0, 1]:
-                my_file.write('*.{}.eth[{}].macLayer.expressMacLayer.queue.queue[{}].typename = "r438PacketQueue"\n'.format(relay_switch, port, queue_id))
-                my_file.write('*.{}.eth[{}].macLayer.expressMacLayer.queue.queue[{}].round_number = {}\n'.format(relay_switch, port, queue_id, round_number))
+    # Support flow reordering on all queues of all ports.
+    for queue_id in [0, 1]:
+        my_file.write('*.s_*.eth[*].macLayer.expressMacLayer.queue.queue[{}].typename = "r438PacketQueue"\n'.format(queue_id))
+        my_file.write('*.s_*.eth[*].macLayer.expressMacLayer.queue.queue[{}].round_number = {}\n'.format(queue_id, round_number))
+        my_file.write('*.es_*.eth[*].macLayer.expressMacLayer.queue.queue[{}].typename = "r438PacketQueue"\n'.format(queue_id))
+        my_file.write('*.es_*.eth[*].macLayer.expressMacLayer.queue.queue[{}].round_number = {}\n'.format(queue_id, round_number))
     my_file.write('\n')
+
+    # # Support flow reordering on relay switches (edge switches).
+    # relay_switches = ["s_1", "s_4", "s_5", "s_8", "s_9", "s_12"]
+    # included_ports = {"s_1": [], "s_4": [], "s_5": [], "s_8": [], "s_9": [], "s_12": []}
+    # if is_flow_reorder_on_src_relay_sw:
+    #     included_ports["s_1"] += [1, 2]; included_ports["s_4"] += [0, 2]
+    #     included_ports["s_5"] += [1, 2, 3]; included_ports["s_8"] += [0, 2, 3]
+    #     included_ports["s_9"] += [1, 2]; included_ports["s_12"] += [0, 2]
+    # if is_flow_reorder_on_dst_relay_sw:
+    #     included_ports["s_1"] += [0]; included_ports["s_4"] += [1]
+    #     included_ports["s_5"] += [0]; included_ports["s_8"] += [1]
+    #     included_ports["s_9"] += [0]; included_ports["s_12"] += [1]
+    # for relay_switch, ports in included_ports.items():
+    #     for port in ports:
+    #         for queue_id in [0, 1]:
+    #             my_file.write('*.{}.eth[{}].macLayer.expressMacLayer.queue.queue[{}].typename = "r438PacketQueue"\n'.format(relay_switch, port, queue_id))
+    #             my_file.write('*.{}.eth[{}].macLayer.expressMacLayer.queue.queue[{}].round_number = {}\n'.format(relay_switch, port, queue_id, round_number))
+    # my_file.write('\n')
 
     # Enable egress traffic shaping on end stations.
     my_file.write("{}.es_*.hasEgressTrafficShaping = true\n".format(network_name))
