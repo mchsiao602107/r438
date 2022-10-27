@@ -4,7 +4,7 @@ import sys
 import random
 
 # Flags for experimental purposes.
-is_avb_enabled = False
+is_avb_enabled = True
 exclude_non_schedulable_avb = True
 is_flow_reorder_on_src_relay_sw = True
 is_flow_reorder_on_dst_relay_sw = True
@@ -113,6 +113,13 @@ with open(filename, "wt") as my_file:
     my_file.write('*.s_*.eth[*].macLayer.preemptableMacLayer.queue.typename = "Ieee8021qTimeAwareShaper"\n')
     my_file.write('*.s_*.eth[*].macLayer.outboundClassifier.classifierClass = "inet::PacketPcpIndClassifier"\n')
     my_file.write('\n')
+
+    # Use self-defined periodic gate.
+    my_file.write('*.s_*.eth[*].macLayer.expressMacLayer.queue.transmissionGate[*].typename = "r438PeriodicGate"\n')
+    my_file.write('*.s_*.eth[*].macLayer.preemptableMacLayer.queue.transmissionGate[*].typename = "r438PeriodicGate"\n')
+    my_file.write('*.es_*.eth[*].macLayer.expressMacLayer.queue.transmissionGate[*].typename = "r438PeriodicGate"\n')
+    my_file.write('*.es_*.eth[*].macLayer.preemptableMacLayer.queue.transmissionGate[*].typename = "r438PeriodicGate"\n')
+    my_file.write('\n')
     
     # Support flow reordering on relay switches (edge switches).
     relay_switches = ["s_1", "s_4", "s_5", "s_8", "s_9", "s_12"]
@@ -165,7 +172,7 @@ with open(filename, "wt") as my_file:
             my_file.write('{}.{}.app[{}].io.destAddress = "{}"\n'.format(network_name, source, app_counts[source], destination))
             my_file.write('{}.{}.app[{}].io.destPort = {}\n'.format(network_name, source, app_counts[source], stream_id + 5000))
             my_file.write('{}.{}.app[{}].source.packetNameFormat = "%M-%m-%c"\n'.format(network_name, source, app_counts[source]))
-            my_file.write('{}.{}.app[{}].source.packetLength = {}B\n'.format(network_name, source, app_counts[source], frame_size - 64))
+            my_file.write('{}.{}.app[{}].source.packetLength = {}B\n'.format(network_name, source, app_counts[source], frame_size - 76))
             my_file.write('{}.{}.app[{}].source.productionInterval = {}us\n'.format(network_name, source, app_counts[source], period))
             my_file.write('{}.{}.app[{}].source.initialProductionOffset = {}us\n'.format(network_name, source, app_counts[source], stream_id_initial_production_offset[stream_id]))        
             
@@ -197,7 +204,7 @@ with open(filename, "wt") as my_file:
                 my_file.write('{}.{}.app[{}].io.destAddress = "{}"\n'.format(network_name, source, app_counts[source], destination))
                 my_file.write('{}.{}.app[{}].io.destPort = {}\n'.format(network_name, source, app_counts[source], stream_id + 5000))
                 my_file.write('{}.{}.app[{}].source.packetNameFormat = "%M-%m-%c"\n'.format(network_name, source, app_counts[source]))
-                my_file.write('{}.{}.app[{}].source.packetLength = {}B\n'.format(network_name, source, app_counts[source], frame_size - 64))
+                my_file.write('{}.{}.app[{}].source.packetLength = {}B\n'.format(network_name, source, app_counts[source], frame_size - 76))
                 my_file.write('{}.{}.app[{}].source.productionInterval = {}us\n'.format(network_name, source, app_counts[source], period))
                 my_file.write('{}.{}.app[{}].source.initialProductionOffset = {}us\n'.format(network_name, source, app_counts[source], random.randint(0, 10)))
 

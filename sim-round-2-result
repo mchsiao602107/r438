@@ -1,8 +1,64 @@
-All streams have max(meanBitLifeTimePerPacket) < deadline.
+Streams with max(meanBitLifeTimePerPacket) >= deadline:
+tsn-11, partial_mesh.es_1.app[2], queue: 0, period: 100us, max: 1514.3040us, mean: 629.8853us
+tsn-13, partial_mesh.es_1.app[3], queue: 0, period: 500us, max: 1401.3040us, mean: 591.2780us
+tsn-75, partial_mesh.es_1.app[15], queue: 0, period: 500us, max: 1404.4560us, mean: 594.4300us
+tsn-81, partial_mesh.es_1.app[17], queue: 0, period: 100us, max: 1613.3120us, mean: 679.0072us
+tsn-91, partial_mesh.es_1.app[20], queue: 0, period: 200us, max: 1510.1440us, mean: 659.9296us
+tsn-99, partial_mesh.es_1.app[21], queue: 0, period: 1000us, max: 1193.1520us, mean: 601.7240us
+tsn-0, partial_mesh.es_2.app[0], queue: 0, period: 100us, max: 1712.1440us, mean: 616.3606us
+tsn-7, partial_mesh.es_2.app[1], queue: 0, period: 500us, max: 1316.6640us, mean: 548.4420us
+tsn-10, partial_mesh.es_2.app[3], queue: 0, period: 200us, max: 1535.7520us, mean: 663.2564us
+tsn-14, partial_mesh.es_2.app[6], queue: 0, period: 400us, max: 1415.4480us, mean: 595.7528us
+tsn-16, partial_mesh.es_2.app[7], queue: 0, period: 100us, max: 1711.8960us, mean: 618.1488us
+tsn-31, partial_mesh.es_2.app[10], queue: 0, period: 200us, max: 1501.8240us, mean: 626.7288us
+tsn-35, partial_mesh.es_2.app[11], queue: 0, period: 100us, max: 1713.8080us, mean: 637.0234us
+tsn-64, partial_mesh.es_2.app[15], queue: 0, period: 400us, max: 1414.5200us, mean: 605.0552us
+tsn-68, partial_mesh.es_2.app[16], queue: 0, period: 500us, max: 1316.7520us, mean: 542.6620us
+tsn-71, partial_mesh.es_2.app[17], queue: 0, period: 200us, max: 1526.9920us, mean: 653.9310us
+tsn-73, partial_mesh.es_2.app[18], queue: 0, period: 500us, max: 1315.7360us, mean: 578.7420us
+tsn-77, partial_mesh.es_2.app[20], queue: 0, period: 100us, max: 1721.8320us, mean: 666.8598us
+tsn-78, partial_mesh.es_2.app[21], queue: 0, period: 100us, max: 1720.5840us, mean: 671.0328us
+tsn-85, partial_mesh.es_2.app[25], queue: 0, period: 200us, max: 1537.3120us, mean: 666.8971us
+tsn-96, partial_mesh.es_2.app[28], queue: 0, period: 1000us, max: 1016.1520us, mean: 525.1520us
+tsn-3, partial_mesh.es_3.app[1], queue: 0, period: 200us, max: 1607.9120us, mean: 646.8688us
+tsn-6, partial_mesh.es_3.app[3], queue: 0, period: 200us, max: 1420.1200us, mean: 608.8720us
+tsn-17, partial_mesh.es_3.app[8], queue: 0, period: 400us, max: 1608.8800us, mean: 676.0064us
+tsn-22, partial_mesh.es_3.app[10], queue: 0, period: 500us, max: 1322.7520us, mean: 535.2600us
+tsn-24, partial_mesh.es_3.app[11], queue: 0, period: 500us, max: 1398.9120us, mean: 573.9720us
+tsn-25, partial_mesh.es_3.app[12], queue: 0, period: 400us, max: 1602.9760us, mean: 646.4504us
+tsn-26, partial_mesh.es_3.app[13], queue: 0, period: 200us, max: 1609.9840us, mean: 650.3696us
+tsn-63, partial_mesh.es_3.app[16], queue: 0, period: 200us, max: 1608.8160us, mean: 683.0968us
+tsn-69, partial_mesh.es_3.app[18], queue: 0, period: 400us, max: 1603.9680us, mean: 655.0816us
+tsn-72, partial_mesh.es_3.app[20], queue: 0, period: 200us, max: 1609.8880us, mean: 688.6472us
+tsn-74, partial_mesh.es_3.app[22], queue: 0, period: 500us, max: 1400.7360us, mean: 631.4020us
+tsn-76, partial_mesh.es_3.app[23], queue: 0, period: 500us, max: 1397.7440us, mean: 585.0960us
+tsn-80, partial_mesh.es_3.app[26], queue: 0, period: 100us, max: 1541.1520us, mean: 663.7360us
+tsn-86, partial_mesh.es_3.app[28], queue: 0, period: 100us, max: 1544.1440us, mean: 670.1237us
+tsn-97, partial_mesh.es_3.app[32], queue: 0, period: 1000us, max: 1036.8160us, mean: 453.3600us
+tsn-4, partial_mesh.es_4.app[2], queue: 0, period: 200us, max: 1543.1520us, mean: 652.5330us
+tsn-12, partial_mesh.es_4.app[4], queue: 0, period: 200us, max: 1607.9120us, mean: 632.3120us
+tsn-37, partial_mesh.es_4.app[11], queue: 0, period: 100us, max: 1711.9120us, mean: 679.7389us
+tsn-79, partial_mesh.es_4.app[14], queue: 0, period: 100us, max: 1610.7520us, mean: 665.6758us
+tsn-83, partial_mesh.es_4.app[15], queue: 0, period: 500us, max: 1303.9920us, mean: 569.4810us
+tsn-8, partial_mesh.es_5.app[1], queue: 0, period: 500us, max: 1324.2320us, mean: 646.4820us
+tsn-32, partial_mesh.es_5.app[6], queue: 0, period: 400us, max: 1429.0720us, mean: 645.0720us
+tsn-62, partial_mesh.es_5.app[12], queue: 0, period: 200us, max: 1619.1520us, mean: 661.9520us
+tsn-98, partial_mesh.es_5.app[16], queue: 0, period: 1000us, max: 1405.1520us, mean: 689.1520us
+tsn-5, partial_mesh.es_6.app[2], queue: 0, period: 400us, max: 1442.0720us, mean: 646.3720us
+tsn-9, partial_mesh.es_6.app[3], queue: 0, period: 1000us, max: 1200.2320us, mean: 607.7320us
+tsn-21, partial_mesh.es_6.app[7], queue: 0, period: 1000us, max: 1199.2320us, mean: 610.7320us
+tsn-27, partial_mesh.es_6.app[9], queue: 0, period: 200us, max: 1422.8320us, mean: 611.0300us
+tsn-66, partial_mesh.es_6.app[16], queue: 0, period: 500us, max: 1402.8320us, mean: 625.5810us
+tsn-70, partial_mesh.es_6.app[19], queue: 0, period: 400us, max: 1500.9920us, mean: 664.3920us
+tsn-82, partial_mesh.es_6.app[21], queue: 0, period: 500us, max: 1400.8240us, mean: 624.6140us
+tsn-92, partial_mesh.es_6.app[25], queue: 0, period: 200us, max: 1609.2160us, mean: 676.8684us
+tsn-93, partial_mesh.es_6.app[26], queue: 0, period: 100us, max: 1812.9920us, mean: 692.3707us
+tsn-94, partial_mesh.es_6.app[27], queue: 0, period: 400us, max: 1501.9040us, mean: 684.9880us
+tsn-95, partial_mesh.es_6.app[28], queue: 0, period: 200us, max: 1615.9920us, mean: 692.4420us
 
 All streams have stats of meanBitLifeTimePerPacket.
 
-O1 (non-schedulable TSN stream count): 1 (rust) / 0 (sim)
-O2 (non-schedulable AVB stream count): 3 (rust)/ 0 (sim)
-O3 (rust rerouted background stream count): 10 (rust) / *
-O4 (sum of max e2e delay of AVB streams): 35.73ms (rust) / 6.92ms (sim)
+O1 (non-schedulable TSN stream count): 4 (rust) / 56 (sim)
+O2 (non-schedulable AVB stream count): 5 (rust) / 0 (sim)
+O3 (rust rerouted background stream count): 21 (rust) / *
+O4 (sum of max e2e delay of AVB streams): 42.51ms (rust) / 9.68ms (sim)
