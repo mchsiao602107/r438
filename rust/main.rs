@@ -376,25 +376,25 @@ fn main() {
             gcl_one_hyperperiod_queue_0.swap(min_index, i);
         }
         
-        let mut is_entry_changed = true;
-        while is_entry_changed {
-            is_entry_changed = false;
-            for i in 0..gcl_one_hyperperiod_queue_0.len() {
-                for j in (i + 1)..gcl_one_hyperperiod_queue_0.len() {
-                    if gcl_one_hyperperiod_queue_0[i].end == gcl_one_hyperperiod_queue_0[j].start {
-                        let new_entry = Range { start: gcl_one_hyperperiod_queue_0[i].start, end: gcl_one_hyperperiod_queue_0[j].end };
-                        gcl_one_hyperperiod_queue_0.remove(j);
-                        gcl_one_hyperperiod_queue_0.remove(i);
-                        gcl_one_hyperperiod_queue_0.insert(i, new_entry);
-                        is_entry_changed = true;
-                        break;
-                    }
-                }
-                if is_entry_changed {
-                    break;
-                }
-            }
-        }
+        // let mut is_entry_changed = true;
+        // while is_entry_changed {
+        //     is_entry_changed = false;
+        //     for i in 0..gcl_one_hyperperiod_queue_0.len() {
+        //         for j in (i + 1)..gcl_one_hyperperiod_queue_0.len() {
+        //             if gcl_one_hyperperiod_queue_0[i].end == gcl_one_hyperperiod_queue_0[j].start {
+        //                 let new_entry = Range { start: gcl_one_hyperperiod_queue_0[i].start, end: gcl_one_hyperperiod_queue_0[j].end };
+        //                 gcl_one_hyperperiod_queue_0.remove(j);
+        //                 gcl_one_hyperperiod_queue_0.remove(i);
+        //                 gcl_one_hyperperiod_queue_0.insert(i, new_entry);
+        //                 is_entry_changed = true;
+        //                 break;
+        //             }
+        //         }
+        //         if is_entry_changed {
+        //             break;
+        //         }
+        //     }
+        // }
 
         for i in 0..gcl_one_hyperperiod_queue_1.len() {
             let mut min_index = i;
@@ -406,25 +406,25 @@ fn main() {
             gcl_one_hyperperiod_queue_1.swap(min_index, i);
         }
         
-        let mut is_entry_changed = true;
-        while is_entry_changed {
-            is_entry_changed = false;
-            for i in 0..gcl_one_hyperperiod_queue_1.len() {
-                for j in (i + 1)..gcl_one_hyperperiod_queue_1.len() {
-                    if gcl_one_hyperperiod_queue_1[i].end == gcl_one_hyperperiod_queue_1[j].start {
-                        let new_entry = Range { start: gcl_one_hyperperiod_queue_1[i].start, end: gcl_one_hyperperiod_queue_1[j].end };
-                        gcl_one_hyperperiod_queue_1.remove(j);
-                        gcl_one_hyperperiod_queue_1.remove(i);
-                        gcl_one_hyperperiod_queue_1.insert(i, new_entry);
-                        is_entry_changed = true;
-                        break;
-                    }
-                }
-                if is_entry_changed {
-                    break;
-                }
-            }
-        }
+        // let mut is_entry_changed = true;
+        // while is_entry_changed {
+        //     is_entry_changed = false;
+        //     for i in 0..gcl_one_hyperperiod_queue_1.len() {
+        //         for j in (i + 1)..gcl_one_hyperperiod_queue_1.len() {
+        //             if gcl_one_hyperperiod_queue_1[i].end == gcl_one_hyperperiod_queue_1[j].start {
+        //                 let new_entry = Range { start: gcl_one_hyperperiod_queue_1[i].start, end: gcl_one_hyperperiod_queue_1[j].end };
+        //                 gcl_one_hyperperiod_queue_1.remove(j);
+        //                 gcl_one_hyperperiod_queue_1.remove(i);
+        //                 gcl_one_hyperperiod_queue_1.insert(i, new_entry);
+        //                 is_entry_changed = true;
+        //                 break;
+        //             }
+        //         }
+        //         if is_entry_changed {
+        //             break;
+        //         }
+        //     }
+        // }
 
         let filename_queue_0 = format!("../../r438/simulations/gcl_schedules/{}_queue_0_round_2.txt", port_id_from_rust_to_omnetpp[gcl_index]);
         let mut file_queue_0 = File::create(filename_queue_0).expect("Cannot create text file for queue 0");
