@@ -6,8 +6,9 @@ import random
 # Flags for experimental purposes.
 is_avb_enabled = True
 exclude_non_schedulable_avb = True
-is_flow_reorder_on_src_relay_sw = True
-is_flow_reorder_on_dst_relay_sw = True
+# is_flow_reorder_on_src_relay_sw = True
+# is_flow_reorder_on_dst_relay_sw = True
+is_frame_preemption_enabled = True
 
 name_mapping = {"3": "es_1", "4": "es_3", "5": "es_5",
                 "6": "s_1", "7": "s_5", "8": "s_9",
@@ -99,35 +100,51 @@ with open(filename, "wt") as my_file:
     my_file.write("**.visualizer.interfaceTableVisualizer.displayInterfaceTables = true\n")
     my_file.write("\n")
 
+    # Increase the size of sequence number buffer to avoid unintended elimintaion.
+    my_file.write("**.s_*.bridging.streamRelay.merger.bufferSize = 100\n")
+    my_file.write("\n")
+
     # Frame preemption.
-    my_file.write('**.crcMode = "computed"\n')
-    my_file.write('**.fcsMode = "computed"\n')
-    my_file.write('*.es_*.hasFramePreemption = true\n')
-    my_file.write('*.es_*.eth[*].macLayer.queue.typename = ""\n')
-    my_file.write('*.es_*.eth[*].macLayer.expressMacLayer.queue.typename = "Ieee8021qTimeAwareShaper"\n')
-    my_file.write('*.es_*.eth[*].macLayer.preemptableMacLayer.queue.typename = "Ieee8021qTimeAwareShaper"\n')
-    my_file.write('*.es_*.eth[*].macLayer.outboundClassifier.classifierClass = "inet::PacketPcpIndClassifier"\n')
-    my_file.write('*.s_*.hasFramePreemption = true\n')
-    my_file.write('*.s_*.eth[*].macLayer.queue.typename = ""\n')
-    my_file.write('*.s_*.eth[*].macLayer.expressMacLayer.queue.typename = "Ieee8021qTimeAwareShaper"\n')    
-    my_file.write('*.s_*.eth[*].macLayer.preemptableMacLayer.queue.typename = "Ieee8021qTimeAwareShaper"\n')
-    my_file.write('*.s_*.eth[*].macLayer.outboundClassifier.classifierClass = "inet::PacketPcpIndClassifier"\n')
-    my_file.write('\n')
+    if is_frame_preemption_enabled:
+        my_file.write('**.crcMode = "computed"\n')
+        my_file.write('**.fcsMode = "computed"\n')
+        my_file.write('*.es_*.hasFramePreemption = true\n')
+        my_file.write('*.es_*.eth[*].macLayer.queue.typename = ""\n')
+        my_file.write('*.es_*.eth[*].macLayer.expressMacLayer.queue.typename = "Ieee8021qTimeAwareShaper"\n')
+        my_file.write('*.es_*.eth[*].macLayer.preemptableMacLayer.queue.typename = "Ieee8021qTimeAwareShaper"\n')
+        my_file.write('*.es_*.eth[*].macLayer.outboundClassifier.classifierClass = "inet::PacketPcpIndClassifier"\n')
+        my_file.write('*.s_*.hasFramePreemption = true\n')
+        my_file.write('*.s_*.eth[*].macLayer.queue.typename = ""\n')
+        my_file.write('*.s_*.eth[*].macLayer.expressMacLayer.queue.typename = "Ieee8021qTimeAwareShaper"\n')
+        my_file.write('*.s_*.eth[*].macLayer.preemptableMacLayer.queue.typename = "Ieee8021qTimeAwareShaper"\n')
+        my_file.write('*.s_*.eth[*].macLayer.outboundClassifier.classifierClass = "inet::PacketPcpIndClassifier"\n')
+        my_file.write('\n')
 
     # Use self-defined periodic gate.
-    my_file.write('*.s_*.eth[*].macLayer.expressMacLayer.queue.transmissionGate[*].typename = "r438PeriodicGate"\n')
-    my_file.write('*.s_*.eth[*].macLayer.preemptableMacLayer.queue.transmissionGate[*].typename = "r438PeriodicGate"\n')
-    my_file.write('*.es_*.eth[*].macLayer.expressMacLayer.queue.transmissionGate[*].typename = "r438PeriodicGate"\n')
-    my_file.write('*.es_*.eth[*].macLayer.preemptableMacLayer.queue.transmissionGate[*].typename = "r438PeriodicGate"\n')
-    my_file.write('\n')
-    
+    if is_frame_preemption_enabled:
+        my_file.write('*.s_*.eth[*].macLayer.expressMacLayer.queue.transmissionGate[*].typename = "r438PeriodicGate"\n')
+        my_file.write('*.s_*.eth[*].macLayer.preemptableMacLayer.queue.transmissionGate[*].typename = "r438PeriodicGate"\n')
+        my_file.write('*.es_*.eth[*].macLayer.expressMacLayer.queue.transmissionGate[*].typename = "r438PeriodicGate"\n')
+        my_file.write('*.es_*.eth[*].macLayer.preemptableMacLayer.queue.transmissionGate[*].typename = "r438PeriodicGate"\n')
+        my_file.write('\n')
+    else:
+        my_file.write('*.s_*.eth[*].macLayer.queue.transmissionGate[*].typename = "r438PeriodicGate"\n')
+        my_file.write('*.es_*.eth[*].macLayer.queue.transmissionGate[*].typename = "r438PeriodicGate"\n')
+        my_file.write('\n')
+
     # Support flow reordering on all queues of all ports.
-    for queue_id in [0, 1]:
-        my_file.write('*.s_*.eth[*].macLayer.expressMacLayer.queue.queue[{}].typename = "r438PacketQueue"\n'.format(queue_id))
-        my_file.write('*.s_*.eth[*].macLayer.expressMacLayer.queue.queue[{}].round_number = {}\n'.format(queue_id, round_number))
-        my_file.write('*.es_*.eth[*].macLayer.expressMacLayer.queue.queue[{}].typename = "r438PacketQueue"\n'.format(queue_id))
-        my_file.write('*.es_*.eth[*].macLayer.expressMacLayer.queue.queue[{}].round_number = {}\n'.format(queue_id, round_number))
-    my_file.write('\n')
+    if is_frame_preemption_enabled:
+        for queue_id in [0, 1]:
+            my_file.write('*.s_*.eth[*].macLayer.expressMacLayer.queue.queue[{}].typename = "r438PacketQueue"\n'.format(queue_id))
+            my_file.write('*.s_*.eth[*].macLayer.expressMacLayer.queue.queue[{}].round_number = {}\n'.format(queue_id, round_number))
+            my_file.write('*.es_*.eth[*].macLayer.expressMacLayer.queue.queue[{}].typename = "r438PacketQueue"\n'.format(queue_id))
+            my_file.write('*.es_*.eth[*].macLayer.expressMacLayer.queue.queue[{}].round_number = {}\n'.format(queue_id, round_number))
+        my_file.write('\n')
+    else:
+        for queue_id in [0, 1]:
+            my_file.write('*.s_*.eth[*].macLayer.queue.queue[{}].typename = "r438PacketQueue"\n'.format(queue_id))
+            my_file.write('*.es_*.eth[*].macLayer.queue.queue[{}].typename = "r438PacketQueue"\n'.format(queue_id))
+        my_file.write('\n')
 
     # # Support flow reordering on relay switches (edge switches).
     # relay_switches = ["s_1", "s_4", "s_5", "s_8", "s_9", "s_12"]
@@ -156,12 +173,12 @@ with open(filename, "wt") as my_file:
     my_file.write("{}.s_*.hasOutgoingStreams = true\n".format(network_name))
     my_file.write("{}.s_*.hasEgressTrafficShaping = true\n".format(network_name))
     my_file.write("\n")
-    
+
     # Application settings.
     app_counts = {"es_1": 0, "es_2": 0, "es_3": 0, "es_4": 0, "es_5": 0, "es_6": 0}
     num_source_applications = {"es_1": 0, "es_2": 0, "es_3": 0, "es_4": 0, "es_5": 0, "es_6": 0}
     num_destination_applications = {"es_1": 0, "es_2": 0, "es_3": 0, "es_4": 0, "es_5": 0, "es_6": 0}
-        
+
     # TSN streams.
     for stream in data["tsns"]:
         source, destination = name_mapping[str(stream["src"])], name_mapping[str(stream["dst"])]
@@ -173,17 +190,17 @@ with open(filename, "wt") as my_file:
 
             num_source_applications[source] += 1
             num_destination_applications[destination] += 1
-            
+
             # Source application.
             my_file.write('{}.{}.app[{}].typename = "UdpSourceApp"\n'.format(network_name, source, app_counts[source]))
             my_file.write('{}.{}.app[{}].display-name = "tsn-{}"\n'.format(network_name, source, app_counts[source], stream_id))
             my_file.write('{}.{}.app[{}].io.destAddress = "{}"\n'.format(network_name, source, app_counts[source], destination))
             my_file.write('{}.{}.app[{}].io.destPort = {}\n'.format(network_name, source, app_counts[source], stream_id + 5000))
             my_file.write('{}.{}.app[{}].source.packetNameFormat = "%M-%m-%c"\n'.format(network_name, source, app_counts[source]))
-            my_file.write('{}.{}.app[{}].source.packetLength = {}B\n'.format(network_name, source, app_counts[source], frame_size - 76))
+            my_file.write('{}.{}.app[{}].source.packetLength = {}B\n'.format(network_name, source, app_counts[source], frame_size - 64))
             my_file.write('{}.{}.app[{}].source.productionInterval = {}us\n'.format(network_name, source, app_counts[source], period))
-            my_file.write('{}.{}.app[{}].source.initialProductionOffset = {}us\n'.format(network_name, source, app_counts[source], stream_id_initial_production_offset[stream_id]))        
-            
+            my_file.write('{}.{}.app[{}].source.initialProductionOffset = {}us\n'.format(network_name, source, app_counts[source], stream_id_initial_production_offset[stream_id]))
+
             # Destination application.
             my_file.write('{}.{}.app[{}].typename = "UdpSinkApp"\n'.format(network_name, destination, app_counts[destination]))
             my_file.write('{}.{}.app[{}].display-name = "tsn-{}"\n'.format(network_name, destination, app_counts[destination], stream_id))
@@ -192,14 +209,14 @@ with open(filename, "wt") as my_file:
 
             app_counts[source] += 1
             app_counts[destination] += 1
-    
+
     # AVB streams.
     if is_avb_enabled:
         for stream in data["avbs"]:
             source, destination = name_mapping[str(stream["src"])], name_mapping[str(stream["dst"])]
             frame_size, period = stream["size"], stream["period"]
             stream_id = stream["stream_id"]
-            
+
             # Exclude AVB streams not schedulable by rust.
             if not exclude_non_schedulable_avb or stream_id not in failed_streams:
 
@@ -212,7 +229,7 @@ with open(filename, "wt") as my_file:
                 my_file.write('{}.{}.app[{}].io.destAddress = "{}"\n'.format(network_name, source, app_counts[source], destination))
                 my_file.write('{}.{}.app[{}].io.destPort = {}\n'.format(network_name, source, app_counts[source], stream_id + 5000))
                 my_file.write('{}.{}.app[{}].source.packetNameFormat = "%M-%m-%c"\n'.format(network_name, source, app_counts[source]))
-                my_file.write('{}.{}.app[{}].source.packetLength = {}B\n'.format(network_name, source, app_counts[source], frame_size - 76))
+                my_file.write('{}.{}.app[{}].source.packetLength = {}B\n'.format(network_name, source, app_counts[source], frame_size - 64))
                 my_file.write('{}.{}.app[{}].source.productionInterval = {}us\n'.format(network_name, source, app_counts[source], period))
                 my_file.write('{}.{}.app[{}].source.initialProductionOffset = {}us\n'.format(network_name, source, app_counts[source], random.randint(0, 10)))
 
@@ -236,24 +253,34 @@ with open(filename, "wt") as my_file:
     my_file.write("\n")
 
     # PCP to gate index mapping.
-    my_file.write("*.*.eth[*].macLayer.expressMacLayer.queue.classifier.mapping = [[0, 0, 0, 0, 0, 0, 0, 0],\n")
-    my_file.write("                                                                [0, 0, 0, 0, 0, 1, 1, 1],\n")
-    my_file.write("                                                                [0, 0, 0, 1, 1, 2, 2, 2],\n")
-    my_file.write("                                                                [0, 0, 0, 1, 1, 2, 3, 3],\n")
-    my_file.write("                                                                [0, 1, 1, 2, 2, 3, 4, 4],\n")
-    my_file.write("                                                                [0, 1, 1, 2, 2, 3, 4, 5],\n")
-    my_file.write("                                                                [0, 1, 2, 3, 3, 4, 5, 6],\n")
-    my_file.write("                                                                [0, 1, 2, 3, 4, 5, 6, 7]]\n")
-    my_file.write("\n")
-    my_file.write("*.*.eth[*].macLayer.preemptableMacLayer.queue.classifier.mapping = [[0, 0, 0, 0, 0, 0, 0, 0],\n")
-    my_file.write("                                                                    [0, 0, 0, 0, 0, 1, 1, 1],\n")
-    my_file.write("                                                                    [0, 0, 0, 1, 1, 2, 2, 2],\n")
-    my_file.write("                                                                    [0, 0, 0, 1, 1, 2, 3, 3],\n")
-    my_file.write("                                                                    [0, 1, 1, 2, 2, 3, 4, 4],\n")
-    my_file.write("                                                                    [0, 1, 1, 2, 2, 3, 4, 5],\n")
-    my_file.write("                                                                    [0, 1, 2, 3, 3, 4, 5, 6],\n")
-    my_file.write("                                                                    [0, 1, 2, 3, 4, 5, 6, 7]]\n")
-    my_file.write("\n")
+    if is_frame_preemption_enabled:
+        my_file.write("*.*.eth[*].macLayer.expressMacLayer.queue.classifier.mapping = [[0, 0, 0, 0, 0, 0, 0, 0],\n")
+        my_file.write("                                                                [0, 0, 0, 0, 0, 1, 1, 1],\n")
+        my_file.write("                                                                [0, 0, 0, 1, 1, 2, 2, 2],\n")
+        my_file.write("                                                                [0, 0, 0, 1, 1, 2, 3, 3],\n")
+        my_file.write("                                                                [0, 1, 1, 2, 2, 3, 4, 4],\n")
+        my_file.write("                                                                [0, 1, 1, 2, 2, 3, 4, 5],\n")
+        my_file.write("                                                                [0, 1, 2, 3, 3, 4, 5, 6],\n")
+        my_file.write("                                                                [0, 1, 2, 3, 4, 5, 6, 7]]\n")
+        my_file.write("\n")
+        my_file.write("*.*.eth[*].macLayer.preemptableMacLayer.queue.classifier.mapping = [[0, 0, 0, 0, 0, 0, 0, 0],\n")
+        my_file.write("                                                                    [0, 0, 0, 0, 0, 1, 1, 1],\n")
+        my_file.write("                                                                    [0, 0, 0, 1, 1, 2, 2, 2],\n")
+        my_file.write("                                                                    [0, 0, 0, 1, 1, 2, 3, 3],\n")
+        my_file.write("                                                                    [0, 1, 1, 2, 2, 3, 4, 4],\n")
+        my_file.write("                                                                    [0, 1, 1, 2, 2, 3, 4, 5],\n")
+        my_file.write("                                                                    [0, 1, 2, 3, 3, 4, 5, 6],\n")
+        my_file.write("                                                                    [0, 1, 2, 3, 4, 5, 6, 7]]\n")
+        my_file.write("\n")
+    else:
+        my_file.write("*.*.eth[*].macLayer.queue.classifier.mapping = [[0, 0, 0, 0, 0, 0, 0, 0],\n")
+        my_file.write("                                                [0, 0, 0, 0, 0, 1, 1, 1],\n")
+        my_file.write("                                                [0, 0, 0, 1, 1, 2, 2, 2],\n")
+        my_file.write("                                                [0, 0, 0, 1, 1, 2, 3, 3],\n")
+        my_file.write("                                                [0, 1, 1, 2, 2, 3, 4, 4],\n")
+        my_file.write("                                                [0, 1, 1, 2, 2, 3, 4, 5],\n")
+        my_file.write("                                                [0, 1, 2, 3, 3, 4, 5, 6],\n")
+        my_file.write("                                                [0, 1, 2, 3, 4, 5, 6, 7]]\n")
 
     # Scheduling.
     my_file.write('*.gateScheduleConfigurator.typename = "r438GateScheduleConfigurator"\n')
@@ -270,7 +297,7 @@ with open(filename, "wt") as my_file:
     my_file.write('*.streamRedundancyConfigurator.configuration = [\n')
 
     # Add routes for TSN streams.
-    filename = "./routes_tsn_avb/routes_tsn_round_{}.txt".format(round_number) 
+    filename = "./routes_tsn_avb/routes_tsn_round_{}.txt".format(round_number)
     with open(filename, "rt") as routes_tsn_file:
         line = routes_tsn_file.readline()
         while line != "":
@@ -285,7 +312,7 @@ with open(filename, "wt") as my_file:
             if stream_id in failed_streams:
                 line = routes_tsn_file.readline()
                 continue
-                
+
             # Convert "pair of routes in omnetpp notation" into format required by "trees".
             route_1_mapped_string = str()
             for i in range(len(route_1_mapped)):
@@ -317,10 +344,10 @@ with open(filename, "wt") as my_file:
                 break
             else:
                 my_file.write(",\n")
-    
+
     # Add routes for AVB streams.
     if is_avb_enabled:
-        filename = "./routes_tsn_avb/routes_avb_round_{}.txt".format(round_number) 
+        filename = "./routes_tsn_avb/routes_avb_round_{}.txt".format(round_number)
         with open(filename, "rt") as routes_avb_file:
             line = routes_avb_file.readline()
             while line != "":
@@ -340,7 +367,7 @@ with open(filename, "wt") as my_file:
                             break
                         else:
                             continue
-                
+
                 # Convert "pair of routes in omnetpp notation" into format required by "trees".
                 route_1_mapped_string = str()
                 for i in range(len(route_1_mapped)):
