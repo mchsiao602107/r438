@@ -8,7 +8,7 @@ is_avb_enabled = True
 exclude_non_schedulable_avb = True
 # is_flow_reorder_on_src_relay_sw = True
 # is_flow_reorder_on_dst_relay_sw = True
-is_frame_preemption_enabled = True
+is_frame_preemption_enabled = False
 
 name_mapping = {"3": "es_1", "4": "es_3", "5": "es_5",
                 "6": "s_1", "7": "s_5", "8": "s_9",
@@ -143,7 +143,9 @@ with open(filename, "wt") as my_file:
     else:
         for queue_id in [0, 1]:
             my_file.write('*.s_*.eth[*].macLayer.queue.queue[{}].typename = "r438PacketQueue"\n'.format(queue_id))
+            my_file.write('*.s_*.eth[*].macLayer.queue.queue[{}].round_number = {}\n'.format(queue_id, round_number))
             my_file.write('*.es_*.eth[*].macLayer.queue.queue[{}].typename = "r438PacketQueue"\n'.format(queue_id))
+            my_file.write('*.es_*.eth[*].macLayer.queue.queue[{}].round_number = {}\n'.format(queue_id, round_number))
         my_file.write('\n')
 
     # # Support flow reordering on relay switches (edge switches).
@@ -286,6 +288,7 @@ with open(filename, "wt") as my_file:
     my_file.write('*.gateScheduleConfigurator.typename = "r438GateScheduleConfigurator"\n')
     my_file.write('*.gateScheduleConfigurator.gateCycleDuration = {}us\n'.format(data["scale"]["hyperperiod"]))
     my_file.write('*.gateScheduleConfigurator.round_number = {}\n'.format(round_number))
+    my_file.write('*.gateScheduleConfigurator.frame_preemption_enabled = {}\n'.format("true" if is_frame_preemption_enabled else "false"))
     my_file.write("\n")
 
     # Routing and FRER.

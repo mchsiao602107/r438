@@ -38,7 +38,10 @@ namespace inet {
             // Get switch and port that this queue belongs to.
             int port_id = -1, queue_id = -1;
             char device_id [10] = "";
-            sscanf(this->getFullPath().c_str(), "partial_mesh.%[^.].eth[%d].macLayer.expressMacLayer.queue.queue[%d]", device_id, &port_id, &queue_id);
+            sscanf(this->getFullPath().c_str(), "partial_mesh.%[^.].eth[%d].macLayer.queue.queue[%d]", device_id, &port_id, &queue_id);
+            // Check expressMacLayer only when frame preemption is enabled
+            if (queue_id == -1)
+                sscanf(this->getFullPath().c_str(), "partial_mesh.%[^.].eth[%d].macLayer.expressMacLayer.queue.queue[%d]", device_id, &port_id, &queue_id);
 
             // Get order of flows.
             std::fstream my_file;

@@ -7,13 +7,18 @@ namespace inet
 
     void r438GateScheduleConfigurator::addPorts(Input& input) const
     {
+        // Check if frame preemption is enabled
+        bool frame_preemption_enabled = par("frame_preemption_enabled");
+
         for (int i = 0; i < topology->getNumNodes(); i++) {
             auto node = (Node *)topology->getNode(i);
             auto networkNode = input.getNetworkNode(node->module);
             for (auto interface : node->interfaces) {
                 auto networkInterface = interface->networkInterface;
                 if (!networkInterface->isLoopback()) {
-                    auto subqueue = networkInterface->findModuleByPath(".macLayer.expressMacLayer.queue.queue[0]");
+                    auto subqueue = networkInterface->findModuleByPath(".macLayer.queue.queue[0]");
+                    if (frame_preemption_enabled)
+                        subqueue = networkInterface->findModuleByPath(".macLayer.expressMacLayer.queue.queue[0]");
                     auto port = new Input::Port();
                     port->numGates = subqueue != nullptr ? subqueue->getVectorSize() : -1;
                     port->module = interface->networkInterface;
@@ -50,12 +55,14 @@ namespace inet
 
     void r438GateScheduleConfigurator::configureGateScheduling()
     {
-        // Configure GCL in express MAC.
+        // Check if frame preemption is enabled
+        bool frame_preemption_enabled = par("frame_preemption_enabled");
+
         for (int i = 0; i < topology->getNumNodes(); i++) {
             auto node = (Node *)topology->getNode(i);
             auto networkNode = node->module;
             for (auto interface : node->interfaces) {
-                auto queue = interface->networkInterface->findModuleByPath(".macLayer.expressMacLayer.queue");
+                auto queue = interface->networkInterface->findModuleByPath(".macLayer.queue");
                 if (queue != nullptr) {
                     for (cModule::SubmoduleIterator it(queue); !it.end(); ++it) {
                         cModule *gate = *it;
@@ -64,21 +71,26 @@ namespace inet
                             GateScheduleConfiguratorBase::configureGateScheduling(networkNode, gate, interface);
                     }
                 }
-            }
-        }
-
-        // Configure GCL in preemptable MAC.
-        for (int i = 0; i < topology->getNumNodes(); i++) {
-            auto node = (Node *)topology->getNode(i);
-            auto networkNode = node->module;
-            for (auto interface : node->interfaces) {
-                auto queue = interface->networkInterface->findModuleByPath(".macLayer.preemptableMacLayer.queue");
-                if (queue != nullptr) {
-                    for (cModule::SubmoduleIterator it(queue); !it.end(); ++it) {
-                        cModule *gate = *it;
-                        if (dynamic_cast<queueing::PeriodicGate *>(gate) != nullptr)
-                            // Explicitly reference parent's method.
-                            GateScheduleConfiguratorBase::configureGateScheduling(networkNode, gate, interface);
+                if (frame_preemption_enabled) {
+                    // Configure GCL in express MAC.
+                    queue = interface->networkInterface->findModuleByPath(".macLayer.expressMacLayer.queue");
+                    if (queue != nullptr) {
+                        for (cModule::SubmoduleIterator it(queue); !it.end(); ++it) {
+                            cModule *gate = *it;
+                            if (dynamic_cast<queueing::PeriodicGate *>(gate) != nullptr)
+                                // Explicitly reference parent's method.
+                                GateScheduleConfiguratorBase::configureGateScheduling(networkNode, gate, interface);
+                        }
+                    }
+                    // Configure GCL in preemptable MAC.
+                    queue = interface->networkInterface->findModuleByPath(".macLayer.preemptableMacLayer.queue");
+                    if (queue != nullptr) {
+                        for (cModule::SubmoduleIterator it(queue); !it.end(); ++it) {
+                            cModule *gate = *it;
+                            if (dynamic_cast<queueing::PeriodicGate *>(gate) != nullptr)
+                                // Explicitly reference parent's method.
+                                GateScheduleConfiguratorBase::configureGateScheduling(networkNode, gate, interface);
+                        }
                     }
                 }
             }

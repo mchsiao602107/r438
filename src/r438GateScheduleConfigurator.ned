@@ -11,4 +11,6 @@ simple r438GateScheduleConfigurator extends GateScheduleConfiguratorBase like IG
 	    
 	    // Round number to read corresponding gcl schedule text files.
 	    int round_number = default(1); 
+
+	    bool frame_preemption_enabled = default(false);
 }
