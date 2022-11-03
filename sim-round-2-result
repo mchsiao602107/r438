@@ -2,7 +2,7 @@ All streams have max(meanBitLifeTimePerPacket) < deadline.
 
 All streams have stats of meanBitLifeTimePerPacket.
 
-O1 (non-schedulable TSN stream count): 3 (rust) / 0 (sim)
-O2 (non-schedulable AVB stream count): 6 (rust) / 0 (sim)
-O3 (rust rerouted background stream count): 18 (rust) / *
-O4 (sum of max e2e delay of AVB streams): 41.38ms (rust) / 9.15ms (sim)
+O1 (non-schedulable TSN stream count): 0 (rust) / 0 (sim)
+O2 (non-schedulable AVB stream count): 3 (rust) / 0 (sim)
+O3 (rust rerouted background stream count): 1 (rust) / *
+O4 (sum of max e2e delay of AVB streams): 38.38ms (rust) / 12.57ms (sim)

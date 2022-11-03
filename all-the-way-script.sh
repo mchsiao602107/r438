@@ -40,8 +40,14 @@ fi
 
 # Run round-1 omnetpp simulation.
 cpu_num=$(grep -c 'cpu[0-9]' /proc/stat)
-cd "${INET_workspace}"/"$INET" && make MODE=release -j$cpu_num all
-cd "${INET_workspace}"/r438/src && make MODE=release all
+if [[ ! -f "${INET_workspace}"/"$INET"/src/libINET.so ]];then
+    cd "${INET_workspace}"/"$INET"
+    source setenv && make makefiles
+    cd src && make MODE=release -j$cpu_num all
+fi
+cd "${INET_workspace}"/r438/src
+[[ -f  ./Makefile ]] || opp_makemake -f --deep -KINET_PROJ=../../inet -DINET_IMPORT -L'$(INET_PROJ)'/src -lINET'$(D)'
+make
 cd "${INET_workspace}"/r438/simulations
 ../src/r438 -r 0 -m -u Cmdenv -n .:../src:../../"$INET"/src -l ../../"$INET"/src/INET -f auto-generated-round-1.ini
 
