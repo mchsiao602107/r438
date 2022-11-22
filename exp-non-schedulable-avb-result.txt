@@ -1,0 +1,804 @@
+Execute 200 times of all-the-way-script.sh
+iter 0: 
+round-1 ratio = 0
+round-2 ratio = .166666
+
+iter 1: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 2: 
+round-1 ratio = 0
+round-2 ratio = .666666
+
+iter 3: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 4: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 5: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 6: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 7: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 8: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 9: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 10: 
+round-1 ratio = 0
+round-2 ratio = .166666
+
+iter 11: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 12: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 13: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 14: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 15: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 16: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 17: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 18: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 19: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 20: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 21: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 22: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 23: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 24: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 25: 
+round-1 ratio = 0
+round-2 ratio = .555555
+
+iter 26: 
+round-1 ratio = 0
+round-2 ratio = .750000
+
+iter 27: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 28: 
+round-1 ratio = 0
+round-2 ratio = .250000
+
+iter 29: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 30: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 31: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 32: 
+round-1 ratio = 0
+round-2 ratio = .200000
+
+iter 33: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 34: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 35: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 36: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 37: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 38: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 39: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 40: 
+round-1 ratio = 0
+round-2 ratio = .142857
+
+iter 41: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 42: 
+round-1 ratio = 0
+round-2 ratio = .333333
+
+iter 43: 
+round-1 ratio = 0
+round-2 ratio = .166666
+
+iter 44: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 45: 
+round-1 ratio = 0
+round-2 ratio = .400000
+
+iter 46: 
+round-1 ratio = 0
+round-2 ratio = .300000
+
+iter 47: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 48: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 49: 
+round-1 ratio = 0
+round-2 ratio = .111111
+
+iter 50: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 51: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 52: 
+round-1 ratio = 0
+round-2 ratio = .666666
+
+iter 53: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 54: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 55: 
+round-1 ratio = 0
+round-2 ratio = .375000
+
+iter 56: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 57: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 58: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 59: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 60: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 61: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 62: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 63: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 64: 
+round-1 ratio = 0
+round-2 ratio = .800000
+
+iter 65: 
+round-1 ratio = 0
+round-2 ratio = .500000
+
+iter 66: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 67: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 68: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 69: 
+round-1 ratio = 0
+round-2 ratio = .857142
+
+iter 70: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 71: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 72: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 73: 
+round-1 ratio = 0
+round-2 ratio = .571428
+
+iter 74: 
+round-1 ratio = 0
+round-2 ratio = .200000
+
+iter 75: 
+round-1 ratio = 0
+round-2 ratio = .500000
+
+iter 76: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 77: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 78: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 79: 
+round-1 ratio = 0
+round-2 ratio = .500000
+
+iter 80: 
+round-1 ratio = 0
+round-2 ratio = 1.000000
+
+iter 81: 
+round-1 ratio = 0
+round-2 ratio = .400000
+
+iter 82: 
+round-1 ratio = 0
+round-2 ratio = .142857
+
+iter 83: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 84: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 85: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 86: 
+round-1 ratio = 0
+round-2 ratio = .750000
+
+iter 87: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 88: 
+round-1 ratio = 0
+round-2 ratio = .166666
+
+iter 89: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 90: 
+round-1 ratio = 0
+round-2 ratio = .800000
+
+iter 91: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 92: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 93: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 94: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 95: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 96: 
+round-1 ratio = 0
+round-2 ratio = .400000
+
+iter 97: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 98: 
+round-1 ratio = 0
+round-2 ratio = .600000
+
+iter 99: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 100: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 101: 
+round-1 ratio = 0
+round-2 ratio = .142857
+
+iter 102: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 103: 
+round-1 ratio = 0
+round-2 ratio = .166666
+
+iter 104: 
+round-1 ratio = 0
+round-2 ratio = .571428
+
+iter 105: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 106: 
+round-1 ratio = 0
+round-2 ratio = .857142
+
+iter 107: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 108: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 109: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 110: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 111: 
+round-1 ratio = 0
+round-2 ratio = .333333
+
+iter 112: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 113: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 114: 
+round-1 ratio = 0
+round-2 ratio = .500000
+
+iter 115: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 116: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 117: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 118: 
+round-1 ratio = 0
+round-2 ratio = 1.285714
+
+iter 119: 
+round-1 ratio = 0
+round-2 ratio = .714285
+
+iter 120: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 121: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 122: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 123: 
+round-1 ratio = 0
+round-2 ratio = .800000
+
+iter 124: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 125: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 126: 
+round-1 ratio = 0
+round-2 ratio = .666666
+
+iter 127: 
+round-1 ratio = 0
+round-2 ratio = .500000
+
+iter 128: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 129: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 130: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 131: 
+round-1 ratio = 0
+round-2 ratio = .800000
+
+iter 132: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 133: 
+round-1 ratio = 0
+round-2 ratio = 1.125000
+
+iter 134: 
+round-1 ratio = 0
+round-2 ratio = .333333
+
+iter 135: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 136: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 137: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 138: 
+round-1 ratio = 0
+round-2 ratio = .800000
+
+iter 139: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 140: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 141: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 142: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 143: 
+round-1 ratio = 0
+round-2 ratio = .666666
+
+iter 144: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 145: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 146: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 147: 
+round-1 ratio = 0
+round-2 ratio = .200000
+
+iter 148: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 149: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 150: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 151: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 152: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 153: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 154: 
+round-1 ratio = 0
+round-2 ratio = 1.166666
+
+iter 155: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 156: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 157: 
+round-1 ratio = 0
+round-2 ratio = .333333
+
+iter 158: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 159: 
+round-1 ratio = 0
+round-2 ratio = .166666
+
+iter 160: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 161: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 162: 
+round-1 ratio = 0
+round-2 ratio = 1.500000
+
+iter 163: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 164: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 165: 
+round-1 ratio = 0
+round-2 ratio = .625000
+
+iter 166: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 167: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 168: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 169: 
+round-1 ratio = 0
+round-2 ratio = .714285
+
+iter 170: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 171: 
+round-1 ratio = 0
+round-2 ratio = .200000
+
+iter 172: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 173: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 174: 
+round-1 ratio = 0
+round-2 ratio = .555555
+
+iter 175: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 176: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 177: 
+round-1 ratio = 0
+round-2 ratio = .200000
+
+iter 178: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 179: 
+round-1 ratio = 0
+round-2 ratio = .142857
+
+iter 180: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 181: 
+round-1 ratio = 0
+round-2 ratio = .250000
+
+iter 182: 
+round-1 ratio = 0
+round-2 ratio = .800000
+
+iter 183: 
+round-1 ratio = 0
+round-2 ratio = .500000
+
+iter 184: 
+round-1 ratio = 0
+round-2 ratio = .444444
+
+iter 185: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 186: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 187: 
+round-1 ratio = 0
+round-2 ratio = .571428
+
+iter 188: 
+round-1 ratio = 0
+round-2 ratio = .400000
+
+iter 189: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 190: 
+round-1 ratio = 0
+round-2 ratio = 1.000000
+
+iter 191: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 192: 
+round-1 ratio = 0
+round-2 ratio = .200000
+
+iter 193: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 194: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 195: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 196: 
+round-1 ratio = 0
+round-2 ratio = 1.000000
+
+iter 197: 
+round-1 ratio = 0
+round-2 ratio = .375000
+
+iter 198: 
+round-1 ratio = 0
+round-2 ratio = 0
+
+iter 199: 
+round-1 ratio = 0
+round-2 ratio = .400000
+
+Average Ratio after 200 Runs: 
+Round-1 Ratio: 0
+Round-2 Ratio: .177238
